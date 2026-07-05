@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tense Board — English Tenses Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0E1B2C;
+    --panel: #16283F;
+    --panel-2: #1D3352;
+    --line: #2A4364;
+    --gold: #E8B94D;
+    --teal: #4FD1C5;
+    --rose: #E28B7A;
+    --cream: #F1EEE5;
+    --muted: #7C8AA0;
+    --shadow: rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(ellipse at top, #14263D 0%, #0E1B2C 60%);
+    color: var(--cream);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    padding: 32px 20px 80px;
+  }
+  .wrap{max-width: 1080px; margin: 0 auto;}
+
+  header{margin-bottom: 40px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--gold);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom: 14px;
+  }
+  .eyebrow::before{
+    content:'';
+    width: 22px; height: 1px;
+    background: var(--gold);
+    display:inline-block;
+  }
+  h1{
+    font-family:'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(34px, 6vw, 58px);
+    letter-spacing: 0.01em;
+    margin: 0 0 12px;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+  h1 span{color: var(--gold);}
+  .sub{
+    color: var(--muted);
+    max-width: 600px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .legend{
+    display:flex; gap:22px; flex-wrap:wrap;
+    margin-top:22px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .legend div{display:flex; align-items:center; gap:8px;}
+  .dot{width:8px;height:8px;border-radius:1px;display:inline-block;}
+
+  .board{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 4px;
+    box-shadow: 0 30px 60px -20px var(--shadow);
+    overflow-x: auto;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns: 148px repeat(3, 1fr);
+    min-width: 720px;
+  }
+  .corner{
+    display:flex; align-items:flex-end; justify-content:flex-start;
+    padding: 14px 12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--line);
+  }
+  .col-head{
+    font-family:'Oswald', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+    display:flex; flex-direction:column; gap:2px;
+    justify-content:flex-end;
+  }
+  .col-head small{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight:400;
+    color: var(--muted);
+    text-transform: none;
+    letter-spacing:0;
+  }
+  .col-head.past{color:var(--rose);}
+  .col-head.present{color:var(--gold);}
+  .col-head.future{color:var(--teal);}
+
+  .row-head{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--cream);
+    letter-spacing: 0.04em;
+    display:flex; align-items:center;
+    padding: 10px 12px;
+    border-top: 1px solid var(--line);
+    text-transform: uppercase;
+  }
+  .row-head .num{
+    color: var(--muted);
+    margin-right: 8px;
+    font-size: 11px;
+  }
+
+  .cell{
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+    padding: 14px 12px;
+    cursor: pointer;
+    background: var(--panel);
+    transition: background .15s ease, transform .12s ease;
+    position: relative;
+    min-height: 78px;
+    display:flex; flex-direction:column; justify-content:center; gap:6px;
+  }
+  .cell:hover{
+    background: var(--panel-2);
+  }
+  .cell:active{ transform: scale(0.98); }
+  .cell .tense-name{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600;
+    font-size: 13.5px;
+    color: var(--cream);
+  }
+  .cell .formula{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .cell::after{
+    content: '→';
+    position: absolute;
+    right: 12px; top: 12px;
+    color: var(--line);
+    font-size: 13px;
+    transition: color .15s ease, transform .15s ease;
+  }
+  .cell:hover::after{ color: var(--gold); transform: translateX(3px); }
+
+  .cell.past:hover{ box-shadow: inset 3px 0 0 var(--rose); }
+  .cell.present:hover{ box-shadow: inset 3px 0 0 var(--gold); }
+  .cell.future:hover{ box-shadow: inset 3px 0 0 var(--teal); }
+
+  footer{
+    margin-top: 28px;
+    color: var(--muted);
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-align:center;
+    letter-spacing: 0.05em;
+  }
+
+  .overlay{
+    position: fixed; inset:0;
+    background: rgba(5,10,18,0.72);
+    backdrop-filter: blur(3px);
+    display:none;
+    align-items:center; justify-content:center;
+    padding: 20px;
+    z-index: 50;
+  }
+  .overlay.open{ display:flex; }
+  .modal{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    max-width: 660px;
+    width: 100%;
+    max-height: 86vh;
+    overflow-y: auto;
+    padding: 0;
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6);
+    animation: rise .18s ease;
+  }
+  @keyframes rise{ from{ opacity:0; transform: translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  .modal-head{
+    padding: 26px 28px 20px;
+    border-bottom: 1px solid var(--line);
+    position: sticky; top:0;
+    background: var(--panel);
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap: 16px;
+  }
+  .modal-head .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    display:block;
+  }
+  .modal-head h2{
+    font-family:'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-size: 26px;
+    margin:0;
+    letter-spacing: 0.01em;
+  }
+  .close-btn{
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    color: var(--cream);
+    width: 32px; height:32px;
+    border-radius: 4px;
+    cursor:pointer;
+    font-size: 16px;
+    line-height: 1;
+    flex-shrink:0;
+  }
+  .close-btn:hover{ background: var(--line); }
+
+  .modal-body{ padding: 22px 28px 30px; }
+  .section{ margin-bottom: 24px; }
+  .section:last-child{ margin-bottom: 0; }
+  .section h3{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin: 0 0 12px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .section h3::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background: var(--line);
+  }
+
+  .struct-row{
+    display:flex; gap: 12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--line);
+    align-items:baseline;
+  }
+  .struct-row:last-child{ border-bottom:none; }
+  .struct-row .label{
+    width: 82px; flex-shrink:0;
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  .struct-row .val{ color: var(--cream); }
+
+  /* Usage items with inline example + eye toggle */
+  .usage-item{
+    border-bottom: 1px solid var(--line);
+    padding: 12px 0;
+  }
+  .usage-item:last-child{ border-bottom:none; padding-bottom:0; }
+  .usage-item:first-child{ padding-top:0; }
+  .usage-row{
+    display:flex; align-items:flex-start; gap:10px;
+  }
+  .usage-rule{
+    font-size: 14px; line-height:1.5; flex:1;
+  }
+  .eye-btn{
+    flex-shrink:0;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    width: 28px; height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .eye-btn:hover{ border-color: var(--gold); color: var(--gold); }
+  .eye-btn.active{ background: var(--gold); color: var(--panel); border-color: var(--gold); }
+  .eye-btn svg{ width:15px; height:15px; }
+
+  .usage-example{
+    margin-top: 8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--cream);
+    background: var(--panel-2);
+    border-left: 2px solid var(--muted);
+    padding: 7px 10px;
+    border-radius: 0 3px 3px 0;
+  }
+  .usage-vi{
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--teal);
+    line-height:1.5;
+    display:none;
+    padding-left: 2px;
+  }
+  .usage-vi.show{ display:block; }
+  .usage-vi .vi-example{
+    font-family:'IBM Plex Mono', monospace;
+    color: var(--teal);
+    margin-top:4px;
+    display:block;
+  }
+
+  .signals{ display:flex; flex-wrap:wrap; gap:8px; }
+  .signal-chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    padding: 5px 10px;
+    border-radius: 3px;
+    color: var(--cream);
+  }
+
+  .example{
+    background: var(--panel-2);
+    border-left: 2px solid var(--gold);
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    border-radius: 0 3px 3px 0;
+  }
+  .example:last-child{ margin-bottom:0; }
+  .example b{ color: var(--gold); font-weight:600; }
+
+  @media (max-width: 640px){
+    .grid{ grid-template-columns: 100px repeat(3, minmax(150px,1fr)); }
+    .col-head{ font-size:16px; }
+    body{ padding: 24px 12px 60px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .modal, .cell, .close-btn{ animation:none; transition:none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Grammar Reference · 12 Tenses</div>
+    <h1>The Tense <span>Board</span></h1>
+    <p class="sub">Tap any tile to open its full record — structure, usage, signal words, and real examples. Read across for time, down for aspect. Use the eye icon to reveal a Vietnamese translation for each usage rule.</p>
+    <div class="legend">
+      <div><span class="dot" style="background:var(--rose)"></span> Past — completed / before</div>
+      <div><span class="dot" style="background:var(--gold)"></span> Present — now / general</div>
+      <div><span class="dot" style="background:var(--teal)"></span> Future — ahead / expected</div>
+    </div>
+  </header>
+
+  <div class="board">
+    <div class="grid" id="grid">
+      <div class="corner">Aspect ↓ / Time →</div>
+      <div class="col-head past">Past<small>completed</small></div>
+      <div class="col-head present">Present<small>now / general</small></div>
+      <div class="col-head future">Future<small>expected</small></div>
+    </div>
+  </div>
+
+  <footer>CLICK A TILE FOR FULL DETAILS · 12 / 12 TENSES MAPPED</footer>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+const EYE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+const DATA = {
+  past_simple: {
+    time:'past', aspect:'Simple', title:'Past Simple',
+    formula:'S + V2/-ed',
+    color:'var(--rose)',
+    structure:{
+      affirmative:'S + V-ed / V2',
+      negative:'S + did not (didn\'t) + V (base form)',
+      question:'Did + S + V (base form) ?'
+    },
+    usage:[
+      {rule:'A single completed action at a specific time in the past.', example:'I visited Hanoi last summer.',
+       vi_rule:'Một hành động đã hoàn thành tại một thời điểm cụ thể trong quá khứ.', vi_example:'Tôi đã đến thăm Hà Nội vào mùa hè năm ngoái.'},
+      {rule:'A series of completed actions told in order (a story).', example:'He woke up, brushed his teeth, and left for work.',
+       vi_rule:'Một chuỗi các hành động đã hoàn thành, được kể theo thứ tự (một câu chuyện).', vi_example:'Anh ấy thức dậy, đánh răng, rồi đi làm.'},
+      {rule:'A past habit or state that no longer happens.', example:'I played football every weekend when I was young.',
+       vi_rule:'Một thói quen hoặc trạng thái trong quá khứ không còn tiếp diễn nữa.', vi_example:'Tôi từng chơi bóng đá mỗi cuối tuần khi còn nhỏ.'}
+    ],
+    signals:['yesterday','last week / month / year','... ago','in 1999','when I was a child'],
+    examples:[
+      {en:'I <b>visited</b> Hanoi last summer.', note:'single completed action'},
+      {en:'She <b>didn\'t finish</b> her homework yesterday.', note:'negative'},
+      {en:'<b>Did</b> you <b>see</b> that movie last night?', note:'question'}
+    ]
+  },
+  past_continuous: {
+    time:'past', aspect:'Continuous', title:'Past Continuous',
+    formula:'S + was/were + V-ing',
+    color:'var(--rose)',
+    structure:{
+      affirmative:'S + was/were + V-ing',
+      negative:'S + was/were + not + V-ing',
+      question:'Was/Were + S + V-ing ?'
+    },
+    usage:[
+      {rule:'An action in progress at a specific moment in the past.', example:'I was cooking dinner at 7pm yesterday.',
+       vi_rule:'Một hành động đang diễn ra tại một thời điểm cụ thể trong quá khứ.', vi_example:'Tôi đang nấu bữa tối lúc 7 giờ tối hôm qua.'},
+      {rule:'Two actions happening at the same time in the past (parallel).', example:'While she was reading, he was cooking.',
+       vi_rule:'Hai hành động xảy ra đồng thời trong quá khứ (song song nhau).', vi_example:'Trong khi cô ấy đang đọc sách thì anh ấy đang nấu ăn.'},
+      {rule:'A longer action interrupted by a shorter one.', example:'I was cooking dinner when he called.',
+       vi_rule:'Một hành động dài hơn bị gián đoạn bởi một hành động ngắn hơn.', vi_example:'Tôi đang nấu bữa tối thì anh ấy gọi điện.'}
+    ],
+    signals:['while','when','at 8 o\'clock yesterday','all day yesterday','at that moment'],
+    examples:[
+      {en:'I <b>was cooking</b> dinner when he called.', note:'interrupted action'},
+      {en:'They <b>were watching</b> TV at 9pm last night.', note:'action at a specific time'},
+      {en:'<b>Were</b> you <b>sleeping</b> when I texted you?', note:'question'}
+    ]
+  },
+  past_perfect: {
+    time:'past', aspect:'Perfect', title:'Past Perfect',
+    formula:'S + had + V3/-ed',
+    color:'var(--rose)',
+    structure:{
+      affirmative:'S + had + V3 / V-ed',
+      negative:'S + had not (hadn\'t) + V3',
+      question:'Had + S + V3 ?'
+    },
+    usage:[
+      {rule:'An action completed before another action or point in the past — the "past of the past".', example:'She had left before I arrived.',
+       vi_rule:'Một hành động đã hoàn thành trước một hành động hoặc thời điểm khác trong quá khứ — "quá khứ của quá khứ".', vi_example:'Cô ấy đã rời đi trước khi tôi đến.'},
+      {rule:'Explaining a past result or cause that happened earlier than the main past event.', example:'He was tired because he had worked all night.',
+       vi_rule:'Giải thích kết quả hoặc nguyên nhân trong quá khứ xảy ra trước sự kiện chính.', vi_example:'Anh ấy mệt vì đã làm việc suốt đêm.'}
+    ],
+    signals:['before','after','already','just','by the time','when'],
+    examples:[
+      {en:'She <b>had left</b> before I arrived.', note:'earlier action'},
+      {en:'I <b>hadn\'t seen</b> that film before last week.', note:'negative'},
+      {en:'<b>Had</b> you <b>finished</b> the report by 5pm?', note:'question'}
+    ]
+  },
+  past_perfect_continuous: {
+    time:'past', aspect:'Perfect Continuous', title:'Past Perfect Continuous',
+    formula:'S + had been + V-ing',
+    color:'var(--rose)',
+    structure:{
+      affirmative:'S + had been + V-ing',
+      negative:'S + had not been + V-ing',
+      question:'Had + S + been + V-ing ?'
+    },
+    usage:[
+      {rule:'Emphasizes the duration of an action in progress before another past event.', example:'He had been working there for 10 years before he retired.',
+       vi_rule:'Nhấn mạnh khoảng thời gian của một hành động đang diễn ra trước một sự kiện khác trong quá khứ.', vi_example:'Anh ấy đã làm việc ở đó 10 năm trước khi nghỉ hưu.'},
+      {rule:'Often explains the cause of a past situation.', example:'Her eyes were red because she had been crying.',
+       vi_rule:'Thường dùng để giải thích nguyên nhân của một tình huống trong quá khứ.', vi_example:'Mắt cô ấy đỏ vì cô ấy đã khóc suốt.'}
+    ],
+    signals:['for','since','before','how long'],
+    examples:[
+      {en:'He <b>had been working</b> there for 10 years before he retired.', note:'duration before a past event'},
+      {en:'I <b>hadn\'t been feeling</b> well before the trip.', note:'negative'},
+      {en:'<b>Had</b> they <b>been waiting</b> long when you arrived?', note:'question'}
+    ]
+  },
+  present_simple: {
+    time:'present', aspect:'Simple', title:'Present Simple',
+    formula:'S + V(s/es)',
+    color:'var(--gold)',
+    structure:{
+      affirmative:'S + V (add -s/-es for he/she/it)',
+      negative:'S + do/does + not + V (base form)',
+      question:'Do/Does + S + V (base form) ?'
+    },
+    usage:[
+      {rule:'General facts and universal truths.', example:'Water boils at 100°C.',
+       vi_rule:'Sự thật hiển nhiên và chân lý phổ quát.', vi_example:'Nước sôi ở 100°C.'},
+      {rule:'Habits, routines, and repeated actions.', example:'She works at a hospital.',
+       vi_rule:'Thói quen, thông lệ và các hành động lặp đi lặp lại.', vi_example:'Cô ấy làm việc tại một bệnh viện.'},
+      {rule:'Fixed schedules and timetables.', example:'The train leaves at 6am.',
+       vi_rule:'Lịch trình cố định và thời gian biểu.', vi_example:'Tàu khởi hành lúc 6 giờ sáng.'}
+    ],
+    signals:['always','usually','often','every day','on Mondays','never'],
+    examples:[
+      {en:'Water <b>boils</b> at 100°C.', note:'universal fact'},
+      {en:'She <b>works</b> at a hospital.', note:'habit / routine'},
+      {en:'<b>Does</b> the train <b>leave</b> at 6am?', note:'schedule question'}
+    ]
+  },
+  present_continuous: {
+    time:'present', aspect:'Continuous', title:'Present Continuous',
+    formula:'S + am/is/are + V-ing',
+    color:'var(--gold)',
+    structure:{
+      affirmative:'S + am/is/are + V-ing',
+      negative:'S + am/is/are + not + V-ing',
+      question:'Am/Is/Are + S + V-ing ?'
+    },
+    usage:[
+      {rule:'An action happening right now, at the moment of speaking.', example:'I am writing an email right now.',
+       vi_rule:'Một hành động đang xảy ra ngay bây giờ, tại thời điểm nói.', vi_example:'Tôi đang viết email ngay bây giờ.'},
+      {rule:'A temporary situation happening around the present.', example:'We are staying at a hotel this week.',
+       vi_rule:'Một tình huống tạm thời đang xảy ra quanh thời điểm hiện tại.', vi_example:'Chúng tôi đang ở khách sạn tuần này.'},
+      {rule:'A fixed future arrangement.', example:'She is coming to the party tonight.',
+       vi_rule:'Một kế hoạch trong tương lai đã được sắp xếp cố định.', vi_example:'Cô ấy sẽ đến bữa tiệc tối nay.'}
+    ],
+    signals:['now','right now','at the moment','these days','Look!','Listen!'],
+    examples:[
+      {en:'I <b>am writing</b> an email right now.', note:'happening now'},
+      {en:'We <b>aren\'t staying</b> here long — just for the week.', note:'temporary situation'},
+      {en:'<b>Is</b> she <b>coming</b> to the party tonight?', note:'fixed future arrangement'}
+    ]
+  },
+  present_perfect: {
+    time:'present', aspect:'Perfect', title:'Present Perfect',
+    formula:'S + have/has + V3',
+    color:'var(--gold)',
+    structure:{
+      affirmative:'S + have/has + V3 / V-ed',
+      negative:'S + have/has + not + V3',
+      question:'Have/Has + S + V3 ?'
+    },
+    usage:[
+      {rule:'An action that started in the past and is still relevant now, or whose result matters now.', example:'I have finished my homework.',
+       vi_rule:'Hành động bắt đầu trong quá khứ và vẫn còn liên quan hoặc có kết quả ảnh hưởng đến hiện tại.', vi_example:'Tôi đã hoàn thành bài tập về nhà.'},
+      {rule:'Life experience — something that happened at an unspecified time before now.', example:'She has visited Paris twice.',
+       vi_rule:'Trải nghiệm trong cuộc sống — điều gì đó xảy ra vào một thời điểm không xác định trước hiện tại.', vi_example:'Cô ấy đã đến Paris hai lần.'},
+      {rule:'An action that has just been completed.', example:'I have just finished my lunch.',
+       vi_rule:'Một hành động vừa mới hoàn thành.', vi_example:'Tôi vừa mới ăn xong bữa trưa.'}
+    ],
+    signals:['already','yet','just','ever','never','since','for'],
+    examples:[
+      {en:'I <b>have finished</b> my homework.', note:'result relevant now'},
+      {en:'She <b>hasn\'t visited</b> Paris.', note:'life experience, negative'},
+      {en:'<b>Have</b> you <b>ever tried</b> sushi?', note:'experience question'}
+    ]
+  },
+  present_perfect_continuous: {
+    time:'present', aspect:'Perfect Continuous', title:'Present Perfect Continuous',
+    formula:'S + have/has been + V-ing',
+    color:'var(--gold)',
+    structure:{
+      affirmative:'S + have/has been + V-ing',
+      negative:'S + have/has + not been + V-ing',
+      question:'Have/Has + S + been + V-ing ?'
+    },
+    usage:[
+      {rule:'Emphasizes the duration of an action that started in the past and continues up to now.', example:'I have been studying English for three years.',
+       vi_rule:'Nhấn mạnh khoảng thời gian của hành động bắt đầu trong quá khứ và tiếp tục đến hiện tại.', vi_example:'Tôi đã học tiếng Anh được ba năm.'},
+      {rule:'An action that has recently stopped, but its effect is still visible now.', example:'I\'m tired because I have been running.',
+       vi_rule:'Hành động vừa mới dừng lại gần đây, nhưng ảnh hưởng của nó vẫn còn thấy rõ ở hiện tại.', vi_example:'Tôi mệt vì tôi vừa chạy bộ xong.'}
+    ],
+    signals:['for','since','lately','recently','how long','all day'],
+    examples:[
+      {en:'I <b>have been studying</b> English for three years.', note:'duration up to now'},
+      {en:'He <b>hasn\'t been sleeping</b> well lately.', note:'negative'},
+      {en:'<b>Have</b> you <b>been waiting</b> long?', note:'question about duration'}
+    ]
+  },
+  future_simple: {
+    time:'future', aspect:'Simple', title:'Future Simple',
+    formula:'S + will + V',
+    color:'var(--teal)',
+    structure:{
+      affirmative:'S + will + V (base form)',
+      negative:'S + will not (won\'t) + V',
+      question:'Will + S + V ?'
+    },
+    usage:[
+      {rule:'A spontaneous decision made at the moment of speaking.', example:'I will call you later.',
+       vi_rule:'Một quyết định bộc phát ngay tại thời điểm nói.', vi_example:'Tôi sẽ gọi cho bạn sau.'},
+      {rule:'A prediction about the future, often with an opinion.', example:'It will rain tomorrow.',
+       vi_rule:'Một dự đoán về tương lai, thường kèm theo ý kiến cá nhân.', vi_example:'Trời sẽ mưa vào ngày mai.'},
+      {rule:'A promise, offer, or willingness to do something.', example:'I will help you with your bags.',
+       vi_rule:'Một lời hứa, lời đề nghị, hoặc sự sẵn lòng làm điều gì đó.', vi_example:'Tôi sẽ giúp bạn xách túi.'}
+    ],
+    signals:['tomorrow','next week / month / year','soon','in the future','I think...'],
+    examples:[
+      {en:'I <b>will call</b> you later.', note:'spontaneous decision'},
+      {en:'It <b>won\'t rain</b> tomorrow.', note:'prediction, negative'},
+      {en:'<b>Will</b> you <b>help</b> me move this weekend?', note:'request/offer'}
+    ]
+  },
+  future_continuous: {
+    time:'future', aspect:'Continuous', title:'Future Continuous',
+    formula:'S + will be + V-ing',
+    color:'var(--teal)',
+    structure:{
+      affirmative:'S + will be + V-ing',
+      negative:'S + will not be + V-ing',
+      question:'Will + S + be + V-ing ?'
+    },
+    usage:[
+      {rule:'An action that will be in progress at a specific time in the future.', example:'This time tomorrow, I will be flying to Tokyo.',
+       vi_rule:'Một hành động sẽ đang diễn ra tại một thời điểm cụ thể trong tương lai.', vi_example:'Giờ này ngày mai, tôi sẽ đang bay đến Tokyo.'},
+      {rule:'A planned or expected event, described as a matter of routine.', example:'I will be attending the meeting as usual.',
+       vi_rule:'Một sự kiện đã được lên kế hoạch hoặc dự kiến diễn ra như thường lệ.', vi_example:'Tôi sẽ tham dự cuộc họp như thường lệ.'}
+    ],
+    signals:['at this time tomorrow','at 8pm tonight','this time next week'],
+    examples:[
+      {en:'This time tomorrow, I <b>will be flying</b> to Tokyo.', note:'in progress at a future time'},
+      {en:'We <b>won\'t be working</b> on Sunday.', note:'negative'},
+      {en:'<b>Will</b> you <b>be using</b> the car tonight?', note:'question'}
+    ]
+  },
+  future_perfect: {
+    time:'future', aspect:'Perfect', title:'Future Perfect',
+    formula:'S + will have + V3',
+    color:'var(--teal)',
+    structure:{
+      affirmative:'S + will have + V3 / V-ed',
+      negative:'S + will not have + V3',
+      question:'Will + S + have + V3 ?'
+    },
+    usage:[
+      {rule:'An action that will be completed before a specific time or event in the future.', example:'By 2030, I will have graduated.',
+       vi_rule:'Một hành động sẽ hoàn thành trước một thời điểm hoặc sự kiện cụ thể trong tương lai.', vi_example:'Đến năm 2030, tôi sẽ đã tốt nghiệp.'}
+    ],
+    signals:['by','by the time','before','by next year'],
+    examples:[
+      {en:'By 2030, I <b>will have graduated</b>.', note:'completed before a future point'},
+      {en:'She <b>won\'t have finished</b> by then.', note:'negative'},
+      {en:'<b>Will</b> you <b>have completed</b> the project by Friday?', note:'question'}
+    ]
+  },
+  future_perfect_continuous: {
+    time:'future', aspect:'Perfect Continuous', title:'Future Perfect Continuous',
+    formula:'S + will have been + V-ing',
+    color:'var(--teal)',
+    structure:{
+      affirmative:'S + will have been + V-ing',
+      negative:'S + will not have been + V-ing',
+      question:'Will + S + have + been + V-ing ?'
+    },
+    usage:[
+      {rule:'Emphasizes the duration of an action up to a specific point in the future.', example:'By next year, I will have been working here for a decade.',
+       vi_rule:'Nhấn mạnh khoảng thời gian của hành động kéo dài đến một thời điểm cụ thể trong tương lai.', vi_example:'Đến năm sau, tôi sẽ đã làm việc ở đây được một thập kỷ.'}
+    ],
+    signals:['for','by the time','when','by next year'],
+    examples:[
+      {en:'By next year, I <b>will have been working</b> here for a decade.', note:'duration up to a future point'},
+      {en:'He <b>won\'t have been studying</b> long enough for the exam.', note:'negative'},
+      {en:'<b>Will</b> you <b>have been driving</b> for 5 hours by then?', note:'question'}
+    ]
+  }
+};
+
+const ROWS = [
+  {key:'Simple', num:'01'},
+  {key:'Continuous', num:'02'},
+  {key:'Perfect', num:'03'},
+  {key:'Perfect Continuous', num:'04'}
+];
+const TIMES = ['past','present','future'];
+
+const grid = document.getElementById('grid');
+ROWS.forEach(row=>{
+  const rowHead = document.createElement('div');
+  rowHead.className = 'row-head';
+  rowHead.innerHTML = `<span class="num">${row.num}</span>${row.key}`;
+  grid.appendChild(rowHead);
+
+  TIMES.forEach(time=>{
+    const key = Object.keys(DATA).find(k => DATA[k].time===time && DATA[k].aspect===row.key);
+    const item = DATA[key];
+    const cell = document.createElement('div');
+    cell.className = `cell ${time}`;
+    cell.innerHTML = `<div class="tense-name">${item.title}</div><div class="formula">${item.formula}</div>`;
+    cell.addEventListener('click', ()=> openModal(key));
+    grid.appendChild(cell);
+  });
+});
+
+const overlay = document.getElementById('overlay');
+const modal = document.getElementById('modal');
+
+function openModal(key){
+  const d = DATA[key];
+  modal.innerHTML = `
+    <div class="modal-head">
+      <div>
+        <span class="tag" style="color:${d.color}">${d.time} · ${d.aspect}</span>
+        <h2>${d.title}</h2>
+      </div>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="section">
+        <h3>Structure</h3>
+        <div class="struct-row"><span class="label">Affirmative</span><span class="val">${d.structure.affirmative}</span></div>
+        <div class="struct-row"><span class="label">Negative</span><span class="val">${d.structure.negative}</span></div>
+        <div class="struct-row"><span class="label">Question</span><span class="val">${d.structure.question}</span></div>
+      </div>
+      <div class="section">
+        <h3>When to use it</h3>
+        ${d.usage.map((u,i)=>`
+          <div class="usage-item">
+            <div class="usage-row">
+              <div class="usage-rule">${u.rule}</div>
+              <button class="eye-btn" data-key="${key}" data-idx="${i}" onclick="toggleVi(this)" title="Show Vietnamese translation">${EYE_ICON}</button>
+            </div>
+            <div class="usage-example">${u.example}</div>
+            <div class="usage-vi" id="vi-${key}-${i}">
+              ${u.vi_rule}
+              <span class="vi-example">${u.vi_example}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="section">
+        <h3>Signal words</h3>
+        <div class="signals">${d.signals.map(s=>`<span class="signal-chip">${s}</span>`).join('')}</div>
+      </div>
+      <div class="section">
+        <h3>Examples</h3>
+        ${d.examples.map(e=>`<div class="example">${e.en}<br><span style="color:var(--muted); font-size:12px;">${e.note}</span></div>`).join('')}
+      </div>
+    </div>
+  `;
+  overlay.classList.add('open');
+}
+
+function toggleVi(btn){
+  const key = btn.dataset.key;
+  const idx = btn.dataset.idx;
+  const viBlock = document.getElementById(`vi-${key}-${idx}`);
+  const isShown = viBlock.classList.toggle('show');
+  btn.classList.toggle('active', isShown);
+  btn.title = isShown ? 'Hide Vietnamese translation' : 'Show Vietnamese translation';
+}
+
+function closeModal(){ overlay.classList.remove('open'); }
+overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(); });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+</script>
+</body>
+</html>

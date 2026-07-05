@@ -1,918 +1,224 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IPA Learning System — Học Phát Âm Tiếng Anh</title>
-  <meta name="description" content="Chương trình học IPA toàn diện: 44 bài học phát âm tiếng Anh từ cơ bản đến nâng cao, có Tongue Twister, Shadowing, Minimal Pairs và Checklist tự đánh giá." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SickProject Knowledge Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* ===== DESIGN TOKENS ===== */
     :root {
       --bg-primary: #0d0f14;
       --bg-secondary: #13161e;
       --bg-card: #1a1e2a;
       --bg-card-hover: #1f2436;
-      --bg-sidebar: #111420;
       --border: #252a38;
-      --border-subtle: #1e2230;
       --text-primary: #e8eaf0;
       --text-secondary: #8b90a7;
       --text-muted: #555d7a;
       --accent-blue: #4f8ef7;
-      --accent-blue-dim: #1a2d52;
       --accent-purple: #a855f7;
-      --accent-purple-dim: #2d1a52;
-      --accent-green: #22c55e;
-      --accent-green-dim: #0f2e1c;
-      --accent-amber: #f59e0b;
-      --accent-amber-dim: #2e1f05;
-      --accent-red: #ef4444;
-      --accent-red-dim: #2e1010;
-      --accent-cyan: #06b6d4;
-      --accent-cyan-dim: #042830;
-      --stage1: #4f8ef7;
-      --stage2: #a855f7;
-      --stage3: #22c55e;
-      --stage4: #f59e0b;
-      --stage5: #ef4444;
-      --stage6: #06b6d4;
-      --sidebar-width: 300px;
-      --header-height: 64px;
-      --radius: 12px;
-      --radius-sm: 8px;
-      --radius-xs: 4px;
-      --shadow: 0 4px 24px rgba(0,0,0,0.4);
-      --shadow-card: 0 2px 12px rgba(0,0,0,0.3);
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-
-    /* ===== RESET ===== */
+    
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ===== SCROLLBAR ===== */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-primary); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-    /* ===== HEADER ===== */
-    .app-header {
-      position: fixed; top: 0; left: 0; right: 0;
-      height: var(--header-height);
-      background: rgba(13,15,20,0.92);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 24px;
-      z-index: 100;
-    }
-    .app-logo {
-      display: flex; align-items: center; gap: 12px;
-    }
-    .logo-icon {
-      width: 38px; height: 38px;
-      background: linear-gradient(135deg, #4f8ef7, #a855f7);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; font-weight: 700; color: white;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .logo-text { font-size: 16px; font-weight: 700; color: var(--text-primary); }
-    .logo-sub { font-size: 12px; color: var(--text-muted); font-weight: 400; }
-    .header-actions { display: flex; align-items: center; gap: 12px; }
-    .progress-badge {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 12px;
-      color: var(--text-secondary);
-      display: flex; align-items: center; gap: 6px;
-    }
-    .progress-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-green); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-    .menu-btn {
-      display: none;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 8px 12px;
-      color: var(--text-primary);
-      cursor: pointer;
-      font-size: 18px;
-    }
-
-    /* ===== LAYOUT ===== */
-    .app-layout {
       display: flex;
-      padding-top: var(--header-height);
-      min-height: 100vh;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 24px;
     }
-
-    /* ===== SIDEBAR ===== */
-    .sidebar {
-      width: var(--sidebar-width);
-      min-width: var(--sidebar-width);
-      background: var(--bg-sidebar);
-      border-right: 1px solid var(--border);
-      position: fixed;
-      top: var(--header-height);
-      bottom: 0;
-      left: 0;
-      overflow-y: auto;
-      padding: 16px 0;
-      z-index: 50;
-      transition: transform 0.3s ease;
-    }
-    .sidebar.collapsed { transform: translateX(-100%); }
-
-    .sidebar-section { margin-bottom: 8px; }
-    .sidebar-stage-header {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 16px;
-      cursor: pointer;
-      user-select: none;
-      border-radius: 0;
-      transition: background 0.15s;
-    }
-    .sidebar-stage-header:hover { background: var(--bg-card); }
-    .stage-badge {
-      width: 26px; height: 26px;
-      border-radius: 7px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700;
-      flex-shrink: 0;
-    }
-    .stage-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); flex: 1; }
-    .stage-chevron { font-size: 10px; color: var(--text-muted); transition: transform 0.2s; }
-    .stage-chevron.open { transform: rotate(90deg); }
-
-    .sidebar-items { display: none; }
-    .sidebar-items.open { display: block; }
-    .sidebar-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 16px 9px 28px;
-      cursor: pointer;
-      transition: all 0.15s;
-      border-left: 3px solid transparent;
-      font-size: 13px; color: var(--text-secondary);
-    }
-    .sidebar-item:hover { background: var(--bg-card-hover); color: var(--text-primary); }
-    .sidebar-item.active {
-      color: var(--text-primary);
-      background: var(--bg-card);
-    }
-    .ipa-chip {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px; font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 5px;
-      flex-shrink: 0;
-    }
-
-    /* ===== MAIN CONTENT ===== */
-    .main-content {
-      flex: 1;
-      margin-left: var(--sidebar-width);
-      min-height: calc(100vh - var(--header-height));
-    }
-
-    /* ===== HOME PAGE ===== */
-    .home-page { padding: 48px 40px; max-width: 1100px; margin: 0 auto; }
-    .home-hero {
+    
+    .header {
       text-align: center;
-      padding: 64px 0 48px;
+      margin-bottom: 70px;
     }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent-blue-dim);
-      border: 1px solid var(--accent-blue);
-      border-radius: 20px;
-      padding: 6px 16px;
-      font-size: 12px; color: var(--accent-blue);
-      font-weight: 600;
-      margin-bottom: 24px;
-    }
-    .hero-title {
-      font-size: 52px; font-weight: 800;
-      line-height: 1.1;
-      background: linear-gradient(135deg, #e8eaf0 0%, #8b90a7 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    
+    .header h1 {
+      font-size: 56px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 16px;
+      letter-spacing: -1px;
     }
-    .hero-title .accent { background: linear-gradient(135deg, #4f8ef7, #a855f7); -webkit-background-clip: text; }
-    .hero-subtitle { font-size: 18px; color: var(--text-secondary); max-width: 600px; margin: 0 auto 40px; line-height: 1.6; }
-    .hero-stats {
-      display: flex; justify-content: center; gap: 40px;
-      margin-bottom: 48px;
+    
+    .header p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.6;
+      margin: 0 auto;
     }
-    .stat-item { text-align: center; }
-    .stat-number { font-size: 32px; font-weight: 800; color: var(--text-primary); }
-    .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-
-    .stages-grid {
+    
+    .hubs-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      width: 100%;
+      max-width: 1100px;
     }
-    .stage-card {
+    
+    .hub-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 24px;
-      cursor: pointer;
-      transition: all 0.2s;
+      padding: 36px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
       position: relative;
       overflow: hidden;
     }
-    .stage-card::before {
+    
+    .hub-card::before {
       content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    }
-    .stage-card:hover { border-color: var(--border-hover, var(--border)); transform: translateY(-2px); box-shadow: var(--shadow); }
-    .stage-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .stage-num { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; }
-    .stage-title { font-size: 16px; font-weight: 700; }
-    .stage-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px; }
-    .stage-sounds {
-      display: flex; flex-wrap: wrap; gap: 6px;
-    }
-    .sound-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px; font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 5px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-    }
-
-    /* ===== LESSON PAGE ===== */
-    .lesson-page { padding: 32px 40px; max-width: 900px; margin: 0 auto; }
-    .lesson-breadcrumb {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 12px; color: var(--text-muted);
-      margin-bottom: 24px;
-    }
-    .breadcrumb-sep { color: var(--text-muted); }
-    .breadcrumb-link { cursor: pointer; }
-    .breadcrumb-link:hover { color: var(--text-primary); }
-
-    .lesson-header {
-      display: flex; align-items: flex-start; gap: 24px;
-      margin-bottom: 36px;
-      padding: 28px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-    }
-    .lesson-ipa-display {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 56px; font-weight: 700;
-      line-height: 1;
-      min-width: 120px;
-      text-align: center;
-    }
-    .lesson-meta { flex: 1; }
-    .lesson-stage-tag {
-      display: inline-flex;
-      font-size: 11px; font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 5px;
-      letter-spacing: 0.5px;
-      margin-bottom: 10px;
-    }
-    .lesson-title-main { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
-    .lesson-subtitle { font-size: 14px; color: var(--text-secondary); }
-    .lesson-nav {
-      display: flex; gap: 8px; margin-top: 16px;
-    }
-    .nav-btn {
-      padding: 8px 16px;
-      border-radius: var(--radius-sm);
-      font-size: 13px; font-weight: 600;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: var(--bg-secondary);
-      color: var(--text-secondary);
-      transition: all 0.15s;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .nav-btn:hover { background: var(--bg-card-hover); color: var(--text-primary); }
-    .nav-btn.primary { background: var(--accent-blue); border-color: var(--accent-blue); color: white; }
-    .nav-btn.primary:hover { opacity: 0.9; }
-
-    /* ===== MARKDOWN RENDERED CONTENT ===== */
-    .lesson-content { animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
-
-    .lesson-content h1 { display: none; }
-    .lesson-content h2 {
-      font-size: 17px; font-weight: 700;
-      color: var(--text-primary);
-      margin: 32px 0 14px;
-      padding: 14px 18px;
-      background: var(--bg-card);
-      border-left: 4px solid var(--accent-blue);
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .lesson-content h3 {
-      font-size: 14px; font-weight: 600;
-      color: var(--text-secondary);
-      margin: 20px 0 10px;
-      letter-spacing: 0.3px;
-    }
-    .lesson-content p {
-      font-size: 15px; color: var(--text-secondary);
-      line-height: 1.8; margin-bottom: 14px;
-    }
-    .lesson-content strong { color: var(--text-primary); font-weight: 600; }
-    .lesson-content em { color: var(--accent-blue); font-style: italic; }
-
-    /* Tables */
-    .lesson-content table {
-      width: 100%; border-collapse: collapse;
-      margin: 16px 0 20px;
-      border-radius: var(--radius-sm); overflow: hidden;
-      font-size: 14px;
-    }
-    .lesson-content th {
-      background: var(--bg-secondary);
-      color: var(--text-secondary);
-      font-weight: 600; font-size: 12px;
-      letter-spacing: 0.5px;
-      padding: 10px 14px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-    .lesson-content td {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border-subtle);
-      color: var(--text-primary);
-    }
-    .lesson-content tr:last-child td { border-bottom: none; }
-    .lesson-content tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
-    .lesson-content tr:hover td { background: var(--bg-card-hover); }
-    .lesson-content tbody tr:first-child td { background: rgba(79,142,247,0.06); }
-
-    /* Code / IPA blocks */
-    .lesson-content code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      padding: 2px 7px;
-      border-radius: var(--radius-xs);
-      color: var(--accent-blue);
-    }
-    .lesson-content pre {
-      background: linear-gradient(135deg, var(--accent-blue-dim), var(--accent-purple-dim));
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px 32px;
-      margin: 16px 0;
-      text-align: center;
-    }
-    .lesson-content pre code {
-      font-size: 48px; font-weight: 700;
-      background: none; border: none; padding: 0;
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
       background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
-
-    /* Blockquotes — tips, notes */
-    .lesson-content blockquote {
-      border-left: 4px solid var(--accent-amber);
-      background: var(--accent-amber-dim);
-      padding: 12px 18px;
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      margin: 14px 0;
-      font-size: 14px; color: var(--text-secondary);
-      line-height: 1.7;
+    
+    .hub-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-6px);
+      box-shadow: var(--shadow);
+      border-color: rgba(79, 142, 247, 0.4);
     }
-    .lesson-content blockquote strong { color: var(--accent-amber); }
-
-    /* Lists */
-    .lesson-content ul, .lesson-content ol {
-      padding-left: 22px; margin: 12px 0;
+    
+    .hub-card:hover::before {
+      opacity: 1;
     }
-    .lesson-content li {
-      font-size: 14px; color: var(--text-secondary);
-      margin-bottom: 7px; line-height: 1.7;
-    }
-    .lesson-content li strong { color: var(--text-primary); }
-
-    /* HR */
-    .lesson-content hr {
-      border: none; border-top: 1px solid var(--border);
-      margin: 28px 0;
-    }
-
-    /* ===== SECTION STYLING for h2 numbering ===== */
-    .lesson-content h2:nth-of-type(1) { border-left-color: var(--accent-blue); }
-    .lesson-content h2:nth-of-type(2) { border-left-color: var(--accent-purple); }
-    .lesson-content h2:nth-of-type(3) { border-left-color: var(--accent-green); }
-    .lesson-content h2:nth-of-type(4) { border-left-color: var(--accent-amber); }
-    .lesson-content h2:nth-of-type(5) { border-left-color: var(--accent-cyan); }
-    .lesson-content h2:nth-of-type(6) { border-left-color: #f472b6; }
-    .lesson-content h2:nth-of-type(7) { border-left-color: var(--accent-red); }
-    .lesson-content h2:nth-of-type(8) { border-left-color: var(--accent-blue); }
-    .lesson-content h2:nth-of-type(9) { border-left-color: var(--accent-purple); }
-    .lesson-content h2:nth-of-type(10) { border-left-color: var(--accent-green); }
-    .lesson-content h2:nth-of-type(11) { border-left-color: var(--accent-amber); }
-    .lesson-content h2:nth-of-type(12) { border-left-color: var(--accent-cyan); }
-
-    /* ===== LOADING ===== */
-    .loading-state {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      min-height: 400px; gap: 16px;
-      color: var(--text-muted);
-    }
-    .spinner {
-      width: 40px; height: 40px;
-      border: 3px solid var(--border);
-      border-top-color: var(--accent-blue);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ===== EMPTY STATE ===== */
-    .empty-state {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      min-height: 400px; gap: 12px;
-      color: var(--text-muted); text-align: center;
-    }
-    .empty-icon { font-size: 48px; margin-bottom: 8px; }
-    .empty-title { font-size: 18px; font-weight: 600; color: var(--text-secondary); }
-    .empty-desc { font-size: 14px; max-width: 400px; line-height: 1.6; }
-
-    /* ===== TOC FLOATING ===== */
-    .toc-float {
-      position: fixed;
-      right: 24px; top: 96px;
-      width: 220px;
-      background: var(--bg-card);
+    
+    .hub-icon {
+      font-size: 42px;
+      margin-bottom: 24px;
+      background: var(--bg-secondary);
+      width: 76px;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
-      z-index: 40;
-      max-height: calc(100vh - 120px);
-      overflow-y: auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
-    .toc-title { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 10px; }
-    .toc-item {
-      font-size: 12px; color: var(--text-muted);
-      padding: 5px 8px;
-      cursor: pointer;
-      border-radius: var(--radius-xs);
-      transition: all 0.15s;
-      line-height: 1.4;
+    
+    .hub-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
     }
-    .toc-item:hover { background: var(--bg-card-hover); color: var(--text-secondary); }
-    .toc-item.active { color: var(--accent-blue); background: var(--accent-blue-dim); }
+    
+    .hub-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 32px;
+      flex: 1;
+    }
+    
+    .hub-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent-blue);
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    
+    .hub-arrow {
+      transition: transform 0.3s ease;
+    }
+    
+    .hub-card:hover .hub-arrow {
+      transform: translateX(6px);
+    }
 
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 1200px) {
-      .toc-float { display: none; }
+    .placeholder-card {
+      opacity: 0.6;
+      cursor: default;
     }
-    @media (max-width: 768px) {
-      .menu-btn { display: flex; }
-      .sidebar {
-        transform: translateX(-100%);
-        z-index: 200;
-      }
-      .sidebar.open { transform: translateX(0); }
-      .sidebar-overlay {
-        position: fixed; inset: 0;
-        background: rgba(0,0,0,0.6);
-        z-index: 190;
-        display: none;
-      }
-      .sidebar-overlay.open { display: block; }
-      .main-content { margin-left: 0; }
-      .home-page, .lesson-page { padding: 24px 16px; }
-      .hero-title { font-size: 36px; }
-      .hero-stats { gap: 24px; }
-      .lesson-header { flex-direction: column; }
-      .lesson-ipa-display { font-size: 40px; min-width: auto; }
+    .placeholder-card:hover {
+      transform: none;
+      box-shadow: none;
+      background: var(--bg-card);
+      border-color: var(--border);
+    }
+    .placeholder-card:hover::before {
+      opacity: 0;
     }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="app-header">
-  <div class="app-logo">
-    <div class="logo-icon">IPA</div>
-    <div>
-      <div class="logo-text">IPA Learning System</div>
-      <div class="logo-sub">Học phát âm tiếng Anh</div>
-    </div>
+  <div class="header">
+    <h1>Knowledge Hub</h1>
+    <p>Trung tâm lưu trữ và học tập đa lĩnh vực. Bấm vào một bộ kỹ năng bên dưới để truy cập vào hệ thống bài học chi tiết.</p>
   </div>
-  <div class="header-actions">
-    <div class="progress-badge">
-      <span class="progress-dot"></span>
-      <span id="progressLabel">44 bài học</span>
+
+  <div class="hubs-container">
+    
+    <!-- IPA HUB -->
+    <a href="ipa.html" class="hub-card">
+      <div class="hub-icon">🗣️</div>
+      <div class="hub-title">IPA Learning System</div>
+      <div class="hub-desc">Hệ thống học phát âm tiếng Anh từ cơ bản đến nâng cao. 44 bài học chia làm 6 giai đoạn, tích hợp Shadowing và Tongue Twister.</div>
+      <div class="hub-footer">
+        <span>Vào học ngay</span>
+        <span class="hub-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- TENSE BOARD HUB -->
+    <a href="tense-board.html" class="hub-card">
+      <div class="hub-icon">⏳</div>
+      <div class="hub-title">Tense Board</div>
+      <div class="hub-desc">Bảng tổng hợp các thì tiếng Anh (Tenses) trực quan, giúp dễ dàng nắm vững cấu trúc và cách dùng từ cơ bản đến nâng cao.</div>
+      <div class="hub-footer">
+        <span>Xem ngay</span>
+        <span class="hub-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- GRAMMAR HUB -->
+    <div class="hub-card placeholder-card">
+      <div class="hub-icon">📚</div>
+      <div class="hub-title">Grammar 4 English</div>
+      <div class="hub-desc">Bộ hệ thống ngữ pháp tiếng Anh toàn diện, cấu trúc Mindmap, trực quan dễ học.</div>
+      <div class="hub-footer" style="color: var(--text-muted)">
+        <span>Sắp ra mắt</span>
+        <span>⏱️</span>
+      </div>
     </div>
-    <button class="menu-btn" id="menuBtn">☰</button>
+
+    <!-- ANDROID HUB -->
+    <div class="hub-card placeholder-card">
+      <div class="hub-icon">🤖</div>
+      <div class="hub-title">Android Knowledge</div>
+      <div class="hub-desc">Kho tàng kiến thức chuyên sâu về lập trình Android, Kotlin, Clean Architecture và Compose.</div>
+      <div class="hub-footer" style="color: var(--text-muted)">
+        <span>Sắp ra mắt</span>
+        <span>⏱️</span>
+      </div>
+    </div>
+
   </div>
-</header>
 
-<!-- SIDEBAR OVERLAY (mobile) -->
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-<div class="app-layout">
-  <!-- SIDEBAR -->
-  <nav class="sidebar" id="sidebar">
-    <!-- Generated by JS -->
-  </nav>
-
-  <!-- MAIN -->
-  <main class="main-content" id="mainContent">
-    <!-- Rendered by JS -->
-  </main>
-</div>
-
-<script>
-// ===== DATA =====
-const STAGES = [
-  {
-    id: 1,
-    name: "Nguyên âm ngắn",
-    nameEn: "Short Vowels",
-    color: "#4f8ef7",
-    colorDim: "#1a2d52",
-    emoji: "🔵",
-    desc: "7 nguyên âm ngắn cơ bản — nền tảng phát âm tiếng Anh",
-    lessons: [
-      { ipa: "/ɪ/", name: "Short I", file: "stage1/01-short-i.md" },
-      { ipa: "/e/", name: "Short E", file: "stage1/02-short-e.md" },
-      { ipa: "/æ/", name: "Short AE", file: "stage1/03-short-ae.md" },
-      { ipa: "/ʌ/", name: "Short UH", file: "stage1/04-short-uh.md" },
-      { ipa: "/ɒ/", name: "Short O", file: "stage1/05-short-o.md" },
-      { ipa: "/ʊ/", name: "Short OO", file: "stage1/06-short-oo.md" },
-      { ipa: "/ə/", name: "Schwa", file: "stage1/07-schwa.md" },
-    ]
-  },
-  {
-    id: 2,
-    name: "Nguyên âm dài",
-    nameEn: "Long Vowels",
-    color: "#a855f7",
-    colorDim: "#2d1a52",
-    emoji: "🟣",
-    desc: "5 nguyên âm dài — âm kéo dài và rõ ràng",
-    lessons: [
-      { ipa: "/iː/", name: "Long EE", file: "stage2/01-long-ee.md" },
-      { ipa: "/ɑː/", name: "Long AH", file: "stage2/02-long-ah.md" },
-      { ipa: "/ɔː/", name: "Long AW", file: "stage2/03-long-aw.md" },
-      { ipa: "/uː/", name: "Long OO", file: "stage2/04-long-oo.md" },
-      { ipa: "/ɜː/", name: "Long ER", file: "stage2/05-long-er.md" },
-    ]
-  },
-  {
-    id: 3,
-    name: "Diphthongs",
-    nameEn: "Diphthongs",
-    color: "#22c55e",
-    colorDim: "#0f2e1c",
-    emoji: "🟢",
-    desc: "8 nguyên âm đôi — trượt từ âm này sang âm kia",
-    lessons: [
-      { ipa: "/eɪ/", name: "EI Sound", file: "stage3/01-diphthong-ei.md" },
-      { ipa: "/aɪ/", name: "AI Sound", file: "stage3/02-diphthong-ai.md" },
-      { ipa: "/ɔɪ/", name: "OI Sound", file: "stage3/03-diphthong-oi.md" },
-      { ipa: "/əʊ/", name: "OU Sound", file: "stage3/04-diphthong-ou.md" },
-      { ipa: "/aʊ/", name: "AU Sound", file: "stage3/05-diphthong-au.md" },
-      { ipa: "/ɪə/", name: "IA Sound", file: "stage3/06-diphthong-ia.md" },
-      { ipa: "/eə/", name: "EA Sound", file: "stage3/07-diphthong-ea.md" },
-      { ipa: "/ʊə/", name: "UA Sound", file: "stage3/08-diphthong-ua.md" },
-    ]
-  },
-  {
-    id: 4,
-    name: "Phụ âm cơ bản",
-    nameEn: "Basic Consonants",
-    color: "#f59e0b",
-    colorDim: "#2e1f05",
-    emoji: "🟡",
-    desc: "10 phụ âm nền tảng — các âm cơ bản nhất",
-    lessons: [
-      { ipa: "/p/", name: "P Sound", file: "stage4/01-p.md" },
-      { ipa: "/b/", name: "B Sound", file: "stage4/02-b.md" },
-      { ipa: "/t/", name: "T Sound", file: "stage4/03-t.md" },
-      { ipa: "/d/", name: "D Sound", file: "stage4/04-d.md" },
-      { ipa: "/k/", name: "K Sound", file: "stage4/05-k.md" },
-      { ipa: "/g/", name: "G Sound", file: "stage4/06-g.md" },
-      { ipa: "/f/", name: "F Sound", file: "stage4/07-f.md" },
-      { ipa: "/v/", name: "V Sound", file: "stage4/08-v.md" },
-      { ipa: "/s/", name: "S Sound", file: "stage4/09-s.md" },
-      { ipa: "/z/", name: "Z Sound", file: "stage4/10-z.md" },
-    ]
-  },
-  {
-    id: 5,
-    name: "Phụ âm khó",
-    nameEn: "Difficult Consonants",
-    color: "#ef4444",
-    colorDim: "#2e1010",
-    emoji: "🔴",
-    desc: "9 phụ âm đặc biệt khó với người Việt",
-    lessons: [
-      { ipa: "/θ/", name: "Voiceless TH", file: "stage5/01-th-voiceless.md" },
-      { ipa: "/ð/", name: "Voiced TH", file: "stage5/02-th-voiced.md" },
-      { ipa: "/ʃ/", name: "SH Sound", file: "stage5/03-sh.md" },
-      { ipa: "/ʒ/", name: "ZH Sound", file: "stage5/04-zh.md" },
-      { ipa: "/tʃ/", name: "CH Sound", file: "stage5/05-ch.md" },
-      { ipa: "/dʒ/", name: "DJ Sound", file: "stage5/06-dj.md" },
-      { ipa: "/r/", name: "R Sound", file: "stage5/07-r.md" },
-      { ipa: "/l/", name: "L Sound", file: "stage5/08-l.md" },
-      { ipa: "/ŋ/", name: "NG Sound", file: "stage5/09-ng.md" },
-    ]
-  },
-  {
-    id: 6,
-    name: "Connected Speech",
-    nameEn: "Connected Speech",
-    color: "#06b6d4",
-    colorDim: "#042830",
-    emoji: "🔷",
-    desc: "5 kỹ thuật nói tự nhiên như người bản xứ",
-    lessons: [
-      { ipa: "🔗", name: "Linking", file: "stage6/01-linking.md" },
-      { ipa: "⬇", name: "Reduction", file: "stage6/02-reduction.md" },
-      { ipa: "🔄", name: "Assimilation", file: "stage6/03-assimilation.md" },
-      { ipa: "✂", name: "Elision", file: "stage6/04-elision.md" },
-      { ipa: "💨", name: "Weak Forms", file: "stage6/05-weak-forms.md" },
-    ]
-  }
-];
-
-// ===== STATE =====
-let currentLesson = null;
-let currentStage = null;
-let sidebarOpen = {1:true,2:false,3:false,4:false,5:false,6:false};
-
-// ===== SIDEBAR BUILD =====
-function buildSidebar() {
-  const sidebar = document.getElementById('sidebar');
-  sidebar.innerHTML = STAGES.map(stage => `
-    <div class="sidebar-section">
-      <div class="sidebar-stage-header" onclick="toggleStage(${stage.id})">
-        <div class="stage-badge" style="background:${stage.colorDim};color:${stage.color}">
-          ${stage.id}
-        </div>
-        <div class="stage-label">${stage.name}</div>
-        <span class="stage-chevron ${sidebarOpen[stage.id]?'open':''}" id="chevron-${stage.id}">▶</span>
-      </div>
-      <div class="sidebar-items ${sidebarOpen[stage.id]?'open':''}" id="stage-items-${stage.id}">
-        ${stage.lessons.map((lesson, idx) => `
-          <div class="sidebar-item" id="sidebar-${stage.id}-${idx}"
-               onclick="loadLesson(${stage.id}, ${idx})"
-               style="${currentStage===stage.id && currentLesson===idx ? `border-left-color:${stage.color};background:var(--bg-card);color:var(--text-primary)` : ''}">
-            <span class="ipa-chip" style="background:${stage.colorDim};color:${stage.color}">${lesson.ipa}</span>
-            <span>${lesson.name}</span>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `).join('');
-}
-
-function toggleStage(stageId) {
-  sidebarOpen[stageId] = !sidebarOpen[stageId];
-  buildSidebar();
-}
-
-// ===== HOME PAGE =====
-function showHome() {
-  currentLesson = null; currentStage = null;
-  buildSidebar();
-  const main = document.getElementById('mainContent');
-  main.innerHTML = `
-    <div class="home-page">
-      <div class="home-hero">
-        <div class="hero-badge">🎯 Học IPA theo lộ trình khoa học</div>
-        <h1 class="hero-title">Phát âm tiếng Anh<br><span class="accent">chuẩn như native</span></h1>
-        <p class="hero-subtitle">44 bài học IPA chi tiết — từ nguyên âm ngắn đến Connected Speech. Mỗi bài có từ vựng, cụm từ, câu ví dụ, Tongue Twister và Shadowing Practice.</p>
-        <div class="hero-stats">
-          <div class="stat-item">
-            <div class="stat-number">44</div>
-            <div class="stat-label">Bài học</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">6</div>
-            <div class="stat-label">Giai đoạn</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">12</div>
-            <div class="stat-label">Phần mỗi bài</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">∞</div>
-            <div class="stat-label">Luyện tập</div>
-          </div>
-        </div>
-      </div>
-
-      <h2 style="font-size:20px;font-weight:700;margin-bottom:20px;color:var(--text-primary)">
-        📚 Lộ trình học
-      </h2>
-      <div class="stages-grid">
-        ${STAGES.map(stage => `
-          <div class="stage-card" onclick="loadLesson(${stage.id}, 0)"
-               style="--border-hover:${stage.color}; box-shadow: 0 0 0 0 ${stage.color}">
-            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:${stage.color};border-radius:var(--radius) var(--radius) 0 0"></div>
-            <div class="stage-card-header">
-              <div class="stage-badge" style="width:32px;height:32px;border-radius:9px;background:${stage.colorDim};color:${stage.color};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px">
-                ${stage.id}
-              </div>
-              <div>
-                <div class="stage-num">GIAI ĐOẠN ${stage.id}</div>
-                <div class="stage-title" style="color:${stage.color}">${stage.name}</div>
-              </div>
-            </div>
-            <p class="stage-desc">${stage.desc}</p>
-            <div class="stage-sounds">
-              ${stage.lessons.map(l => `<span class="sound-tag">${l.ipa}</span>`).join('')}
-            </div>
-          </div>
-        `).join('')}
-      </div>
-
-      <div style="margin-top:48px;padding:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius)">
-        <h3 style="font-size:15px;font-weight:700;margin-bottom:16px;color:var(--accent-blue)">💡 Mỗi bài học bao gồm</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
-          ${[
-            ['🔤','IPA Symbol + Tên âm'],
-            ['👄','Vị trí lưỡi, môi, hơi'],
-            ['⚠️','Lỗi người Việt thường mắc'],
-            ['🔁','So sánh âm gần giống'],
-            ['📝','≥10 từ vựng thực tế'],
-            ['💬','≥10 cụm từ + IPA'],
-            ['🗣','≥10 câu luyện nói'],
-            ['🔀','Minimal Pairs'],
-            ['👅','3 Tongue Twister'],
-            ['🎧','5 Shadowing Practice'],
-            ['👂','Listening Focus'],
-            ['✅','Pronunciation Checklist'],
-          ].map(([icon,text]) => `
-            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:13px;color:var(--text-secondary)">
-              <span>${icon}</span><span>${text}</span>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// ===== LOAD LESSON =====
-async function loadLesson(stageId, lessonIdx) {
-  currentStage = stageId;
-  currentLesson = lessonIdx;
-  sidebarOpen[stageId] = true;
-  buildSidebar();
-
-  const stage = STAGES[stageId - 1];
-  const lesson = stage.lessons[lessonIdx];
-  const main = document.getElementById('mainContent');
-
-  // Loading
-  main.innerHTML = `
-    <div class="lesson-page">
-      <div class="loading-state">
-        <div class="spinner"></div>
-        <div>Đang tải bài học ${lesson.ipa}…</div>
-      </div>
-    </div>
-  `;
-
-  // Load markdown
-  try {
-    const resp = await fetch(lesson.file);
-    if (!resp.ok) throw new Error('not found');
-    const md = await resp.text();
-    renderLesson(stageId, lessonIdx, lesson, stage, md);
-  } catch(e) {
-    renderLessonEmpty(stageId, lessonIdx, lesson, stage);
-  }
-}
-
-// ===== RENDER LESSON =====
-function renderLesson(stageId, lessonIdx, lesson, stage, md) {
-  const main = document.getElementById('mainContent');
-  const allLessons = STAGES.flatMap(s => s.lessons.map(l => ({...l, stageId: s.id})));
-  const currentFlat = allLessons.findIndex(l => l.file === lesson.file);
-  const prevLesson = currentFlat > 0 ? allLessons[currentFlat - 1] : null;
-  const nextLesson = currentFlat < allLessons.length - 1 ? allLessons[currentFlat + 1] : null;
-
-  const html = marked.parse(md);
-
-  main.innerHTML = `
-    <div class="lesson-page">
-      <div class="lesson-breadcrumb">
-        <span class="breadcrumb-link" onclick="showHome()">🏠 Trang chủ</span>
-        <span class="breadcrumb-sep">›</span>
-        <span style="color:${stage.color}">Giai đoạn ${stageId}: ${stage.name}</span>
-        <span class="breadcrumb-sep">›</span>
-        <span style="font-family:'JetBrains Mono',monospace">${lesson.ipa}</span>
-      </div>
-
-      <div class="lesson-header">
-        <div class="lesson-ipa-display" style="color:${stage.color}">${lesson.ipa}</div>
-        <div class="lesson-meta">
-          <div class="lesson-stage-tag" style="background:${stage.colorDim};color:${stage.color}">
-            GĐ ${stageId} — ${stage.nameEn}
-          </div>
-          <div class="lesson-title-main">${lesson.name}</div>
-          <div class="lesson-subtitle">Bài ${lessonIdx + 1} / ${stage.lessons.length} trong giai đoạn này</div>
-          <div class="lesson-nav">
-            <button class="nav-btn" onclick="showHome()">← Trang chủ</button>
-            ${prevLesson ? `<button class="nav-btn" onclick="loadLesson(${prevLesson.stageId}, ${findLessonIdx(prevLesson)})">‹ Bài trước</button>` : ''}
-            ${nextLesson ? `<button class="nav-btn primary" onclick="loadLesson(${nextLesson.stageId}, ${findLessonIdx(nextLesson)})">Bài tiếp theo ›</button>` : '<span style="padding:8px 16px;font-size:13px;color:var(--accent-green)">🎉 Hoàn thành!</span>'}
-          </div>
-        </div>
-      </div>
-
-      <div class="lesson-content" id="lessonBody">
-        ${html}
-      </div>
-
-      <div style="margin-top:40px;padding:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);display:flex;justify-content:space-between;align-items:center">
-        <div style="font-size:14px;color:var(--text-muted)">
-          ${prevLesson ? `<span class="nav-btn" style="cursor:pointer" onclick="loadLesson(${prevLesson.stageId}, ${findLessonIdx(prevLesson)})">‹ ${prevLesson.ipa} ${prevLesson.name}</span>` : ''}
-        </div>
-        <div style="font-size:14px;color:var(--text-muted)">
-          ${nextLesson ? `<span class="nav-btn primary" style="cursor:pointer" onclick="loadLesson(${nextLesson.stageId}, ${findLessonIdx(nextLesson)})">${nextLesson.ipa} ${nextLesson.name} ›</span>` : ''}
-        </div>
-      </div>
-    </div>
-  `;
-
-  // Style checkboxes
-  setTimeout(() => {
-    document.querySelectorAll('.lesson-content input[type="checkbox"]').forEach(cb => {
-      cb.style.cssText = 'width:16px;height:16px;margin-right:8px;accent-color:' + stage.color;
-    });
-  }, 50);
-}
-
-function findLessonIdx(lesson) {
-  const stage = STAGES[lesson.stageId - 1];
-  return stage.lessons.findIndex(l => l.file === lesson.file);
-}
-
-function renderLessonEmpty(stageId, lessonIdx, lesson, stage) {
-  const main = document.getElementById('mainContent');
-  main.innerHTML = `
-    <div class="lesson-page">
-      <div class="lesson-breadcrumb">
-        <span class="breadcrumb-link" onclick="showHome()">🏠 Trang chủ</span>
-        <span class="breadcrumb-sep">›</span>
-        <span style="color:${stage.color}">Giai đoạn ${stageId}: ${stage.name}</span>
-      </div>
-      <div class="empty-state">
-        <div class="empty-icon">⏳</div>
-        <div class="lesson-ipa-display" style="color:${stage.color};font-size:64px">${lesson.ipa}</div>
-        <div class="empty-title">${lesson.name} — Đang chuẩn bị</div>
-        <div class="empty-desc">Bài học này đang được agent tạo nội dung. Vui lòng quay lại sau ít phút và refresh trang!</div>
-        <button class="nav-btn primary" onclick="showHome()" style="margin-top:16px">← Về trang chủ</button>
-      </div>
-    </div>
-  `;
-}
-
-// ===== MOBILE SIDEBAR =====
-document.getElementById('menuBtn').addEventListener('click', () => {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebarOverlay').classList.toggle('open');
-});
-document.getElementById('sidebarOverlay').addEventListener('click', () => {
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebarOverlay').classList.remove('open');
-});
-
-// ===== INIT =====
-buildSidebar();
-showHome();
-</script>
 </body>
 </html>
