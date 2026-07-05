@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d016ecd3-00a3-4d49-af4b-e775be7cb2e7" name="Changes" comment="Refactor root README into a centralized Knowledge Hub in the hubs directory" />
+    <list id="3c2ad786-c759-4d7c-a505-258223f393b0" name="no-commit" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/markdown.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;thonghkk&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/thonghkk/IPA&quot;,
+    &quot;accountId&quot;: &quot;d88c1959-26fc-4a13-9ef1-c27b229a9e36&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3F5oKwqrpG6H9Y3W8G8WaOSpZx7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/thongnv/KMM/SickProject/hubs"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d016ecd3-00a3-4d49-af4b-e775be7cb2e7" name="Changes" comment="" />
+      <changelist id="3c2ad786-c759-4d7c-a505-258223f393b0" name="no-commit" comment="" />
+      <created>1781374230728</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1781374230728</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Init IPA project">
+      <option name="closed" value="true" />
+      <created>1781374261051</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1781374261051</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add 'Connected Speech' part">
+      <option name="closed" value="true" />
+      <created>1781400367656</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1781400367656</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add Tense Board and refactor index into Knowledge Hub">
+      <option name="closed" value="true" />
+      <created>1783245165140</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1783245165140</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Reorganize project structure by moving IPA lessons and HTML pages into the 'hubs' directory">
+      <option name="closed" value="true" />
+      <created>1783246257453</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1783246257453</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Reorganize project structure by moving IPA lessons and HTML pages into the 'hubs' directory">
+      <option name="closed" value="true" />
+      <created>1783246292691</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1783246292691</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Refactor root README into a centralized Knowledge Hub in the hubs directory">
+      <option name="closed" value="true" />
+      <created>1783247140093</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1783247140093</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Init IPA project" />
+    <MESSAGE value="Add 'Connected Speech' part" />
+    <MESSAGE value="Add Tense Board and refactor index into Knowledge Hub" />
+    <MESSAGE value="Reorganize project structure by moving IPA lessons and HTML pages into the 'hubs' directory" />
+    <MESSAGE value="Refactor root README into a centralized Knowledge Hub in the hubs directory" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor root README into a centralized Knowledge Hub in the hubs directory" />
+  </component>
+</project>

@@ -807,7 +807,7 @@ async function loadLesson(stageId, lessonIdx) {
 
   // Load markdown
   try {
-    const resp = await fetch(lesson.file);
+    const resp = await fetch('../hubs/ipaHubs/' + lesson.file);
     if (!resp.ok) throw new Error('not found');
     const md = await resp.text();
     renderLesson(stageId, lessonIdx, lesson, stage, md);
