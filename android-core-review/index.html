@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f1117">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Android Core Components — Senior Review</title>
+<style>
+  :root {
+    --bg: #0f1117; --bg2: #161b27; --bg3: #1e2535; --bg4: #252d42;
+    --accent: #3ddc84; --accent2: #00bcd4; --accent3: #ff6b35; --accent4: #a78bfa;
+    --text: #e2e8f0; --text2: #94a3b8; --text3: #64748b;
+    --border: #2d3748; --card: #1a2235; --warn: #fbbf24; --danger: #f87171;
+    --radius: 12px; --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;
+    -webkit-tap-highlight-color:transparent;
+  }
+  @media(min-width:769px){::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#0d1117 0%,#161b27 40%,#0d1f15 100%);border-bottom:1px solid var(--border);padding:36px 16px 28px;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(61,220,132,.08) 0%,transparent 70%);pointer-events:none;}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(61,220,132,.1);border:1px solid rgba(61,220,132,.3);color:var(--accent);padding:5px 14px;border-radius:99px;font-size:12px;font-weight:600;margin-bottom:14px;}
+  .hero h1{font-size:clamp(20px,6vw,48px);font-weight:800;background:linear-gradient(135deg,#fff 30%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;line-height:1.2;}
+  .hero p{color:var(--text2);font-size:13px;max-width:520px;margin:0 auto 22px;line-height:1.6;}
+  .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:380px;margin:0 auto;}
+  .hero-stat{text-align:center;}
+  .hero-stat .val{font-size:22px;font-weight:800;color:var(--accent);display:block;line-height:1;}
+  .hero-stat .lbl{font-size:10px;color:var(--text3);margin-top:3px;text-transform:uppercase;letter-spacing:.5px;display:block;}
+
+  /* TOP NAV */
+  .topnav{position:sticky;top:0;z-index:100;background:rgba(15,17,23,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);}
+  .topnav::-webkit-scrollbar{display:none;}
+  .topnav a{white-space:nowrap;padding:11px 13px;color:var(--text3);text-decoration:none;font-size:12px;font-weight:600;border-bottom:2px solid transparent;flex-shrink:0;min-height:44px;display:flex;align-items:center;transition:color .15s,border-color .15s;}
+  .topnav a.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+  /* LAYOUT */
+  .container{max-width:1200px;margin:0 auto;padding:0 14px;}
+  @media(min-width:768px){.container{padding:0 24px;}}
+
+  /* SECTION HEADER */
+  .roadmap-section{padding:28px 0;}
+  .section-header{margin-bottom:18px;}
+  .section-header h2{font-size:17px;font-weight:700;color:var(--text);margin-bottom:5px;}
+  .section-header p{color:var(--text2);font-size:12px;line-height:1.6;}
+
+  /* ROADMAP GRID */
+  .roadmap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(min-width:600px){.roadmap-grid{grid-template-columns:repeat(3,1fr);}}
+  @media(min-width:900px){.roadmap-grid{grid-template-columns:repeat(4,1fr);}}
+
+  /* TOPIC CARD */
+  .topic-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;cursor:pointer;transition:border-color .2s;-webkit-tap-highlight-color:transparent;}
+  .topic-card:active{background:var(--bg3);}
+  @media(hover:hover){.topic-card:hover{border-color:var(--accent);}}
+  .card-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .card-num{width:26px;height:26px;border-radius:6px;flex-shrink:0;background:rgba(61,220,132,.1);border:1px solid rgba(61,220,132,.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);}
+  .card-title{font-size:13px;font-weight:700;color:var(--text);line-height:1.3;}
+  .card-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:8px;}
+  .card-tags{display:flex;flex-wrap:wrap;gap:4px;}
+  .tag{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;background:rgba(61,220,132,.08);color:var(--accent);border:1px solid rgba(61,220,132,.15);}
+  .tag.blue{background:rgba(0,188,212,.08);color:var(--accent2);border-color:rgba(0,188,212,.15);}
+  .tag.orange{background:rgba(255,107,53,.08);color:var(--accent3);border-color:rgba(255,107,53,.15);}
+  .tag.purple{background:rgba(167,139,250,.08);color:var(--accent4);border-color:rgba(167,139,250,.15);}
+
+  /* DETAIL BLOCK */
+  .detail-section{padding:0 0 32px;}
+  .detail-block{scroll-margin-top:48px;margin-bottom:32px;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;}
+  .detail-header{display:flex;align-items:flex-start;gap:12px;padding:16px 14px;background:var(--card);border-bottom:1px solid var(--border);}
+  @media(min-width:768px){.detail-header{padding:22px 24px;gap:16px;}}
+  .detail-num{width:38px;height:38px;border-radius:9px;flex-shrink:0;background:linear-gradient(135deg,rgba(61,220,132,.2),rgba(0,188,212,.1));border:1px solid rgba(61,220,132,.3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--accent);}
+  .detail-header-info{flex:1;min-width:0;}
+  .detail-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px;line-height:1.3;}
+  @media(min-width:768px){.detail-title{font-size:18px;}}
+  .detail-subtitle{font-size:11px;color:var(--text2);line-height:1.5;}
+  .detail-body{background:var(--bg2);}
+
+  /* TABS */
+  .tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;background:var(--bg3);}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{padding:10px 14px;font-size:11px;font-weight:700;color:var(--text3);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0;min-height:44px;letter-spacing:.3px;transition:color .15s,border-color .15s;}
+  .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);background:rgba(61,220,132,.04);}
+  .tab-panel{display:none;padding:14px;}
+  @media(min-width:768px){.tab-panel{padding:18px 22px;}}
+  .tab-panel.active{display:block;}
+
+  /* CONCEPT */
+  .concept-text{font-size:13px;color:var(--text2);line-height:1.8;}
+  .concept-text strong{color:var(--text);}
+
+  /* FLOW DIAGRAM */
+  .flow-diagram{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:0;}
+  .flow-step{background:var(--bg4);border:1px solid var(--border);border-radius:7px;padding:8px 12px;font-size:11px;color:var(--text);font-weight:600;width:100%;max-width:320px;text-align:center;line-height:1.4;font-family:ui-monospace,'SF Mono','Fira Code',monospace;}
+  .flow-arrow{color:var(--accent);font-size:15px;padding:2px 0;text-align:center;}
+  .flow-step.highlight{background:rgba(61,220,132,.08);border-color:rgba(61,220,132,.3);color:var(--accent);}
+  .flow-step.blue{background:rgba(0,188,212,.08);border-color:rgba(0,188,212,.3);color:var(--accent2);}
+  .flow-step.orange{background:rgba(255,107,53,.08);border-color:rgba(255,107,53,.3);color:var(--accent3);}
+
+  /* CODE */
+  .code-wrap{position:relative;margin:10px 0;}
+  .code-label{position:absolute;top:7px;right:9px;font-size:9px;font-weight:700;letter-spacing:1px;color:var(--text3);text-transform:uppercase;}
+  pre{background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:14px;overflow-x:auto;font-family:ui-monospace,'SF Mono','Fira Code','Consolas',monospace;font-size:11px;line-height:1.65;color:var(--text);-webkit-overflow-scrolling:touch;}
+  @media(min-width:768px){pre{font-size:13px;}}
+  .kw{color:#ff7b72}.fn{color:#d2a8ff}.st{color:#a5d6ff}.cm{color:#6e7681;font-style:italic}.nb{color:#79c0ff}.cl{color:#ffa657}.an{color:#3fb950}
+
+  /* INSIGHT GRID */
+  .insight-grid{display:grid;grid-template-columns:1fr;gap:8px;}
+  @media(min-width:560px){.insight-grid{grid-template-columns:1fr 1fr;}}
+  .insight-item{padding:12px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);}
+  .insight-item .insight-icon{font-size:16px;margin-bottom:6px;display:block;}
+  .insight-item h4{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px;}
+  .insight-item p{font-size:11px;color:var(--text2);line-height:1.6;}
+  .insight-item.warn{border-color:rgba(251,191,36,.25);background:rgba(251,191,36,.05);}
+  .insight-item.danger{border-color:rgba(248,113,113,.25);background:rgba(248,113,113,.05);}
+  .insight-item.success{border-color:rgba(61,220,132,.25);background:rgba(61,220,132,.05);}
+  .insight-item.blue{border-color:rgba(0,188,212,.25);background:rgba(0,188,212,.05);}
+
+  /* Q&A */
+  .qa-list{display:flex;flex-direction:column;gap:8px;}
+  .qa-item{border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+  .qa-q{padding:12px 13px;cursor:pointer;display:flex;align-items:flex-start;gap:9px;background:var(--bg3);min-height:48px;}
+  .qa-q:active{background:var(--bg4);}
+  .qa-q .q-icon{width:22px;height:22px;border-radius:6px;flex-shrink:0;background:rgba(61,220,132,.15);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;margin-top:1px;}
+  .qa-q .q-text{font-size:13px;font-weight:600;color:var(--text);flex:1;line-height:1.5;}
+  .qa-q .q-arrow{color:var(--text3);transition:transform .25s;flex-shrink:0;margin-top:3px;font-size:11px;}
+  .qa-q.open .q-arrow{transform:rotate(90deg);}
+  .qa-a{padding:0;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .15s;background:var(--bg2);}
+  .qa-a.open{max-height:900px;padding:13px;}
+  .qa-a p{font-size:12px;color:var(--text2);line-height:1.8;}
+  .qa-a p code{background:var(--bg3);border:1px solid var(--border);padding:1px 4px;border-radius:3px;font-size:10px;font-family:ui-monospace,monospace;color:var(--accent3);}
+  .qa-a strong{color:var(--accent);}
+
+  /* TABLES */
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:10px 0;border-radius:8px;border:1px solid var(--border);}
+  .cmp-table{width:100%;border-collapse:collapse;font-size:11px;min-width:360px;}
+  .cmp-table th{background:var(--bg3);color:var(--accent);font-weight:700;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;font-size:10px;}
+  .cmp-table td{padding:8px 10px;border-bottom:1px solid rgba(45,55,72,.4);color:var(--text2);vertical-align:top;line-height:1.5;}
+  .cmp-table tr:last-child td{border-bottom:none;}
+  .cmp-table .label{font-weight:700;color:var(--text);white-space:nowrap;}
+  .cmp-good{color:var(--accent);font-weight:600;}
+  .cmp-bad{color:var(--danger);font-weight:600;}
+
+  /* DECISION */
+  .decision-section{padding:28px 0;}
+  .decision-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+  @media(min-width:600px){.decision-grid{grid-template-columns:repeat(3,1fr);}}
+  .decision-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;}
+  .decision-need{font-size:10px;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.8px;}
+  .decision-answer{font-size:14px;font-weight:800;color:var(--accent);margin-bottom:5px;}
+  .decision-why{font-size:11px;color:var(--text2);line-height:1.5;}
+
+  /* CHECKLIST */
+  .checklist-section{padding:28px 0;}
+  .progress-wrap{margin-bottom:16px;}
+  .progress-info{display:flex;justify-content:space-between;margin-bottom:7px;}
+  .progress-info span{font-size:12px;color:var(--text2);font-weight:600;}
+  .progress-info .pct{color:var(--accent);}
+  .progress-bg{background:var(--bg3);border-radius:99px;height:7px;overflow:hidden;}
+  .progress-fill{height:7px;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease;}
+  .checklist{display:flex;flex-direction:column;gap:7px;}
+  .check-item{display:flex;align-items:flex-start;gap:11px;padding:13px;background:var(--card);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:border-color .2s,background .2s;}
+  .check-item:active{background:var(--bg3);}
+  .check-box{width:22px;height:22px;border-radius:6px;flex-shrink:0;border:2px solid var(--text3);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;min-width:22px;}
+  .check-box.done{background:var(--accent);border-color:var(--accent);}
+  .check-box.done::after{content:'✓';color:#000;font-size:13px;font-weight:900;}
+  .check-item.checked{border-color:rgba(61,220,132,.2);background:rgba(61,220,132,.03);}
+  .check-item.checked .check-text{text-decoration:line-through;color:var(--text3);}
+  .check-text{font-size:13px;line-height:1.5;padding-top:2px;}
+
+  /* MISTAKES */
+  .mistakes-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-top:16px;}
+  @media(min-width:480px){.mistakes-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(min-width:900px){.mistakes-grid{grid-template-columns:repeat(3,1fr);}}
+  .mistake-card{background:var(--card);border:1px solid rgba(248,113,113,.2);border-radius:10px;padding:14px;}
+  .mistake-wrong{font-size:11px;color:var(--danger);font-weight:700;margin-bottom:4px;}
+  .mistake-right{font-size:11px;color:var(--accent);font-weight:700;margin:9px 0 4px;}
+  .mistake-card p{font-size:11px;color:var(--text2);line-height:1.55;}
+
+  /* WEEKLY */
+  .week-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+  @media(min-width:700px){.week-grid{grid-template-columns:repeat(4,1fr);}}
+  .day-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;}
+  .day-label{font-size:10px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+  .day-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:9px;}
+  .day-tasks{display:flex;flex-direction:column;gap:5px;}
+  .day-task{font-size:11px;color:var(--text2);display:flex;align-items:flex-start;gap:5px;line-height:1.4;}
+  .day-task::before{content:'→';color:var(--accent);flex-shrink:0;font-weight:700;}
+
+  /* FAB */
+  .fab{position:fixed;bottom:20px;right:16px;z-index:200;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#000;border:none;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(61,220,132,.4);display:none;align-items:center;justify-content:center;transition:opacity .2s;}
+  .fab.visible{display:flex;}
+  .fab:active{transform:scale(.92);}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--border);padding:20px 14px calc(20px + env(safe-area-inset-bottom));text-align:center;color:var(--text3);font-size:11px;line-height:1.8;}
+  footer strong{color:var(--accent);}
+
+  /* DIVIDER */
+  .divider{height:1px;background:var(--border);margin:28px 0;}
+
+  /* ANIMATION */
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .detail-block{animation:fadeInUp .3s ease both;}
+</style>
+</head>
+<body>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚙️ Senior Android Engineer</div>
+  <h1>Android Core Components</h1>
+  <p>Lộ trình ôn tập chuyên sâu cho Senior Android Developer — 12 chủ đề từ OS internals đến System Services</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="val">12</span><span class="lbl">Chủ đề</span></div>
+    <div class="hero-stat"><span class="val">80+</span><span class="lbl">Câu hỏi</span></div>
+    <div class="hero-stat"><span class="val">5</span><span class="lbl">Lớp kiến thức</span></div>
+    <div class="hero-stat"><span class="val">~5</span><span class="lbl">Năm KN target</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="topnav" id="topnav">
+  <a href="#overview">Tổng quan</a>
+  <a href="#cc1">1. Process</a>
+  <a href="#cc2">2. Looper</a>
+  <a href="#cc3">3. Activity</a>
+  <a href="#cc4">4. Fragment</a>
+  <a href="#cc5">5. Intent</a>
+  <a href="#cc6">6. PendingIntent</a>
+  <a href="#cc7">7. Broadcast</a>
+  <a href="#cc8">8. Service</a>
+  <a href="#cc9">9. WorkManager</a>
+  <a href="#cc10">10. ContentProvider</a>
+  <a href="#cc11">11. Binder</a>
+  <a href="#cc12">12. AMS</a>
+  <a href="#decision">Bảng quyết định</a>
+  <a href="#mistakes">Lỗi tư duy</a>
+  <a href="#checklist">Checklist</a>
+  <a href="#week">Lịch ôn</a>
+</nav>
+
+<div class="container">
+
+  <!-- OVERVIEW CARDS -->
+  <section class="roadmap-section" id="overview">
+    <div class="section-header">
+      <h2>🗺️ Lộ trình 12 chủ đề</h2>
+      <p>Từ OS foundation → Components → IPC → System Services. Mỗi chủ đề trả lời được 5 lớp: Concept → Mechanism → Use case → Trade-off → Senior insight</p>
+    </div>
+    <div class="roadmap-grid">
+
+      <div class="topic-card" onclick="scrollTo('#cc1')">
+        <div class="card-header"><div class="card-num">01</div><div class="card-title">Process, Application & Zygote</div></div>
+        <div class="card-desc">Nền tảng OS — app sống trong process nào, fork thế nào, chết khi nào và khôi phục ra sao.</div>
+        <div class="card-tags"><span class="tag">Zygote fork</span><span class="tag">COW</span><span class="tag blue">Process death</span><span class="tag orange">LMKD</span></div>
+      </div>
+
+      <div class="topic-card" onclick="scrollTo('#cc2')">
+        <div class="card-header"><div class="card-num">02</div><div class="card-title">Main Thread, Looper, Handler</div></div>
+        <div class="card-desc">Cơ chế event loop dựa trên epoll — nền tảng hiểu ANR, lifecycle callback và coroutine dispatcher.</div>
+        <div class="card-tags"><span class="tag">Looper</span><span class="tag">epoll</span><span class="tag blue">ANR</span><span class="tag orange">Memory leak</span></div>
+      </div>
+
+      <div class="topic-card" onclick="scrollTo('#cc3')">
+        <div class="card-header"><div class="card-num">03</div><div class="card-title">Activity Lifecycle</div></div>
+        <div class="card-desc">Lifecycle, configuration change vs process death, ViewModel, SavedStateHandle, Task & back stack.</div>
+        <div class="card-tags"><span class="tag">ViewModel</span><span class="tag">SavedState</span><span class="tag blue">Launch modes</span><span class="tag purple">Task flags</span></div>
+      </div>
+
+      <div class="topic-card" onclick="scrollTo('#cc4')">
+        <div class="card-header"><div class="card-num">04</div><div class="card-title">Fragment Lifecycle</div></div>
+        <div class="card-desc">Hai lifecycle độc lập, FragmentManager, commit vs commitAllowingStateLoss, memory leak pattern.</div>
+        <div class="card-tags"><span class="tag">ViewLifecycle</span><span class="tag">FragmentManager</span><span class="tag blue">Back stack</span></div>
+      </div>
+
+      <div class="topic-card" onclick="scrollTo('#cc5')">
+        <div class="card-header"><div class="card-num">05</div><div class="card-title">Intent & Intent Filter</div></div>
+        <div class="card-desc">Explicit vs Implicit, resolution algorithm, Parcelable vs Serializable, Binder transaction limit.</div>
+        <div class="card-tags"><span class="tag">Resolution</span><span class="tag">Parcelable</span><span class="tag orange">1MB limit</span><span class="tag purple">App Link</span></div>
+      </div>
+
+      <div class="topic-card" onclick="scrollTo('#cc6')">
+        <div class="card-header"><div class="card-num">06</div><div class="card-title">PendingIntent</div></div>
+        <div class="card-desc">System-level token, tồn tại sau process death, immutable/mutable, security implications.</div>
+        <div class="card-tags"><span class="tag">Token</span><span class="tag blue">FLAG_IMMUTABLE</span><span class="tag orange">Security</span></div>
+      </div>
+
+      <div class="topic-card" onclick="scrollTo('#cc7')">
+        <div class="card-header"><div class="card-num">07</div><div class="card-title">BroadcastReceiver</div></div>
+        <div class="card-desc">Event-driven entry point, background limits (API 26+), goAsync(), security và exported.</div>
+        <div class="card-tags"><span class="tag">Static/Dynamic</span><span class="tag blue">API 26+</span><span class="tag orange">goAsync()</span></div>
+      </div>
+
+      <div class="topic-card" onclick="scrollTo('#cc8')">
+        <div class="card-header"><div class="card-num">08</div><div class="card-title">Service & Foreground Service</div></div>
+        <div class="card-desc">Service không phải background thread, Started vs Bound, AIDL, Foreground Service restrictions.</div>
+        <div class="card-tags"><span class="tag">Main thread</span><span class="tag">AIDL</span><span class="tag blue">FGS Types</span><span class="tag orange">Restrictions</span></div>
+      </div>
+
+      <div class="topic-card" onclick="scrollTo('#cc9')">
+        <div class="card-header"><div class="card-num">09</div><div class="card-title">WorkManager</div></div>
+        <div class="card-desc">Guaranteed ≠ immediate, idempotency, unique work, chaining, Room-backed persistence.</div>
+        <div class="card-tags"><span class="tag">Guaranteed</span><span class="tag">Idempotent</span><span class="tag blue">Constraints</span><span class="tag purple">Chaining</span></div>
+      </div>
+
+      <div class="topic-card" onclick="scrollTo('#cc10')">
+        <div class="card-header"><div class="card-num">10</div><div class="card-title">ContentProvider & FileProvider</div></div>
+        <div class="card-desc">CRUD interface qua IPC, CursorWindow 2MB, FileProvider thay thế file:// từ API 24+.</div>
+        <div class="card-tags"><span class="tag">IPC</span><span class="tag">FileProvider</span><span class="tag blue">URI Permission</span><span class="tag orange">Security</span></div>
+      </div>
+
+      <div class="topic-card" onclick="scrollTo('#cc11')">
+        <div class="card-header"><div class="card-num">11</div><div class="card-title">Binder IPC</div></div>
+        <div class="card-desc">Android's primary IPC — 1-copy via mmap, Proxy/Stub, thread pool, transaction size, DeathRecipient.</div>
+        <div class="card-tags"><span class="tag">mmap</span><span class="tag">Proxy/Stub</span><span class="tag blue">~1MB limit</span><span class="tag purple">AIDL</span></div>
+      </div>
+
+      <div class="topic-card" onclick="scrollTo('#cc12')">
+        <div class="card-header"><div class="card-num">12</div><div class="card-title">AMS & System Services</div></div>
+        <div class="card-desc">System Server, AMS, ATMS, ActivityThread, Instrumentation — ai thực sự quản lý lifecycle.</div>
+        <div class="card-tags"><span class="tag">AMS</span><span class="tag">ActivityThread</span><span class="tag blue">ATMS</span><span class="tag orange">oom_adj</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       DETAIL BLOCKS
+  ══════════════════════════════════════════ -->
+  <section class="detail-section">
+
+    <!-- CC1: PROCESS -->
+    <div class="detail-block" id="cc1">
+      <div class="detail-header">
+        <div class="detail-num">01</div>
+        <div class="detail-header-info">
+          <div class="detail-title">Process, Application & Zygote</div>
+          <div class="detail-subtitle">OS Foundation — trước khi học component, phải hiểu chúng sống ở đâu và chết khi nào</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc1-concept')">Concept</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc1-flow')">Startup Flow</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc1-code')">Code</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc1-insights')">Senior Insights</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc1-qa')">Interview Q&A</button>
+        </div>
+
+        <div class="tab-panel active" id="cc1-concept">
+          <p class="concept-text">Mỗi Android app chạy trong một Linux process riêng biệt với <strong>UID duy nhất</strong> — đây là sandbox security cơ bản. Process được fork từ <strong>Zygote</strong> sử dụng cơ chế <strong>Copy-on-Write (COW)</strong>: Zygote đã pre-load toàn bộ Android framework classes, nên khi fork app mới, child process kế thừa pages bộ nhớ này mà không cần copy vật lý — tiết kiệm RAM và thời gian khởi động.</p>
+          <br>
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>Khái niệm</th><th>Định nghĩa</th><th>Quan trọng vì</th></tr>
+            <tr><td class="label">App Process</td><td>Linux process chứa Dalvik/ART VM + app code</td><td>Sandbox security boundary</td></tr>
+            <tr><td class="label">Task</td><td>Stack của Activity theo luồng user</td><td>Có thể span nhiều process</td></tr>
+            <tr><td class="label">Back Stack</td><td>Activity stack trong một Task</td><td>Navigation history</td></tr>
+            <tr><td class="label">Zygote</td><td>Parent process fork mọi app process</td><td>Fast startup, shared memory</td></tr>
+            <tr><td class="label">Application</td><td>Singleton sống cùng process</td><td>Không safe cho UI state</td></tr>
+          </table></div>
+          <br>
+          <div class="insight-grid">
+            <div class="insight-item danger">
+              <div class="insight-icon">⚠️</div>
+              <h4>Process Importance Hierarchy</h4>
+              <p>Foreground (oom=-1000) → Visible (oom=-800) → Service (oom=0) → Cached/Background (oom=900+). LMKD kill từ oom cao nhất khi RAM thấp.</p>
+            </div>
+            <div class="insight-item warn">
+              <div class="insight-icon">🔴</div>
+              <h4>Process Death — không báo trước</h4>
+              <p>OS kill process không gọi onDestroy(). Singleton, static var, ViewModel — tất cả mất. Chỉ SavedStateHandle và DB tồn tại.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc1-flow">
+          <p class="concept-text" style="margin-bottom:20px">Cold start flow — từ khi user nhấn icon đến Activity.onCreate():</p>
+          <div class="flow-diagram">
+            <div class="flow-step">User nhấn icon app</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">Launcher gửi Intent tới System Server</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step blue">AMS/ATMS xử lý — Binder IPC</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">Process tồn tại? → dùng lại / Không → fork</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step highlight">Zygote fork() — COW, kế thừa ART + framework</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">RuntimeInit → ActivityThread.main()</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">Application.attachBaseContext() → onCreate()</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step orange">Activity.onCreate()</div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc1-code">
+          <div class="code-wrap">
+            <div class="code-label">Kotlin</div>
+<pre><span class="kw">class</span> <span class="cl">CoreApplication</span> : <span class="cl">Application</span>() {
+
+    <span class="kw">override fun</span> <span class="fn">onCreate</span>() {
+        <span class="kw">super</span>.onCreate()
+        <span class="cm">// Chỉ khởi tạo những gì THỰC SỰ cần ngay</span>
+        <span class="cm">// SDK nặng → lazy/async init để không block cold start</span>
+        initCriticalSdks()
+
+        <span class="cm">// Async init — không block Application.onCreate()</span>
+        <span class="cl">ProcessLifecycleOwner</span>.get().lifecycle
+            .addObserver(<span class="fn">AppLifecycleObserver</span>())
+    }
+
+    <span class="cm">/**
+     * Gọi khi hệ thống cần app giải phóng memory.
+     * KHÔNG bao giờ gọi khi normal exit.
+     */</span>
+    <span class="kw">override fun</span> <span class="fn">onTrimMemory</span>(level: <span class="cl">Int</span>) {
+        <span class="kw">super</span>.onTrimMemory(level)
+        <span class="kw">when</span> (level) {
+            <span class="cl">ComponentCallbacks2</span>.TRIM_MEMORY_UI_HIDDEN -> {
+                <span class="cm">// App vào background — giải phóng UI caches</span>
+                imageCache.clear()
+            }
+            <span class="cl">ComponentCallbacks2</span>.TRIM_MEMORY_RUNNING_CRITICAL,
+            <span class="cl">ComponentCallbacks2</span>.TRIM_MEMORY_COMPLETE -> {
+                <span class="cm">// RAM nghiêm trọng — giải phóng mọi thứ có thể</span>
+                clearAllCaches()
+            }
+        }
+    }
+}</pre>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc1-insights">
+          <div class="insight-grid">
+            <div class="insight-item danger">
+              <div class="insight-icon">🚫</div>
+              <h4>Đừng giả định process tồn tại liên tục</h4>
+              <p>Thiết kế state recovery cho mọi màn hình. Process có thể bị kill bất cứ lúc nào khi app ở background — kể cả sau vài giây.</p>
+            </div>
+            <div class="insight-item warn">
+              <div class="insight-icon">⚡</div>
+              <h4>Application.onCreate() không phải entry point duy nhất</h4>
+              <p>ContentProvider.onCreate() được gọi TRƯỚC Application.onCreate(). Nếu dùng ContentProvider để init SDK, cẩn thận circular dependency.</p>
+            </div>
+            <div class="insight-item success">
+              <div class="insight-icon">✅</div>
+              <h4>Phân loại data theo scope</h4>
+              <p>Transient UI state → SavedStateHandle. Session data → ViewModel. Critical data → Room/DataStore. Không trộn lẫn.</p>
+            </div>
+            <div class="insight-item blue">
+              <div class="insight-icon">🔬</div>
+              <h4>Zygote vs traditional spawn</h4>
+              <p>Zygote pre-loads ~50MB ART bytecode. Fork COW = cold start &lt;100ms thay vì &gt;1s nếu spawn từ đầu. Trade-off: memory fragmentation nếu nhiều process.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc1-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Điều gì xảy ra khi người dùng nhấn vào icon ứng dụng?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Launcher gửi <strong>startActivity() Intent</strong> → Binder IPC tới System Server (AMS/ATMS) → AMS kiểm tra process đã tồn tại chưa → Nếu chưa: AMS gửi lệnh tới Zygote qua socket (<code>/dev/socket/zygote</code>) → Zygote <strong>fork()</strong> process mới với COW → child process chạy <code>ActivityThread.main()</code> → khởi tạo Looper → gửi Binder message "process ready" về AMS → AMS dispatch <code>handleLaunchActivity</code> → <code>Application.onCreate()</code> → <code>Activity.onCreate()</code>.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Tại sao Android dùng Zygote thay vì spawn process trực tiếp?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Zygote pre-load toàn bộ <strong>Android framework classes, ART runtime và shared libraries</strong> vào memory trước. Khi fork app mới, child process kế thừa các memory pages này qua <strong>Copy-on-Write</strong> — không cần copy vật lý, tiết kiệm ~50MB RAM per process và giảm cold start từ &gt;1s xuống &lt;100ms. Nếu spawn từ đầu, mỗi app phải load lại toàn bộ framework.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Tại sao singleton không an toàn để lưu UI state?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Singleton sống trong process memory. Khi <strong>process bị kill</strong> (không có callback, không có cảnh báo), toàn bộ singleton state mất sạch. Khi user quay lại app (tưởng app vẫn mở), hệ thống tạo process mới — singleton reset về trạng thái ban đầu. UI state phải được lưu qua cơ chế có persistence: <strong>onSaveInstanceState → SavedStateHandle → Room/DataStore</strong>.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Process death khác configuration change thế nào?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><strong>Configuration change</strong>: Activity bị destroy + recreate nhưng process VẪN sống → ViewModel sống sót qua NonConfigurationInstances → chỉ cần lưu UI state nhỏ qua onSaveInstanceState.<br><br><strong>Process death</strong>: Toàn bộ process bị kill → mọi thứ trong RAM mất → ViewModel, singleton, static vars đều mất → phục hồi cần SavedStateHandle (Bundle nhỏ) + Room/DataStore (data quan trọng).</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Android kill process khi nào và process nào bị kill trước?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><strong>Low Memory Killer Daemon (LMKD)</strong> quyết định dựa trên <code>oom_score_adj</code>: <strong>Foreground (-1000)</strong> → gần như không bao giờ bị kill. <strong>Visible (-800)</strong> → hiếm. <strong>Service Process (0-200)</strong> → bị kill khi RAM thấp. <strong>Cached/Background (900-1000)</strong> → bị kill đầu tiên. Process có score cao nhất bị kill trước. Foreground Service có oom_adj ~200, vẫn có thể bị kill khi memory cực thấp.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Application.onCreate() có luôn gọi trước Activity.onCreate() không?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><strong>Thường là vậy — nhưng có ngoại lệ quan trọng</strong>: <code>ContentProvider.onCreate()</code> được gọi <strong>TRƯỚC</strong> <code>Application.onCreate()</code>. Nếu ContentProvider của bạn cần dùng thứ gì đó từ Application, bạn sẽ gặp NPE. Ngoài ra, khi app bị kill và user quay lại qua deep link/notification, Activity được restore — Application.onCreate() vẫn chạy trước vì process mới.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CC2: LOOPER -->
+    <div class="detail-block" id="cc2">
+      <div class="detail-header">
+        <div class="detail-num">02</div>
+        <div class="detail-header-info">
+          <div class="detail-title">Main Thread, Looper, MessageQueue & Handler</div>
+          <div class="detail-subtitle">Event loop dựa trên Linux epoll — nền tảng của ANR, lifecycle và coroutine dispatcher</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc2-concept')">Concept</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc2-flow')">Cơ chế</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc2-code')">Code</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc2-insights')">Senior Insights</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc2-qa')">Interview Q&A</button>
+        </div>
+
+        <div class="tab-panel active" id="cc2-concept">
+          <p class="concept-text">Main thread dùng mô hình <strong>single-threaded event loop</strong>. <code>ViewRootImpl.checkThread()</code> enforce rằng chỉ thread tạo View mới được cập nhật nó — không phải vì thread-safety mà vì <strong>draw order và invalidation correctness</strong>. Looper không chiếm CPU khi rảnh — nó block trên <strong>Linux epoll</strong> (nativePollOnce) cho đến khi có message mới.</p>
+          <br>
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>Thành phần</th><th>Vai trò</th><th>Ghi chú quan trọng</th></tr>
+            <tr><td class="label">Looper</td><td>Quản lý event loop cho một thread</td><td>1 thread = tối đa 1 Looper (ThreadLocal)</td></tr>
+            <tr><td class="label">MessageQueue</td><td>Priority linked list, sort by "when"</td><td>Sync barrier cho VSYNC/Choreographer</td></tr>
+            <tr><td class="label">Handler</td><td>Post message/runnable vào queue</td><td>Giữ tham chiếu outer class → memory leak</td></tr>
+            <tr><td class="label">Message</td><td>Container dữ liệu được queue</td><td>Pool recycling, dùng obtainMessage()</td></tr>
+          </table></div>
+          <br>
+          <div class="insight-item danger">
+            <div class="insight-icon">🔴</div>
+            <h4>ANR Timeouts</h4>
+            <p>Input event không xử lý trong <strong>5 giây</strong> → ANR. BroadcastReceiver không complete trong <strong>10 giây (foreground) / 60 giây (background)</strong>. Service không respond trong <strong>20 giây (foreground) / 200 giây (background)</strong>.</p>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc2-flow">
+          <div class="flow-diagram">
+            <div class="flow-step highlight">Thread.main()</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">Looper.prepare() — tạo MessageQueue, lưu vào ThreadLocal</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step blue">Looper.loop() — vòng lặp vô tận for(;;)</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">MessageQueue.next() — nativePollOnce(epoll_wait)</div>
+            <div class="flow-arrow">↓ block đến khi có message</div>
+            <div class="flow-step">Message đến — nativeWake() thức dậy epoll</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step orange">msg.target.dispatchMessage() — Handler callback</div>
+            <div class="flow-arrow">↓ quay lại next()</div>
+          </div>
+          <br>
+          <div class="insight-item blue">
+            <div class="insight-icon">💡</div>
+            <h4>Tại sao Looper.loop() không ngốn CPU?</h4>
+            <p>MessageQueue.next() gọi <code>nativePollOnce(fd, timeout)</code> — block trên <strong>Linux epoll_wait</strong>. Thread ngủ ở kernel level, không chiếm CPU đến 0ms wakeup time. Khi Handler.post() gọi nativeWake(), kernel đánh thức thread ngay lập tức.</p>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc2-code">
+          <div class="code-wrap">
+            <div class="code-label">Kotlin — Memory-safe Handler</div>
+<pre><span class="cm">// ❌ ANTI-PATTERN: Handler giữ Activity reference qua delayed message</span>
+<span class="kw">class</span> <span class="cl">BadActivity</span> : <span class="cl">AppCompatActivity</span>() {
+    <span class="kw">private val</span> handler = <span class="cl">Handler</span>(<span class="cl">Looper</span>.getMainLooper()) {
+        <span class="cm">// 'this@BadActivity' bị giữ trong closure</span>
+        updateUI() <span class="cm">// memory leak nếu delay > Activity lifetime</span>
+        <span class="nb">true</span>
+    }
+}
+
+<span class="cm">// ✅ CORRECT: WeakReference + lifecycle-aware cancellation</span>
+<span class="kw">class</span> <span class="cl">SafeHandler</span>(<span class="cl">activity: Activity</span>) : <span class="cl">Handler</span>(<span class="cl">Looper</span>.getMainLooper()) {
+    <span class="kw">private val</span> weakRef = <span class="cl">WeakReference</span>(activity)
+
+    <span class="kw">override fun</span> <span class="fn">handleMessage</span>(msg: <span class="cl">Message</span>) {
+        weakRef.get()?.<span class="fn">run</span> {
+            <span class="cm">// Activity đã GC nếu null — bỏ qua message</span>
+            updateUI()
+        }
+    }
+}
+
+<span class="cm">// ✅ BETTER (Modern): Coroutine thay Handler</span>
+<span class="kw">class</span> <span class="cl">ModernActivity</span> : <span class="cl">AppCompatActivity</span>() {
+    <span class="kw">private fun</span> <span class="fn">scheduleUiUpdate</span>() {
+        lifecycleScope.launch {
+            <span class="fn">delay</span>(1000L) <span class="cm">// auto-cancelled khi lifecycle DESTROYED</span>
+            updateUI()
+        }
+    }
+}
+
+<span class="cm">// HandlerThread: dedicated Looper thread cho background work</span>
+<span class="kw">val</span> workerThread = <span class="cl">HandlerThread</span>(<span class="st">"WorkerThread"</span>)
+workerThread.start()
+<span class="kw">val</span> backgroundHandler = <span class="cl">Handler</span>(workerThread.looper)
+backgroundHandler.post { <span class="cm">/* heavy work, NOT on main thread */</span> }</pre>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc2-insights">
+          <div class="insight-grid">
+            <div class="insight-item warn">
+              <div class="insight-icon">⚠️</div>
+              <h4>suspend ≠ background execution</h4>
+              <p><code>suspend fun</code> chỉ có thể suspend, không guarantee chạy trên background thread. <code>withContext(Dispatchers.IO)</code> mới đổi thread. <code>Dispatchers.Main</code> dùng Handler nội bộ — vẫn là main thread.</p>
+            </div>
+            <div class="insight-item danger">
+              <div class="insight-icon">🔴</div>
+              <h4>Synchronization Barrier ẩn</h4>
+              <p>VSYNC signal đặt sync barrier vào MessageQueue — block tất cả synchronous messages, chỉ async messages (Choreographer) đi qua. Nếu bạn delay xử lý async message, frame drop xảy ra.</p>
+            </div>
+            <div class="insight-item success">
+              <div class="insight-icon">✅</div>
+              <h4>Coroutine vs Handler</h4>
+              <p>Handler: low-level, cần manual lifecycle management. Coroutine: structured concurrency, tự cancel theo lifecycle, structured error handling. Dùng Coroutine cho mọi async work mới.</p>
+            </div>
+            <div class="insight-item blue">
+              <div class="insight-icon">🔬</div>
+              <h4>GC Root chain</h4>
+              <p>Looper → MessageQueue → Message → Message.target (Handler) → Handler inner class → Activity. Delayed message giữ chain này sống. Activity bị destroy nhưng không thể GC.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc2-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Looper hoạt động như thế nào? Tại sao một thread không tự có Looper?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Looper là event loop manager cho một thread. Cần gọi <strong>Looper.prepare()</strong> để tạo Looper + MessageQueue và lưu vào <strong>ThreadLocal</strong>, sau đó <strong>Looper.loop()</strong> để bắt đầu vòng lặp. Thread mới không có Looper vì tạo Looper là tốn tài nguyên — chỉ thread cần xử lý messages mới tạo. Main thread được Android setup sẵn Looper trong <code>ActivityThread.main()</code>.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Tại sao không được cập nhật View từ background thread?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><code>ViewRootImpl.checkThread()</code> verify thread identity và throw <strong>CalledFromWrongThreadException</strong> nếu không phải thread tạo ViewRootImpl (luôn là main thread). Lý do: View invalidation, drawing pass và layout không thread-safe — nếu nhiều thread cập nhật đồng thời, draw order bị corrupt, dẫn đến visual glitch hoặc crash.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Coroutine có thay thế hoàn toàn Handler không?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><strong>Gần như vậy cho app-level code</strong>, nhưng không hoàn toàn. <code>Dispatchers.Main</code> thực ra dùng <strong>Handler nội bộ</strong> để dispatch coroutine resumption về main thread. Handler vẫn cần ở framework level, view system internals và một số interop với Java code cũ. Với Kotlin app code mới, Coroutine + Flow là lựa chọn tốt hơn Handler vì structured concurrency và lifecycle-awareness.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Handler.post() thực sự làm gì bên dưới?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><code>Handler.post(Runnable)</code> → tạo <code>Message.obtain()</code> với <code>callback = runnable</code> → <code>sendMessageDelayed(msg, 0)</code> → <code>MessageQueue.enqueueMessage(msg, when)</code> → sort vào priority queue theo <code>when</code> (SystemClock.uptimeMillis) → <code>nativeWake()</code> nếu queue đang ngủ → epoll wakeup → <code>dispatchMessage()</code> → <code>handleCallback(msg)</code> → <code>msg.callback.run()</code>.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CC3: ACTIVITY -->
+    <div class="detail-block" id="cc3">
+      <div class="detail-header">
+        <div class="detail-num">03</div>
+        <div class="detail-header-info">
+          <div class="detail-title">Activity Lifecycle, Configuration Change & Process Death</div>
+          <div class="detail-subtitle">State management strategy — không chỉ biết callback nào gọi, mà biết tại sao và lưu gì ở đâu</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc3-lifecycle')">Lifecycle</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc3-compare')">Config vs Death</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc3-task')">Task & Modes</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc3-qa')">Interview Q&A</button>
+        </div>
+
+        <div class="tab-panel active" id="cc3-lifecycle">
+          <div class="flow-diagram">
+            <div class="flow-step highlight">onCreate(savedState)</div>
+            <div class="flow-arrow">↓ visible to user</div>
+            <div class="flow-step">onStart()</div>
+            <div class="flow-arrow">↓ interactive</div>
+            <div class="flow-step blue">onResume() — RESUMED state</div>
+            <div class="flow-arrow">↓ another activity comes foreground</div>
+            <div class="flow-step orange">onPause() ← SAVE LIGHTWEIGHT STATE HERE</div>
+            <div class="flow-arrow">↓ not visible</div>
+            <div class="flow-step">onStop() ← SAVE TO DB HERE</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">onSaveInstanceState() ← SAVE UI STATE (BUNDLE)</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step orange">onDestroy()</div>
+          </div>
+          <br>
+          <div class="insight-item warn">
+            <div class="insight-icon">⚠️</div>
+            <h4>Thứ tự khi navigate A → B</h4>
+            <p>A.onPause() → B.onCreate() → B.onStart() → B.onResume() → A.onStop(). <strong>Quan trọng</strong>: onPause() của A xong TRƯỚC khi B hiện ra → đừng làm gì nặng trong onPause()!</p>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc3-compare">
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>Tiêu chí</th><th>Configuration Change</th><th>Process Death</th></tr>
+            <tr><td class="label">Process</td><td class="cmp-good">Sống sót</td><td class="cmp-bad">Bị kill hoàn toàn</td></tr>
+            <tr><td class="label">ViewModel</td><td class="cmp-good">Sống sót (NonConfigInstance)</td><td class="cmp-bad">Bị destroy</td></tr>
+            <tr><td class="label">Singleton/Static</td><td class="cmp-good">Sống sót</td><td class="cmp-bad">Bị destroy</td></tr>
+            <tr><td class="label">onSaveInstanceState</td><td class="cmp-good">Restore thông qua Bundle</td><td class="cmp-good">Restore thông qua Bundle (persist)</td></tr>
+            <tr><td class="label">Room/DataStore</td><td class="cmp-good">Persist</td><td class="cmp-good">Persist</td></tr>
+            <tr><td class="label">SavedStateHandle</td><td class="cmp-good">Persist</td><td class="cmp-good">Persist qua Bundle</td></tr>
+            <tr><td class="label">Trigger</td><td>Rotate, dark mode, locale change</td><td>Low memory, user swipe away</td></tr>
+            <tr><td class="label">onDestroy() gọi?</td><td class="cmp-good">Có</td><td class="cmp-bad">Không (process killed!)</td></tr>
+          </table></div>
+        </div>
+
+        <div class="tab-panel" id="cc3-task">
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>Launch Mode</th><th>Back Stack behavior</th><th>Use case</th></tr>
+            <tr><td class="label">standard</td><td>Luôn tạo instance mới</td><td>Hầu hết Activity</td></tr>
+            <tr><td class="label">singleTop</td><td>Reuse nếu đang top stack (gọi onNewIntent)</td><td>Push notification → Activity</td></tr>
+            <tr><td class="label">singleTask</td><td>Reuse trong task, clear top nếu cần</td><td>Main/Home Activity</td></tr>
+            <tr><td class="label">singleInstance</td><td>Task riêng biệt, không share</td><td>Fullscreen player, system alarm</td></tr>
+          </table></div>
+          <br>
+          <div class="insight-item blue">
+            <div class="insight-icon">🔗</div>
+            <h4>Deep Link & Synthetic Back Stack</h4>
+            <p>Dùng <code>TaskStackBuilder</code> để tạo back stack tự nhiên khi user đến từ notification/deep link. Không làm: user nhấn Back → thoát app thay vì về màn hình trước.</p>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc3-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Khi xoay màn hình, callback nào được gọi?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>onPause() → onStop() → <strong>onSaveInstanceState()</strong> → onDestroy() [activity cũ bị destroy] → onCreate(savedState) → onStart() → onRestoreInstanceState(savedState) → onResume() [activity mới]. ViewModel KHÔNG bị destroy — được truyền qua NonConfigurationInstances trong ActivityThread.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">ViewModel có sống qua process death không?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><strong>Không.</strong> ViewModel sống trong process memory, chỉ survive qua <strong>configuration change</strong> nhờ <code>ViewModelStore</code> được giữ trong <code>NonConfigurationInstances</code>. Khi process bị kill, mọi thứ trong RAM mất — ViewModel cũng vậy. Để survive process death, phải dùng <strong>SavedStateHandle</strong> (serialize vào Bundle) hoặc Room/DataStore.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">onSaveInstanceState() nên lưu loại dữ liệu nào?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Chỉ lưu <strong>lightweight UI state nhỏ</strong>: selected tab index, scroll position, text field content, navigation args. <strong>Không</strong> lưu: large objects, bitmaps, lists dài. Bundle được serialize/deserialize qua Binder (giới hạn ~1MB tổng), lưu quá nhiều → TransactionTooLargeException. Data lớn → Room/DataStore.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">singleTop, singleTask và singleInstance khác nhau thế nào?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><strong>singleTop</strong>: Nếu instance đang ở TOP của back stack, reuse và gọi onNewIntent() — không tạo mới. Nếu không ở top, vẫn tạo mới.<br><strong>singleTask</strong>: Chỉ tồn tại 1 instance trong task. Nếu đã tồn tại ở bất kỳ vị trí nào trong stack, clear mọi Activity phía trên nó và gọi onNewIntent().<br><strong>singleInstance</strong>: Như singleTask nhưng task riêng biệt, không có Activity nào khác trong cùng task.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CC4: FRAGMENT -->
+    <div class="detail-block" id="cc4">
+      <div class="detail-header">
+        <div class="detail-num">04</div>
+        <div class="detail-header-info">
+          <div class="detail-title">Fragment Lifecycle & FragmentManager</div>
+          <div class="detail-subtitle">Hai lifecycle độc lập — Fragment instance và Fragment View — và tại sao điều này quan trọng</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc4-concept')">Lifecycle</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc4-manager')">FragmentManager</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc4-code')">Code</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc4-qa')">Interview Q&A</button>
+        </div>
+
+        <div class="tab-panel active" id="cc4-concept">
+          <p class="concept-text" style="margin-bottom:16px">Fragment có <strong>2 lifecycle object độc lập</strong>:</p>
+          <div class="insight-grid">
+            <div class="insight-item success">
+              <div class="insight-icon">🔷</div>
+              <h4>Fragment Instance Lifecycle</h4>
+              <p>onAttach → onCreate → onCreateView → onViewCreated → onStart → onResume → <strong>onPause → onStop → onDestroyView</strong> → onDestroy → onDetach. Fragment instance có thể sống trong FragmentManager sau khi View bị destroy.</p>
+            </div>
+            <div class="insight-item blue">
+              <div class="insight-icon">🔶</div>
+              <h4>Fragment View Lifecycle (viewLifecycleOwner)</h4>
+              <p>Chỉ tồn tại từ onCreateView → onDestroyView. Dùng <strong>viewLifecycleOwner</strong> để observe LiveData/collect Flow — tránh observe với Fragment lifecycle (quá dài, collect kép sau config change).</p>
+            </div>
+          </div>
+          <br>
+          <div class="flow-diagram">
+            <div class="flow-step">FragmentManager add(fragment)</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step highlight">Fragment instance sống trong FragmentManager</div>
+            <div class="flow-arrow">↓ khi visible</div>
+            <div class="flow-step blue">View được tạo (onCreateView → onViewCreated)</div>
+            <div class="flow-arrow">↓ khi navigate away hoặc replace()</div>
+            <div class="flow-step orange">onDestroyView() — VIEW LIFECYCLE KẾT THÚC</div>
+            <div class="flow-arrow">↓ Fragment vẫn trong back stack!</div>
+            <div class="flow-step">Fragment instance vẫn tồn tại</div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc4-manager">
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>Operation</th><th>Fragment lifecycle</th><th>Back stack</th><th>Khi nào dùng</th></tr>
+            <tr><td class="label">add()</td><td>Fragment A tồn tại, B được thêm vào</td><td>Có thể addToBackStack</td><td>Overlay, dialog-like</td></tr>
+            <tr><td class="label">replace()</td><td>Fragment A bị destroy view/detach, B thêm vào</td><td>Nếu addToBackStack: A restore khi pop</td><td>Navigation thông thường</td></tr>
+            <tr><td class="label">show()/hide()</td><td>Fragment giữ nguyên lifecycle, chỉ toggle visibility</td><td>Không ảnh hưởng back stack</td><td>Bottom nav tabs</td></tr>
+          </table></div>
+          <br>
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>commit() variant</th><th>Khi nào an toàn</th><th>Rủi ro</th></tr>
+            <tr><td class="label">commit()</td><td>Trước onSaveInstanceState</td><td>IllegalStateException nếu gọi sau state saved</td></tr>
+            <tr><td class="label">commitNow()</td><td>Trước onSaveInstanceState, không có pending transactions</td><td>Không thể với addToBackStack</td></tr>
+            <tr><td class="label">commitAllowingStateLoss()</td><td>Bất cứ lúc nào</td><td>State có thể mất sau restore — dùng thận trọng</td></tr>
+          </table></div>
+        </div>
+
+        <div class="tab-panel" id="cc4-code">
+          <div class="code-wrap">
+            <div class="code-label">Kotlin</div>
+<pre><span class="cm">// ✅ ViewBinding safe cleanup — tránh memory leak</span>
+<span class="kw">class</span> <span class="cl">SafeFragment</span> : <span class="cl">Fragment</span>(<span class="cl">R</span>.layout.fragment_safe) {
+    <span class="kw">private var</span> _binding: <span class="cl">FragmentSafeBinding</span>? = <span class="nb">null</span>
+    <span class="kw">private val</span> binding get() = _binding!!
+
+    <span class="kw">override fun</span> <span class="fn">onViewCreated</span>(view: <span class="cl">View</span>, savedInstanceState: <span class="cl">Bundle</span>?) {
+        _binding = <span class="cl">FragmentSafeBinding</span>.bind(view)
+
+        <span class="cm">// ✅ viewLifecycleOwner — cancel khi view destroyed</span>
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(<span class="cl">Lifecycle.State</span>.STARTED) {
+                viewModel.uiState.collect { state ->
+                    <span class="fn">render</span>(state)
+                }
+            }
+        }
+    }
+
+    <span class="cm">// ✅ Bắt buộc null binding ở đây — không ở onDestroy()</span>
+    <span class="kw">override fun</span> <span class="fn">onDestroyView</span>() {
+        <span class="kw">super</span>.onDestroyView()
+        _binding = <span class="nb">null</span> <span class="cm">// View đã bị GC, không giữ reference</span>
+    }
+}
+
+<span class="cm">// ✅ Shared ViewModel — giao tiếp giữa fragments</span>
+<span class="kw">class</span> <span class="cl">FragmentA</span> : <span class="cl">Fragment</span>() {
+    <span class="cm">// activityViewModels() = scope theo Activity lifecycle</span>
+    <span class="kw">private val</span> shared: <span class="cl">SharedViewModel</span> by <span class="fn">activityViewModels</span>()
+}
+
+<span class="kw">class</span> <span class="cl">FragmentB</span> : <span class="cl">Fragment</span>() {
+    <span class="kw">private val</span> shared: <span class="cl">SharedViewModel</span> by <span class="fn">activityViewModels</span>()
+}</pre>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc4-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Vì sao Fragment có hai lifecycle? Khi nào viewLifecycleOwner quan trọng?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Fragment instance có thể tồn tại lâu hơn View của nó (ví dụ khi replace + addToBackStack). View bị destroy trong <code>onDestroyView()</code> nhưng Fragment vẫn trong back stack. Nếu observe LiveData với <strong>Fragment lifecycle</strong> → observer sống sót khi View không còn → khi navigate lại, Fragment recreate view + observer mới → <strong>hai observers collect cùng lúc</strong>. Dùng <strong>viewLifecycleOwner</strong> → observer tự cancel khi <code>onDestroyView()</code>.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Tại sao giữ ViewBinding sau onDestroyView() gây memory leak?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>ViewBinding giữ strong reference đến tất cả Views trong layout. Khi <code>onDestroyView()</code> được gọi, Fragment detach View khỏi window và muốn GC View hierarchy. Nhưng nếu Fragment field <code>_binding</code> vẫn non-null → binding vẫn giữ View references → toàn bộ View hierarchy + Bitmap resources không thể GC → <strong>OOM risk</strong> khi navigate nhiều lần. Fix: <code>_binding = null</code> trong <code>onDestroyView()</code>.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">commit() vs commitAllowingStateLoss() — khi nào dùng cái nào?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><code>commit()</code> throw <strong>IllegalStateException</strong> nếu gọi sau <code>onSaveInstanceState()</code> — để bảo vệ: transaction sẽ bị mất sau restore. <code>commitAllowingStateLoss()</code> cho phép commit bất cứ lúc nhưng transaction có thể mất nếu Activity bị recreate ngay sau đó. <strong>Dùng commit() khi có thể</strong>, commitAllowingStateLoss() chỉ cho UI-only operations không quan trọng (như dismiss dialog từ background callback).</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CC5-CC6: INTENT + PENDING INTENT (COMPACT) -->
+    <div class="detail-block" id="cc5">
+      <div class="detail-header">
+        <div class="detail-num">05</div>
+        <div class="detail-header-info">
+          <div class="detail-title">Intent & Intent Filter</div>
+          <div class="detail-subtitle">Message object kích hoạt component — resolution algorithm, Parcelable và Binder transaction limit</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc5-concept')">Concept</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc5-parcelable')">Parcelable vs Serial</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc5-qa')">Interview Q&A</button>
+        </div>
+
+        <div class="tab-panel active" id="cc5-concept">
+          <div class="insight-grid">
+            <div class="insight-item success">
+              <div class="insight-icon">✅</div>
+              <h4>Explicit Intent</h4>
+              <p>Chỉ định component trực tiếp: <code>Intent(context, TargetActivity::class.java)</code>. Không cần Intent Filter. An toàn, nhanh, không bị chặn bởi background limits.</p>
+            </div>
+            <div class="insight-item warn">
+              <div class="insight-icon">🔍</div>
+              <h4>Implicit Intent Resolution</h4>
+              <p>AMS hỏi PackageManager → duyệt IntentFilter của tất cả app: (1) Action test (2) Category test (3) Data/MIME test. Tất cả pass → match. Nhiều match → Chooser dialog.</p>
+            </div>
+            <div class="insight-item danger">
+              <div class="insight-icon">⚠️</div>
+              <h4>Binder Transaction Limit ~1MB</h4>
+              <p>Đây là tổng buffer cho TOÀN BỘ process, không phải per-call. Truyền Bitmap/List lớn qua Intent extras → TransactionTooLargeException. Giải pháp: lưu vào Room/file → truyền ID.</p>
+            </div>
+            <div class="insight-item blue">
+              <div class="insight-icon">🔗</div>
+              <h4>App Link vs Deep Link</h4>
+              <p>Deep link: custom scheme (myapp://), không verified, có thể bị hijack. App Link (Android 6.0+): HTTPS + <code>autoVerify="true"</code> + assetlinks.json → verified, mở trực tiếp không qua chooser.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="cc5-parcelable">
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>Tiêu chí</th><th>Parcelable</th><th>Serializable</th></tr>
+            <tr><td class="label">Cơ chế</td><td>C++ native Parcel buffer, manual marshaling</td><td>Java reflection, ObjectInputStream/OutputStream</td></tr>
+            <tr><td class="label">Tốc độ</td><td class="cmp-good">~10x nhanh hơn</td><td class="cmp-bad">Chậm vì reflection</td></tr>
+            <tr><td class="label">GC pressure</td><td class="cmp-good">Ít — native buffer</td><td class="cmp-bad">Nhiều temporary objects</td></tr>
+            <tr><td class="label">Boilerplate</td><td>Kotlin @Parcelize = zero boilerplate</td><td class="cmp-good">Chỉ implement Serializable</td></tr>
+            <tr><td class="label">Android standard</td><td class="cmp-good">✅ Được khuyến nghị</td><td>Không được khuyến nghị</td></tr>
+            <tr><td class="label">Versioning</td><td class="cmp-bad">Phải handle thủ công</td><td>serialVersionUID</td></tr>
+          </table></div>
+        </div>
+
+        <div class="tab-panel" id="cc5-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Hệ thống resolve Implicit Intent như thế nào?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>PackageManagerService duyệt tất cả IntentFilter đã register (manifest + runtime). Mỗi filter phải pass 3 tests: <strong>(1) Action test</strong>: Intent action phải có trong filter. <strong>(2) Category test</strong>: Mọi category trong Intent phải có trong filter (filter có thể có thêm). <strong>(3) Data test</strong>: URI scheme, host, path và MIME type phải match. Nếu nhiều kết quả → app chooser. Không có kết quả → ActivityNotFoundException.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Tại sao Parcelable nhanh hơn Serializable?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Serializable dùng <strong>Java reflection</strong> để khám phá fields tại runtime — chậm và tạo nhiều temporary objects. Parcelable yêu cầu developer viết marshaling code thủ công (hoặc dùng @Parcelize compiler plugin) → ghi trực tiếp vào <strong>native C++ Parcel buffer</strong>, không reflection, không GC pressure. Parcelable ~10x nhanh hơn trên Android benchmark.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CC6: PENDING INTENT -->
+    <div class="detail-block" id="cc6">
+      <div class="detail-header">
+        <div class="detail-num">06</div>
+        <div class="detail-header-info">
+          <div class="detail-title">PendingIntent</div>
+          <div class="detail-subtitle">System-level token — tồn tại sau process death, trao quyền cho hệ thống thực thi Intent thay mặt app</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc6-concept')">Concept</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc6-flags')">Flags</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc6-qa')">Interview Q&A</button>
+        </div>
+        <div class="tab-panel active" id="cc6-concept">
+          <p class="concept-text" style="margin-bottom:16px">PendingIntent là <strong>IIntentSender token</strong> được lưu trong <strong>system_server memory</strong> (AMS). Token này mang theo: Intent, app identity (UID), type (Activity/Service/Broadcast). Khi hệ thống kích hoạt PendingIntent, nó dùng quyền hạn của app creator — <em>không phải của app kích hoạt</em>. Đó là lý do nó hoạt động kể cả khi app process đã chết.</p>
+          <div class="insight-grid">
+            <div class="insight-item warn">
+              <div class="insight-icon">⚠️</div>
+              <h4>Hai PendingIntent "giống nhau" khi nào?</h4>
+              <p>Hệ thống so sánh bằng <code>Intent.filterEquals()</code>: Action, Data, Type, Package, Component và Categories. <strong>Extras KHÔNG được so sánh</strong> (trước Android 12). requestCode khác nhau → PendingIntent khác nhau.</p>
+            </div>
+            <div class="insight-item danger">
+              <div class="insight-icon">🔴</div>
+              <h4>Android 12 — Bắt buộc FLAG_IMMUTABLE hoặc FLAG_MUTABLE</h4>
+              <p>Không khai báo flag → crash SecurityException. Ưu tiên <strong>FLAG_IMMUTABLE</strong> cho hầu hết trường hợp. Chỉ dùng FLAG_MUTABLE khi cần đối tác (AlarmManager, Notification Direct Reply) cập nhật Intent.</p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc6-flags">
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>Flag</th><th>Hành vi</th><th>Khi dùng</th></tr>
+            <tr><td class="label">FLAG_IMMUTABLE</td><td>Đối tác không thể thay đổi Intent</td><td>Mặc định — notification actions, alarms</td></tr>
+            <tr><td class="label">FLAG_MUTABLE</td><td>Đối tác có thể cập nhật Intent extras</td><td>Direct Reply notification, Widget</td></tr>
+            <tr><td class="label">FLAG_UPDATE_CURRENT</td><td>Giữ PendingIntent, cập nhật extras của Intent</td><td>Update notification action</td></tr>
+            <tr><td class="label">FLAG_CANCEL_CURRENT</td><td>Cancel PI cũ, tạo mới</td><td>Đảm bảo PendingIntent fresh</td></tr>
+            <tr><td class="label">FLAG_ONE_SHOT</td><td>Chỉ dùng được 1 lần, sau đó invalid</td><td>Single-use token</td></tr>
+            <tr><td class="label">FLAG_NO_CREATE</td><td>Trả null nếu PI chưa tồn tại</td><td>Check xem PI có tồn tại không</td></tr>
+          </table></div>
+        </div>
+        <div class="tab-panel" id="cc6-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Tại sao PendingIntent hoạt động khi app process đã chết?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>PendingIntent là <strong>system-level token (IIntentSender)</strong> được lưu trong System Server memory (AMS), không phải app memory. Token này chứa app's UID và Intent data. Khi hệ thống kích hoạt, nó dùng <strong>quyền của app creator</strong> để launch component — không cần app process tồn tại. Nếu process cần được launch, hệ thống fork process mới trước.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Security risk nào với PendingIntent mutable?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><strong>Intent Redirection attack</strong>: Nếu trao FLAG_MUTABLE PendingIntent cho một app độc hại, app đó có thể thay đổi component/data trong Intent → kích hoạt component nhạy cảm với quyền của app victim. Ví dụ: thay đổi Intent để launch exported Activity với elevated privilege. Luôn dùng <strong>FLAG_IMMUTABLE + Explicit Intent</strong> trong PendingIntent khi không cần đối tác modify.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CC7: BROADCAST -->
+    <div class="detail-block" id="cc7">
+      <div class="detail-header">
+        <div class="detail-num">07</div>
+        <div class="detail-header-info">
+          <div class="detail-title">BroadcastReceiver</div>
+          <div class="detail-subtitle">Event-driven entry point — ngắn gọn, không async, background limits từ API 26+</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc7-types')">Static vs Dynamic</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc7-code')">goAsync()</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc7-qa')">Interview Q&A</button>
+        </div>
+        <div class="tab-panel active" id="cc7-types">
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>Tiêu chí</th><th>Static (Manifest)</th><th>Dynamic (Context-registered)</th></tr>
+            <tr><td class="label">Khai báo</td><td>&lt;receiver&gt; trong Manifest</td><td>registerReceiver() tại runtime</td></tr>
+            <tr><td class="label">Lifecycle</td><td>Độc lập với app process</td><td>Gắn với component đăng ký</td></tr>
+            <tr><td class="label">API 26+ limit</td><td class="cmp-bad">Hầu hết Implicit Broadcast bị cấm</td><td class="cmp-good">Không bị ảnh hưởng</td></tr>
+            <tr><td class="label">Android 14</td><td>Bắt buộc android:exported</td><td>Bắt buộc RECEIVER_EXPORTED flag</td></tr>
+            <tr><td class="label">Overhead</td><td class="cmp-bad">Phải fork process nếu chưa chạy</td><td class="cmp-good">Dispatch trực tiếp, nhanh</td></tr>
+            <tr><td class="label">Use case</td><td>BOOT_COMPLETED, MY_PACKAGE_REPLACED</td><td>Network change, battery, UI events</td></tr>
+          </table></div>
+          <br>
+          <div class="insight-item danger">
+            <div class="insight-icon">🔴</div>
+            <h4>onReceive() phải hoàn thành nhanh</h4>
+            <p>Chạy trên Main Thread. Timeout: ~10 giây (foreground), ~60 giây (background). Sau khi return, process có thể bị kill ngay lập tức. Không làm: network call, database write, bất kỳ async work nào mà không dùng goAsync().</p>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc7-code">
+          <div class="code-wrap">
+            <div class="code-label">Kotlin — goAsync() với Coroutine</div>
+<pre><span class="kw">class</span> <span class="cl">BootReceiver</span> : <span class="cl">BroadcastReceiver</span>() {
+    <span class="kw">override fun</span> <span class="fn">onReceive</span>(context: <span class="cl">Context</span>, intent: <span class="cl">Intent</span>) {
+        <span class="kw">if</span> (intent.action != <span class="cl">Intent</span>.ACTION_BOOT_COMPLETED) <span class="kw">return</span>
+
+        <span class="cm">// ✅ Chỉ validate + schedule — không làm nặng ở đây</span>
+        <span class="cl">WorkManager</span>.getInstance(context)
+            .enqueueUniqueWork(
+                <span class="st">"sync_after_boot"</span>,
+                <span class="cl">ExistingWorkPolicy</span>.KEEP,
+                <span class="cl">OneTimeWorkRequestBuilder</span>&lt;<span class="cl">SyncWorker</span>&gt;()
+                    .setConstraints(
+                        <span class="cl">Constraints</span>.Builder()
+                            .setRequiredNetworkType(<span class="cl">NetworkType</span>.CONNECTED)
+                            .build()
+                    ).build()
+            )
+    }
+}
+
+<span class="cm">// goAsync() pattern — khi cần thêm thời gian (dùng thận trọng)</span>
+<span class="kw">class</span> <span class="cl">AsyncReceiver</span> : <span class="cl">BroadcastReceiver</span>() {
+    <span class="kw">private val</span> scope = <span class="cl">CoroutineScope</span>(<span class="cl">SupervisorJob</span>())
+
+    <span class="kw">override fun</span> <span class="fn">onReceive</span>(context: <span class="cl">Context</span>, intent: <span class="cl">Intent</span>) {
+        <span class="kw">val</span> pendingResult = <span class="fn">goAsync</span>() <span class="cm">// Kéo dài thời gian sống</span>
+        scope.launch {
+            <span class="kw">try</span> {
+                doQuickWork() <span class="cm">// Phải hoàn thành trong 10s</span>
+            } <span class="kw">finally</span> {
+                pendingResult.finish() <span class="cm">// BẮT BUỘC gọi để giải phóng</span>
+            }
+        }
+    }
+}</pre>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc7-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Điều gì xảy ra với process sau khi onReceive() return?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Sau khi <code>onReceive()</code> return, nếu không có component nào khác đang chạy, hệ thống <strong>có thể kill process ngay lập tức</strong>. Đây là lý do không được start async work (Thread, AsyncTask) trong onReceive() — thread sẽ bị cut off. Nếu cần async: dùng <strong>goAsync()</strong> hoặc schedule WorkManager/JobScheduler.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Tại sao Android 8.0+ cấm hầu hết implicit broadcast trong Manifest?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><strong>Thundering Herd Problem</strong>: Trước API 26, khi system broadcast như CONNECTIVITY_CHANGE được gửi, hàng chục app cùng có static receiver → hệ thống fork đồng loạt hàng chục process → CPU spike, RAM exhaustion, LMK dọn dẹp các app khác, pin tụt nhanh. Google cấm implicit broadcast với static receiver từ API 26 để giải quyết vấn đề này. Exception: BOOT_COMPLETED, MY_PACKAGE_REPLACED, LOCALE_CHANGED vẫn được phép.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CC8: SERVICE -->
+    <div class="detail-block" id="cc8">
+      <div class="detail-header">
+        <div class="detail-num">08</div>
+        <div class="detail-header-info">
+          <div class="detail-title">Service & Foreground Service</div>
+          <div class="detail-subtitle">Không phải background thread — chạy trên Main Thread và cần coroutine scope riêng</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc8-types')">Các loại Service</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc8-fgs')">Foreground Service</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc8-code')">Code</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc8-qa')">Interview Q&A</button>
+        </div>
+        <div class="tab-panel active" id="cc8-types">
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>Loại</th><th>Khởi động</th><th>Lifecycle</th><th>IPC</th></tr>
+            <tr><td class="label">Started Service</td><td>startService()</td><td>Chạy đến stopSelf() hoặc stopService()</td><td>Không (one-way)</td></tr>
+            <tr><td class="label">Bound Service</td><td>bindService()</td><td>Sống khi có client bind; destroy khi last unbind</td><td>IBinder / AIDL</td></tr>
+            <tr><td class="label">Started + Bound</td><td>Cả hai</td><td>Sống đến cả hai điều kiện stop thỏa mãn</td><td>Kết hợp</td></tr>
+          </table></div>
+          <br>
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>onStartCommand flag</th><th>Hành vi khi bị kill</th><th>Use case</th></tr>
+            <tr><td class="label">START_STICKY</td><td>Restart với Intent = null</td><td>Service cần chạy lại (media player)</td></tr>
+            <tr><td class="label">START_NOT_STICKY</td><td>Không restart</td><td>Service không cần thiết sau kill</td></tr>
+            <tr><td class="label">START_REDELIVER_INTENT</td><td>Restart với original Intent</td><td>Service cần biết tác vụ gì đang làm</td></tr>
+          </table></div>
+        </div>
+        <div class="tab-panel" id="cc8-fgs">
+          <div class="insight-grid">
+            <div class="insight-item success">
+              <div class="insight-icon">✅</div>
+              <h4>Foreground Service = User-visible work</h4>
+              <p>Music playback, navigation, workout tracking, ongoing upload. Bắt buộc: persistent notification, startForeground() trong 5-10 giây sau start, foreground service type từ Android 10+.</p>
+            </div>
+            <div class="insight-item danger">
+              <div class="insight-icon">🚫</div>
+              <h4>Không phải Foreground Service</h4>
+              <p>Upload log có thể trì hoãn, sync định kỳ, cleanup task. Dùng WorkManager thay thế. FGS là để work USER NHẬN BIẾT — không phải để lách background limits.</p>
+            </div>
+            <div class="insight-item warn">
+              <div class="insight-icon">⚠️</div>
+              <h4>Android 12+ Restrictions</h4>
+              <p>startForegroundService() từ background → ForegroundServiceStartNotAllowedException. Phải có exemption: visible activity, user-visible notification tap, etc.</p>
+            </div>
+            <div class="insight-item blue">
+              <div class="insight-icon">🔬</div>
+              <h4>Vẫn có thể bị kill</h4>
+              <p>oom_score_adj ~200, không immortal. System vẫn kill khi memory cực thấp. Thiết kế Service để resume được sau kill (START_STICKY + save progress).</p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc8-code">
+          <div class="code-wrap">
+            <div class="code-label">Kotlin — Foreground Service với LifecycleService</div>
+<pre><span class="an">@AndroidEntryPoint</span>
+<span class="kw">class</span> <span class="cl">TrackingService</span> : <span class="cl">LifecycleService</span>() {
+    <span class="an">@Inject</span> <span class="kw">lateinit var</span> tracker: <span class="cl">LocationTracker</span>
+
+    <span class="cm">// ✅ Scope gắn với Service lifecycle</span>
+    <span class="kw">private val</span> serviceScope = <span class="cl">CoroutineScope</span>(
+        <span class="cl">SupervisorJob</span>() + <span class="cl">Dispatchers</span>.Default
+    )
+
+    <span class="kw">override fun</span> <span class="fn">onCreate</span>() {
+        <span class="kw">super</span>.onCreate()
+        <span class="fn">startForeground</span>(NOTIFICATION_ID, <span class="fn">buildNotification</span>())
+        serviceScope.launch {
+            tracker.locationFlow.collect { location ->
+                updateNotification(location)
+            }
+        }
+    }
+
+    <span class="kw">override fun</span> <span class="fn">onDestroy</span>() {
+        <span class="kw">super</span>.onDestroy()
+        serviceScope.cancel() <span class="cm">// ✅ Cancel tất cả coroutines</span>
+    }
+}</pre>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc8-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Service có thread riêng không?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><strong>Không.</strong> Service callback (onCreate, onStartCommand, onBind, onDestroy) đều chạy trên <strong>Main Thread</strong> của hosting process. Đây là lỗi hiểu nhầm phổ biến nhất. Nếu làm việc nặng trong Service (network, file I/O, heavy computation), phải tự tạo background thread/coroutine — ví dụ dùng CoroutineScope(Dispatchers.IO) trong Service.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Tại sao Foreground Service vẫn có thể bị kill?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Foreground Service có oom_score_adj ~200, cao hơn normal service (~500) và background app (~900) nhưng <strong>không immortal</strong>. Khi RAM cực kỳ thấp, LMKD vẫn kill Foreground Service. Ngoài ra, user có thể force-stop app, hoặc hệ thống có thể kill vì battery optimization. "Foreground" nghĩa là user-visible và higher priority — không phải bất tử.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CC9: WORKMANAGER -->
+    <div class="detail-block" id="cc9">
+      <div class="detail-header">
+        <div class="detail-num">09</div>
+        <div class="detail-header-info">
+          <div class="detail-title">WorkManager</div>
+          <div class="detail-subtitle">Guaranteed ≠ Immediate — deferred work với persistence, constraints và idempotency</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc9-arch')">Architecture</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc9-code')">Code</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc9-qa')">Interview Q&A</button>
+        </div>
+        <div class="tab-panel active" id="cc9-arch">
+          <div class="insight-grid">
+            <div class="insight-item success">
+              <div class="insight-icon">✅</div>
+              <h4>Khi nào dùng WorkManager</h4>
+              <p>Upload log/content, sync dữ liệu, cleanup định kỳ, retry sau mất mạng, compress file. Tiêu chí: có thể trì hoãn + cần đảm bảo thực thi kể cả sau restart.</p>
+            </div>
+            <div class="insight-item danger">
+              <div class="insight-icon">🚫</div>
+              <h4>KHÔNG dùng WorkManager</h4>
+              <p>Music playback (Foreground Service), real-time tracking (Foreground Service), exact alarm (AlarmManager), work cần chạy ngay lập tức với latency thấp.</p>
+            </div>
+            <div class="insight-item warn">
+              <div class="insight-icon">⚠️</div>
+              <h4>Guaranteed ≠ Immediate</h4>
+              <p>WorkManager dùng JobScheduler/AlarmManager + Doze mode batching. Constraint chưa thỏa mãn → work chờ. Doze mode → batch delay. Periodic work minimum interval = 15 phút.</p>
+            </div>
+            <div class="insight-item blue">
+              <div class="insight-icon">🔬</div>
+              <h4>Internals: Room-backed</h4>
+              <p>WorkDatabase (Room) lưu mọi work request. Khi process bị kill, RescheduleReceiver nhận BOOT_COMPLETED → reschedule từ DB. Đây là cơ chế "guaranteed".</p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc9-code">
+          <div class="code-wrap">
+            <div class="code-label">Kotlin — CoroutineWorker + Unique Work</div>
+<pre><span class="cm">// ✅ Idempotent Worker — safe to retry nhiều lần</span>
+<span class="kw">class</span> <span class="cl">SyncWorker</span>(ctx: <span class="cl">Context</span>, params: <span class="cl">WorkerParameters</span>) :
+    <span class="cl">CoroutineWorker</span>(ctx, params) {
+
+    <span class="kw">override suspend fun</span> <span class="fn">doWork</span>(): <span class="cl">Result</span> {
+        <span class="kw">return try</span> {
+            setProgress(<span class="fn">workDataOf</span>(<span class="st">"progress"</span> to <span class="nb">0</span>))
+            <span class="kw">val</span> items = repository.getPendingItems()
+
+            items.forEachIndexed { index, item ->
+                repository.syncItem(item) <span class="cm">// Idempotent: check server first</span>
+                setProgress(<span class="fn">workDataOf</span>(
+                    <span class="st">"progress"</span> to ((index + <span class="nb">1</span>) * <span class="nb">100</span> / items.size)
+                ))
+            }
+
+            <span class="cl">Result</span>.success()
+        } <span class="kw">catch</span> (e: <span class="cl">IOException</span>) {
+            <span class="kw">if</span> (runAttemptCount &lt; <span class="nb">3</span>) <span class="cl">Result</span>.retry()
+            <span class="kw">else</span> <span class="cl">Result</span>.failure()
+        }
+    }
+}
+
+<span class="cm">// Unique work — tránh duplicate</span>
+<span class="cl">WorkManager</span>.getInstance(ctx)
+    .enqueueUniqueWork(
+        <span class="st">"sync"</span>,
+        <span class="cl">ExistingWorkPolicy</span>.KEEP, <span class="cm">// Giữ work đang chạy, không thêm mới</span>
+        <span class="cl">OneTimeWorkRequestBuilder</span>&lt;<span class="cl">SyncWorker</span>&gt;()
+            .setConstraints(
+                <span class="cl">Constraints</span>(requiredNetworkType = <span class="cl">NetworkType</span>.CONNECTED)
+            )
+            .setBackoffCriteria(<span class="cl">BackoffPolicy</span>.EXPONENTIAL, <span class="nb">30</span>, <span class="cl">TimeUnit</span>.SECONDS)
+            .build()
+    )</pre>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc9-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Tại sao Worker phải idempotent?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>WorkManager có thể <strong>retry Worker nhiều lần</strong>: do network failure, constraint violated mid-execution, process killed. Nếu Worker không idempotent → mỗi retry tạo duplicate effects (upload 2 lần, insert 2 bản ghi). Thiết kế idempotent: check server/DB trước khi write, dùng UPSERT thay INSERT, unique constraint trong DB, idempotency key cho API calls.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Khi process bị kill, work được phục hồi thế nào?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>WorkManager persist mọi work request vào <strong>WorkDatabase (Room)</strong>. WorkManager đăng ký <strong>RescheduleReceiver</strong> để nhận <code>ACTION_BOOT_COMPLETED</code> và các events khác. Khi device restart hoặc process được recreate, WorkManager đọc từ DB và reschedule với JobScheduler/AlarmManager. Work ở trạng thái RUNNING/ENQUEUED được reset về ENQUEUED và reschedule.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CC10: CONTENT PROVIDER -->
+    <div class="detail-block" id="cc10">
+      <div class="detail-header">
+        <div class="detail-num">10</div>
+        <div class="detail-header-info">
+          <div class="detail-title">ContentProvider & FileProvider</div>
+          <div class="detail-subtitle">CRUD interface qua Binder IPC — dùng khi cần cross-app data sharing, không phải nội bộ</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc10-concept')">Concept</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc10-thread')">Threading</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc10-qa')">Interview Q&A</button>
+        </div>
+        <div class="tab-panel active" id="cc10-concept">
+          <div class="flow-diagram">
+            <div class="flow-step">Client App gọi ContentResolver.query(uri)</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step blue">ContentResolver → Binder IPC</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">AMS kiểm tra permission + acquire ContentProvider</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step highlight">ContentProvider.query() — chạy trên Binder thread</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">CursorWindow (shared memory, 2MB limit)</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step orange">Cursor trả về client — client đọc từ shared memory</div>
+          </div>
+          <br>
+          <div class="insight-grid">
+            <div class="insight-item danger">
+              <div class="insight-icon">🔴</div>
+              <h4>FileProvider thay file:// (bắt buộc từ API 24)</h4>
+              <p>android:exported="false" trên FileProvider. Cấp quyền tạm thời qua FLAG_GRANT_READ_URI_PERMISSION. file:// URI bị chặn từ API 24 (FileUriExposedException) vì tiết lộ filesystem path nội bộ.</p>
+            </div>
+            <div class="insight-item warn">
+              <div class="insight-icon">⚠️</div>
+              <h4>Khi KHÔNG cần ContentProvider</h4>
+              <p>Data chỉ dùng nội bộ trong cùng app → Room + Repository đơn giản hơn nhiều. Provider chủ yếu có giá trị khi cần chia sẻ data theo contract với app khác (Contacts, MediaStore).</p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc10-thread">
+          <div class="table-scroll"><table class="cmp-table">
+            <tr><th>Method</th><th>Thread phía Client</th><th>Thread phía Provider</th></tr>
+            <tr><td class="label">ContentResolver.query()</td><td>Gọi thread của client (thường main thread → phải wrap với Dispatchers.IO)</td><td>Binder thread pool của provider process</td></tr>
+            <tr><td class="label">ContentProvider.onCreate()</td><td>—</td><td class="cmp-bad">Main Thread của provider process (trước Application.onCreate!)</td></tr>
+            <tr><td class="label">CRUD methods</td><td>Gọi thread của client</td><td>Binder thread pool (concurrent)</td></tr>
+          </table></div>
+          <br>
+          <div class="insight-item danger">
+            <div class="insight-icon">⚠️</div>
+            <h4>ContentProvider.onCreate() trước Application.onCreate()</h4>
+            <p>Nếu ContentProvider init dùng đến Application-level dependency (DI, DB) → NPE vì Application chưa hoàn tất setup. Thiết kế ContentProvider.onCreate() minimal — defer heavy init.</p>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc10-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">FileProvider an toàn hơn file:// URI thế nào?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>file:// URI expose đường dẫn filesystem tuyệt đối → app nhận có thể đọc file đó trực tiếp nếu có permission, hoặc tệ hơn: path traversal attack. FileProvider tạo <strong>content:// URI tạm thời</strong> với quyền giới hạn (FLAG_GRANT_READ_URI_PERMISSION), chỉ valid trong session. Receiver không biết path thực, chỉ có thể đọc qua ContentResolver — không thể explore filesystem.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">ContentProvider methods chạy trên thread nào?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Phía <strong>client</strong>: gọi từ thread nào thì block thread đó cho đến khi provider return → gọi từ main thread gây ANR nếu provider chậm → phải wrap trong Dispatchers.IO. Phía <strong>provider</strong>: CRUD methods (query, insert, update, delete) chạy trên <strong>Binder thread pool</strong> (max 16 threads) — có thể concurrent. <code>onCreate()</code> chạy trên main thread của provider process.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CC11: BINDER -->
+    <div class="detail-block" id="cc11">
+      <div class="detail-header">
+        <div class="detail-num">11</div>
+        <div class="detail-header-info">
+          <div class="detail-title">Binder IPC</div>
+          <div class="detail-subtitle">Android's core IPC — 1-copy via mmap, Proxy/Stub pattern, thread pool và security boundary</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc11-arch')">Architecture</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc11-perf')">Performance & Security</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc11-qa')">Interview Q&A</button>
+        </div>
+        <div class="tab-panel active" id="cc11-arch">
+          <div class="flow-diagram">
+            <div class="flow-step highlight">Client App — method call trên Proxy</div>
+            <div class="flow-arrow">↓ marshal vào Parcel</div>
+            <div class="flow-step">Proxy.transact() → Binder Driver (/dev/binder)</div>
+            <div class="flow-arrow">↓ kernel mmap — 1 copy</div>
+            <div class="flow-step blue">Server process — Binder thread pool wakeup</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">Stub.onTransact() → unmarshal Parcel</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step orange">Server implementation method()</div>
+            <div class="flow-arrow">↓ return qua Binder</div>
+            <div class="flow-step">Client unblocked (synchronous) hoặc không block (oneway)</div>
+          </div>
+          <br>
+          <div class="insight-item success">
+            <div class="insight-icon">🔬</div>
+            <h4>Tại sao Binder nhanh hơn Socket/Pipe?</h4>
+            <p>Socket/Pipe: 2 copies (user→kernel, kernel→user). Binder: <strong>1 copy</strong> — kernel mmap ánh xạ physical pages trực tiếp vào user space của server. Cộng thêm: identity verification ở kernel level (không thể spoof UID/PID).</p>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc11-perf">
+          <div class="insight-grid">
+            <div class="insight-item danger">
+              <div class="insight-icon">⚠️</div>
+              <h4>Transaction size limit ~1MB</h4>
+              <p>Buffer TOÀN BỘ process, không per-call. Nếu nhiều concurrent Binder calls → dễ vượt limit → TransactionTooLargeException. Không truyền Bitmap/large List qua Binder — dùng file + URI.</p>
+            </div>
+            <div class="insight-item warn">
+              <div class="insight-icon">⚠️</div>
+              <h4>Synchronous Binder call trên Main Thread</h4>
+              <p>Binder call đồng bộ block thread gọi cho đến khi server return. Nếu server chậm (database, network, deadlock) → main thread block → ANR sau 5 giây. Luôn async hoặc gọi từ background thread.</p>
+            </div>
+            <div class="insight-item success">
+              <div class="insight-icon">🔐</div>
+              <h4>Security: kernel-verified identity</h4>
+              <p>Binder.getCallingUid() và Binder.getCallingPid() được kernel xác thực — không thể spoof. Server có thể verify caller identity và reject unauthorized calls. Cơ sở cho toàn bộ Android permission system.</p>
+            </div>
+            <div class="insight-item blue">
+              <div class="insight-icon">🔬</div>
+              <h4>DeathRecipient</h4>
+              <p>linkToDeath() đăng ký callback được gọi khi remote process chết. Quan trọng cho bound service client: cleanup state, reconnect hoặc notify user khi service process crash.</p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc11-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Binder giải quyết vấn đề gì so với IPC truyền thống?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Socket/Pipe: 2 memory copies, không có identity, không có security. Shared memory: 0 copy nhưng cần external sync, không có identity. <strong>Binder giải quyết</strong>: (1) <strong>1 copy</strong> qua mmap — hiệu quả. (2) <strong>Kernel-verified identity</strong> (UID/PID) — security. (3) <strong>Object-oriented RPC</strong> — dễ dùng hơn raw bytes. (4) <strong>Reference counting</strong> — automatic cleanup khi client disconnect.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Tại sao một API trông như local method call có thể là IPC?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Binder Proxy pattern làm cho IPC call trông giống local call: <code>locationManager.getLastLocation()</code> trông như local call nhưng thực ra là Binder IPC tới LocationManagerService trong System Server process. Implication: call này có thể (1) <strong>block</strong> nếu server busy, (2) <strong>fail</strong> với RemoteException nếu server crash, (3) có <strong>serialization cost</strong>, (4) bị security check. Senior developer phải biết API nào là Binder call để avoid main thread blocking.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CC12: AMS -->
+    <div class="detail-block" id="cc12">
+      <div class="detail-header">
+        <div class="detail-num">12</div>
+        <div class="detail-header-info">
+          <div class="detail-title">ActivityManagerService & System Services</div>
+          <div class="detail-subtitle">Ai thực sự quản lý Android — System Server, AMS, ATMS, ActivityThread và Instrumentation</div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'cc12-arch')">Architecture</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc12-flow')">Start Activity Flow</button>
+          <button class="tab-btn" onclick="switchTab(this,'cc12-qa')">Interview Q&A</button>
+        </div>
+        <div class="tab-panel active" id="cc12-arch">
+          <div class="insight-grid">
+            <div class="insight-item success">
+              <div class="insight-icon">🏛️</div>
+              <h4>System Server</h4>
+              <p>Process đầu tiên Zygote fork, UID 1000 (system), chứa 80+ system services. Sống suốt vòng đời device — nếu crash, device reboot.</p>
+            </div>
+            <div class="insight-item blue">
+              <div class="insight-icon">⚙️</div>
+              <h4>AMS (ActivityManagerService)</h4>
+              <p>Quản lý process lifecycle, memory management (oom_score_adj), broadcast dispatch. Từ Android 10: ATMS tách ra để quản lý task/window riêng.</p>
+            </div>
+            <div class="insight-item warn">
+              <div class="insight-icon">📱</div>
+              <h4>ActivityThread</h4>
+              <p>Main class trong app process. Chứa main Looper. Nhận Binder messages từ AMS qua ApplicationThread (Binder Stub) → dispatch lifecycle callbacks qua Handler H.</p>
+            </div>
+            <div class="insight-item orange" style="--accent3:#a78bfa">
+              <div class="insight-icon">🔬</div>
+              <h4>Instrumentation</h4>
+              <p>Bridge giữa AMS và actual Activity lifecycle. Tất cả onCreate/onResume... được gọi qua Instrumentation.callActivity*(). Cũng là hook point cho testing (ActivityScenario).</p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc12-flow">
+          <div class="flow-diagram">
+            <div class="flow-step">App A gọi startActivity(intent)</div>
+            <div class="flow-arrow">↓ Binder IPC</div>
+            <div class="flow-step blue">ATMS.startActivity() — validate intent, check permissions</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">PMS.resolveActivity() — resolve target component</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">Task/back stack cập nhật</div>
+            <div class="flow-arrow">↓ Target process chưa tồn tại?</div>
+            <div class="flow-step orange">Zygote fork target process</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">App B: ActivityThread.main() → Looper setup</div>
+            <div class="flow-arrow">↓ Binder IPC từ AMS</div>
+            <div class="flow-step">ApplicationThread.scheduleLaunchActivity()</div>
+            <div class="flow-arrow">↓ Handler H dispatch</div>
+            <div class="flow-step highlight">Instrumentation.callActivityOnCreate() → Activity.onCreate()</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="cc12-qa">
+          <div class="qa-list">
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">startActivity() có phải chỉ là một method call nội bộ không?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><strong>Không.</strong> <code>startActivity()</code> trong app → <strong>Binder IPC</strong> tới ATMS (System Server process) → ATMS validate, resolve component (hỏi PMS), update task/back stack → nếu cần Zygote fork process mới → Binder IPC ngược về app process → ActivityThread nhận qua ApplicationThread (Binder stub) → Handler dispatch → Instrumentation → Activity.onCreate(). Có ít nhất 2 Binder IPC cross-process boundary.</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">Ai thực sự quản lý lifecycle của Activity?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p><strong>Hệ thống (AMS/ATMS)</strong> quyết định WHEN lifecycle callbacks xảy ra. <strong>ActivityThread</strong> nhận lệnh qua Binder (ApplicationThread) và dispatch về main thread qua Handler. <strong>Instrumentation</strong> thực sự gọi các lifecycle methods. App code không trực tiếp control lifecycle — chỉ implement callbacks và trust the framework. Đây là lý do "không được block lifecycle callbacks".</p></div>
+            </div>
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)"><div class="q-icon">Q</div><div class="q-text">AMS và ATMS (Android 10+) khác nhau thế nào?</div><div class="q-arrow">▶</div></div>
+              <div class="qa-a"><p>Từ Android 10, Google tách <strong>ActivityTaskManagerService (ATMS)</strong> ra từ AMS để giảm complexity. <strong>AMS</strong> tập trung vào: process lifecycle, memory management, broadcast, ContentProvider, oom_score_adj. <strong>ATMS</strong> tập trung vào: Activity/Task/back stack management, window transitions, display management. Phân chia SRP — dễ maintain và test hơn.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       DECISION TABLE
+  ══════════════════════════════════════════ -->
+  <div class="divider"></div>
+  <section class="decision-section" id="decision">
+    <div class="section-header">
+      <h2>⚡ Bảng quyết định nhanh</h2>
+      <p>Chọn đúng component cho từng use case trong vòng 10 giây</p>
+    </div>
+    <div class="decision-grid">
+      <div class="decision-card">
+        <div class="decision-need">Nhu cầu</div>
+        <div class="decision-answer">Activity / Compose</div>
+        <div class="decision-why">Màn hình có UI, navigation, entry point từ user/system. Quản lý lifecycle và back stack.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-need">Nhu cầu</div>
+        <div class="decision-answer">Fragment</div>
+        <div class="decision-why">UI module tái sử dụng trong Activity, host bởi NavGraph. Không dùng như Activity replacement nếu không có reason rõ ràng.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-need">Nhu cầu</div>
+        <div class="decision-answer">BroadcastReceiver</div>
+        <div class="decision-why">Phản ứng với system event (boot, network). Handler ngắn, delegate nặng sang WorkManager/Service.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-need">Nhu cầu</div>
+        <div class="decision-answer">Foreground Service</div>
+        <div class="decision-why">Tác vụ dài, liên tục, USER NHẬN BIẾT. Music, navigation, workout. Cần persistent notification.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-need">Nhu cầu</div>
+        <div class="decision-answer">WorkManager</div>
+        <div class="decision-why">Công việc có thể trì hoãn, cần retry và persistence. Upload, sync, cleanup. Guaranteed ≠ immediate.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-need">Nhu cầu</div>
+        <div class="decision-answer">Bound Service</div>
+        <div class="decision-why">Client-server API khi client đang kết nối trực tiếp. Cross-process → AIDL. Same process → local Binder.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-need">Nhu cầu</div>
+        <div class="decision-answer">ContentProvider</div>
+        <div class="decision-why">Chia sẻ dữ liệu có cấu trúc giữa app/process theo contract. Internal only → Room + Repository đủ rồi.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-need">Nhu cầu</div>
+        <div class="decision-answer">FileProvider</div>
+        <div class="decision-why">Chia sẻ file qua content URI với app khác (camera, share). Thay thế file:// bị cấm từ API 24.</div>
+      </div>
+      <div class="decision-card">
+        <div class="decision-need">Nhu cầu</div>
+        <div class="decision-answer">Flow / StateFlow</div>
+        <div class="decision-why">Event/state nội bộ trong cùng process. Không cần Android IPC component. Reactive, lifecycle-aware.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       COMMON MISTAKES
+  ══════════════════════════════════════════ -->
+  <div class="divider"></div>
+  <section id="mistakes">
+    <div class="section-header">
+      <h2>🧠 7 Lỗi tư duy thường gặp</h2>
+      <p>Những sai lầm phổ biến nhất trong phỏng vấn Senior Android</p>
+    </div>
+    <div class="mistakes-grid">
+      <div class="mistake-card">
+        <div class="mistake-wrong">❌ Sai: Service là background thread</div>
+        <p>Service callback mặc định chạy trên <strong>Main Thread</strong> của process.</p>
+        <div class="mistake-right">✅ Đúng</div>
+        <p>Phải tạo CoroutineScope hoặc Thread riêng trong Service để chạy background work.</p>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-wrong">❌ Sai: WorkManager luôn chạy ngay</div>
+        <p>WorkManager dành cho work có thể trì hoãn, bị ảnh hưởng bởi Doze và constraints.</p>
+        <div class="mistake-right">✅ Đúng</div>
+        <p>"Guaranteed execution" ≠ immediate. Min interval PeriodicWork = 15 phút.</p>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-wrong">❌ Sai: Foreground Service không bao giờ bị kill</div>
+        <p>FGS có priority cao hơn nhưng vẫn có thể bị LMKD kill khi memory cực thấp.</p>
+        <div class="mistake-right">✅ Đúng</div>
+        <p>oom_score_adj ~200 — cao hơn service process nhưng không immortal. Thiết kế để resume được.</p>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-wrong">❌ Sai: ViewModel sống qua process death</div>
+        <p>ViewModel chỉ survive configuration change, không phải process death.</p>
+        <div class="mistake-right">✅ Đúng</div>
+        <p>Process death → mọi thứ trong RAM mất. Dùng SavedStateHandle + Room cho critical data.</p>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-wrong">❌ Sai: BroadcastReceiver phù hợp cho task dài</div>
+        <p>onReceive() phải hoàn thành nhanh (10s), không async.</p>
+        <div class="mistake-right">✅ Đúng</div>
+        <p>Receiver chỉ validate event và schedule WorkManager. goAsync() chỉ cho work ngắn hạn.</p>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-wrong">❌ Sai: ContentProvider luôn cần thiết khi dùng Room</div>
+        <p>Provider chủ yếu có giá trị khi chia sẻ data cross-app theo contract.</p>
+        <div class="mistake-right">✅ Đúng</div>
+        <p>Data nội bộ → Repository + Room. ContentProvider chỉ khi cần cross-app CRUD interface.</p>
+      </div>
+      <div class="mistake-card">
+        <div class="mistake-wrong">❌ Sai: API framework luôn là local call</div>
+        <p>getSystemService() → nhiều method là Binder IPC tới System Server.</p>
+        <div class="mistake-right">✅ Đúng</div>
+        <p>LocationManager, ConnectivityManager... → Binder call. Có thể block, throw RemoteException, có security check.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       CHECKLIST
+  ══════════════════════════════════════════ -->
+  <div class="divider"></div>
+  <section class="checklist-section" id="checklist">
+    <div class="section-header">
+      <h2>✅ Checklist hoàn thành mỗi chủ đề</h2>
+      <p>Chỉ chuyển sang chủ đề tiếp theo khi check được tất cả</p>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span>Tiến độ hoàn thành</span>
+        <span class="pct" id="progressPct">0 / 10</span>
+      </div>
+      <div class="progress-bg">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="checklist" id="masterChecklist">
+      <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-text">Giải thích concept trong 2 phút mà không đọc tài liệu</span></div>
+      <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-text">Vẽ được luồng nội bộ ở mức process và thread (không nhìn notes)</span></div>
+      <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-text">Nêu ít nhất 2 production use case thực tế</span></div>
+      <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-text">Nêu ít nhất 2 trường hợp KHÔNG nên dùng và giải pháp thay thế</span></div>
+      <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-text">So sánh được với component thay thế (trade-off)</span></div>
+      <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-text">Phân tích lifecycle và process death ảnh hưởng ra sao</span></div>
+      <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-text">Phân tích security impact nếu component được export</span></div>
+      <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-text">Phân tích performance và ANR risk</span></div>
+      <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-text">Trả lời được ít nhất 5 câu hỏi follow-up không chuẩn bị trước</span></div>
+      <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-text">Viết được code example ngắn chứng minh hiểu biết</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       WEEKLY PLAN
+  ══════════════════════════════════════════ -->
+  <div class="divider"></div>
+  <section id="week">
+    <div class="section-header">
+      <h2>📅 Kế hoạch ôn tập tuần đầu</h2>
+      <p>7 ngày đầu — nền tảng OS và Activity lifecycle</p>
+    </div>
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-label">Ngày 1</div>
+        <div class="day-title">Process & Zygote</div>
+        <div class="day-tasks">
+          <div class="day-task">Vẽ sơ đồ cold start flow từ trí nhớ</div>
+          <div class="day-task">Giải thích Zygote + COW bằng lời của mình</div>
+          <div class="day-task">Phân biệt app process, task, back stack</div>
+          <div class="day-task">Trả lời 6 câu hỏi phỏng vấn về process</div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-label">Ngày 2</div>
+        <div class="day-title">Application & Process Death</div>
+        <div class="day-tasks">
+          <div class="day-task">Ôn Application lifecycle và callbacks</div>
+          <div class="day-task">Tạo ví dụ state bị mất sau process death</div>
+          <div class="day-task">So sánh singleton vs ViewModel vs SavedState vs DB</div>
+          <div class="day-task">Viết checklist phục hồi màn hình sau process death</div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-label">Ngày 3</div>
+        <div class="day-title">Main Thread & ANR</div>
+        <div class="day-tasks">
+          <div class="day-task">Ôn UI thread và ViewRootImpl.checkThread()</div>
+          <div class="day-task">Liệt kê tác vụ KHÔNG được chạy trên main thread</div>
+          <div class="day-task">Phân tích tình huống app bị freeze</div>
+          <div class="day-task">ANR timeouts cho từng loại component</div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-label">Ngày 4</div>
+        <div class="day-title">Looper & MessageQueue</div>
+        <div class="day-tasks">
+          <div class="day-task">Vẽ Thread → Looper → MQ → Handler</div>
+          <div class="day-task">Giải thích epoll và nativePollOnce</div>
+          <div class="day-task">Phân tích sync barrier và VSYNC</div>
+          <div class="day-task">Tại sao Looper.loop() không ngốn CPU</div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-label">Ngày 5</div>
+        <div class="day-title">Handler & Memory Leak</div>
+        <div class="day-tasks">
+          <div class="day-task">Viết ví dụ post task lên main thread</div>
+          <div class="day-task">Phân tích GC Root chain gây memory leak</div>
+          <div class="day-task">WeakReference handler pattern</div>
+          <div class="day-task">So sánh Handler vs Coroutine</div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-label">Ngày 6</div>
+        <div class="day-title">Activity Lifecycle</div>
+        <div class="day-tasks">
+          <div class="day-task">Vẽ lifecycle từ trí nhớ với tất cả nhánh</div>
+          <div class="day-task">Phân tích rotate, Home, Back, dialog</div>
+          <div class="day-task">Thứ tự callback khi navigate A→B</div>
+          <div class="day-task">Config change vs process death differences</div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-label">Ngày 7</div>
+        <div class="day-title">Activity — Deep Dive</div>
+        <div class="day-tasks">
+          <div class="day-task">Launch modes: khi nào dùng cái nào</div>
+          <div class="day-task">Intent flags và task behavior</div>
+          <div class="day-task">Deep link + TaskStackBuilder</div>
+          <div class="day-task">Tự trả lời 10 câu hỏi Senior về Activity</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<button class="fab" id="fabTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<footer>
+  <p>Android Core Components Senior Review &nbsp;·&nbsp; <strong>12 Topics</strong> &nbsp;·&nbsp; <strong>5,951 dòng kiến thức</strong> &nbsp;·&nbsp; Được tạo cho lộ trình Senior Android Engineer</p>
+</footer>
+<script>
+
+  // ── Tab switching ──
+  function switchTab(btn, panelId) {
+    const body = btn.closest('.detail-body');
+    body.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    body.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(panelId).classList.add('active');
+    // Auto-scroll tab into view on mobile
+    btn.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+  }
+
+  // ── QA accordion ──
+  function toggleQA(q) {
+    const answer = q.nextElementSibling;
+    const isOpen = q.classList.contains('open');
+    q.classList.toggle('open', !isOpen);
+    answer.classList.toggle('open', !isOpen);
+  }
+
+  // ── Checklist ──
+  function toggleCheck(box) {
+    box.classList.toggle('done');
+    const item = box.closest('.check-item');
+    const isDone = box.classList.contains('done');
+    item.classList.toggle('checked', isDone);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = document.querySelectorAll('.check-box').length;
+    const done  = document.querySelectorAll('.check-box.done').length;
+    const pct   = total ? Math.round(done / total * 100) : 0;
+    const pctEl  = document.getElementById('progressPct');
+    const fillEl = document.getElementById('progressFill');
+    if (pctEl)  pctEl.textContent  = done + ' / ' + total;
+    if (fillEl) fillEl.style.width = pct + '%';
+  }
+
+  // ── Smooth scroll helper ──
+  function scrollTo(id) {
+    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── FAB show/hide ──
+  const fab = document.getElementById('fabTop');
+  window.addEventListener('scroll', () => {
+    if (fab) fab.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+
+  // ── Active nav highlight ──
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.topnav a');
+  const navEl    = document.getElementById('topnav');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = '#' + entry.target.id;
+        navLinks.forEach(link => {
+          const active = link.getAttribute('href') === id;
+          link.classList.toggle('active', active);
+          // Auto-scroll active nav item into view on mobile
+          if (active && navEl) {
+            link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-45% 0px -45% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // ── Viewport meta fix for iOS ──
+  document.addEventListener('touchstart', function(){}, {passive: true});
+
+</script>
+</body>
+</html>
