@@ -27,6 +27,10 @@
   --warn-soft: #FEEEDD;
   --purple: #7A4CC2;
   --purple-soft: #EFE7FB;
+  --blue: var(--accent);
+  --emerald: var(--ok);
+  --rose: var(--bad);
+  --amber: var(--warn);
   --font-display: "Bricolage Grotesque", "Be Vietnam Pro", system-ui, sans-serif;
   --font-body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, Consolas, "Courier New", monospace;
@@ -41,6 +45,10 @@
     --ok: #46C389; --ok-soft: #173828; --bad: #F0687A; --bad-soft: #3D1C22;
     --warn: #F0994F; --warn-soft: #382415;
     --purple: #B999F0; --purple-soft: #2A2140;
+    --blue: var(--accent);
+    --emerald: var(--ok);
+    --rose: var(--bad);
+    --amber: var(--warn);
     color-scheme: dark;
   }
 }
@@ -52,6 +60,10 @@
   --ok: #46C389; --ok-soft: #173828; --bad: #F0687A; --bad-soft: #3D1C22;
   --warn: #F0994F; --warn-soft: #382415;
   --purple: #B999F0; --purple-soft: #2A2140;
+  --blue: var(--accent);
+  --emerald: var(--ok);
+  --rose: var(--bad);
+  --amber: var(--warn);
   color-scheme: dark;
 }
 
@@ -1011,195 +1023,437 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
   color: var(--accent);
 }
 
+/* Helper classes */
+.mobile-only { display: none !important; }
+.desktop-only { display: block; }
+
 /* Mobile Responsiveness */
 @media (max-width: 899px) {
-  .app {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-    height: 100%;
-    height: 100dvh;
-  }
-  .side {
-    position: static;
-    height: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .brand {
-    padding: 10px 14px 6px;
-  }
-  .nav {
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 6px 12px 10px;
-    gap: 4px;
-    border-bottom: 0;
+  .mobile-only { display: flex !important; }
+  .desktop-only { display: none !important; }
+
+  html, body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
   }
-  .nav button {
-    width: auto;
-    white-space: nowrap;
-    padding: 8px 12px;
-    font-size: .84rem;
-    min-height: 42px;
-  }
-  .side-stats {
-    display: none;
-  }
-  .side-foot {
+
+  .app {
     display: flex !important;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
-    border-top: 1px solid var(--line);
-    gap: 8px;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 100dvh !important;
+    overflow: visible !important;
+    padding: 0 !important;
   }
-  .side-btn {
-    width: auto;
-    padding: 6px 10px;
-    font-size: .8rem;
-    min-height: 38px;
+
+  /* Sticky Header on Mobile */
+  .side {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    background: var(--side) !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--line) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
   }
-  .side-actions {
-    display: flex;
-    gap: 6px;
+
+  .brand-bar {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 14px 6px !important;
+    gap: 8px !important;
   }
-  
-  /* Tránh phóng to tự động trên iOS */
+
+  .brand {
+    padding: 0 !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .brand b {
+    font-size: .95rem !important;
+  }
+
+  .brand span {
+    display: none !important; /* Hide long subtitle on mobile header for clean look */
+  }
+
+  .theme-btn-compact {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 6px 10px !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--line) !important;
+    background: var(--surface) !important;
+    color: var(--muted) !important;
+    font-size: .78rem !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+  }
+
+  /* Horizontal Tab Navigation */
+  .nav {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    padding: 6px 12px 10px !important;
+    gap: 6px !important;
+    border-bottom: 0 !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .nav button {
+    width: auto !important;
+    white-space: nowrap !important;
+    padding: 8px 12px !important;
+    font-size: .84rem !important;
+    min-height: 40px !important;
+    flex-shrink: 0 !important;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+  }
+
+  .nav button.active {
+    background: var(--surface) !important;
+    border-color: var(--line) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08) !important;
+  }
+
+  .side-stats, .side-foot {
+    display: none !important;
+  }
+
+  /* Native Scrolling Main Area */
+  .main {
+    flex: 1 !important;
+    height: auto !important;
+    overflow: visible !important;
+    min-height: 0 !important;
+  }
+
+  .main-inner {
+    padding: 14px 12px calc(48px + env(safe-area-inset-bottom, 0px)) !important;
+    gap: 16px !important;
+    max-width: 100% !important;
+  }
+
+  .app-header {
+    padding-bottom: 12px !important;
+    gap: 8px !important;
+  }
+
+  .header-title {
+    font-size: clamp(1.25rem, 5.5vw, 1.65rem) !important;
+  }
+
+  .header-desc {
+    font-size: .84rem !important;
+  }
+
+  .mindset-banner {
+    padding: 10px 12px !important;
+    font-size: .82rem !important;
+  }
+
+  /* Mobile Inputs Font-size (Prevents iOS Safari auto-zoom) */
   input, select, textarea {
     font-size: 16px !important;
   }
 
-  /* Nội dung chính */
-  .main {
-    height: auto;
-  }
-  .main-inner {
-    padding: 16px 12px calc(48px + env(safe-area-inset-bottom, 0px));
-    gap: 16px;
-  }
-  .app-header h1 {
-    font-size: clamp(1.4rem, 6vw, 1.85rem);
-  }
-  .header-badges {
-    gap: 6px;
+  /* Cards & Sections */
+  .glass-card {
+    padding: 14px 12px !important;
+    border-radius: 12px !important;
   }
 
-  /* Tuần và nhiệm vụ */
+  .section-title {
+    font-size: 1.05rem !important;
+  }
+
+  .section-desc {
+    font-size: .82rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Tab 1: Roadmap & Tasks */
+  .week-nav {
+    display: flex !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding: 3px !important;
+    width: 100% !important;
+  }
+
+  .week-nav::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .week-btn {
+    white-space: nowrap !important;
+    padding: 6px 10px !important;
+    font-size: .8rem !important;
+  }
+
   .week-card {
-    padding: 16px 12px;
+    padding: 14px 12px !important;
+    border-radius: 10px !important;
+    margin-bottom: 12px !important;
   }
+
   .week-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+    margin-bottom: 10px !important;
   }
+
+  .week-title {
+    font-size: .95rem !important;
+  }
+
   .task-item {
-    padding: 10px 8px;
-    min-height: 46px;
-  }
-  .custom-checkbox {
-    width: 22px;
-    height: 22px;
+    padding: 10px !important;
+    gap: 10px !important;
+    min-height: 48px !important;
   }
 
-  /* Công cụ luyện tập */
+  .custom-checkbox, .task-item input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .task-text {
+    font-size: .88rem !important;
+  }
+
+  .task-sub {
+    font-size: .8rem !important;
+  }
+
+  /* Tab 2: Practice Room & Timer */
+  .question-card {
+    padding: 14px 12px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .q-text {
+    font-size: 1.05rem !important;
+    margin: 8px 0 6px !important;
+  }
+
   .tool-box {
-    grid-template-columns: 1fr;
-    gap: 14px;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    margin-bottom: 14px !important;
   }
+
   .timer-display {
-    font-size: clamp(2.4rem, 10vw, 3.2rem);
+    font-size: clamp(2.6rem, 12vw, 3.4rem) !important;
+    margin: 12px 0 !important;
   }
-  .timer-btns {
-    flex-wrap: wrap;
-    width: 100%;
+
+  .timer-modes {
+    gap: 4px !important;
+    margin-bottom: 12px !important;
   }
-  .timer-btns .btn {
-    min-height: 44px;
-    flex: 1;
-    min-width: 120px;
-    justify-content: center;
+
+  .mode-btn {
+    padding: 6px 9px !important;
+    font-size: .76rem !important;
   }
+
+  .btn-row {
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .btn-row .btn {
+    flex: 1 !important;
+    min-height: 44px !important;
+    justify-content: center !important;
+  }
+
+  .filler-count {
+    font-size: clamp(2.6rem, 12vw, 3.4rem) !important;
+    margin: 12px 0 !important;
+  }
+
   .filler-btn-big {
-    width: 100%;
-    min-height: 52px;
-    font-size: 1.05rem;
-  }
-  .btn-cycle {
-    min-height: 44px;
+    width: 100% !important;
+    min-height: 52px !important;
+    font-size: .95rem !important;
+    padding: 12px !important;
   }
 
-  /* Khung và nguyên tắc */
+  .breathing-box {
+    padding: 16px 12px !important;
+  }
+
+  .breath-circle {
+    width: 110px !important;
+    height: 110px !important;
+    margin: 14px auto !important;
+  }
+
+  /* Tab 3: Frameworks */
+  .framework-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .fw-card {
+    padding: 14px 12px !important;
+  }
+
+  .fw-card h3 {
+    font-size: .98rem !important;
+  }
+
   .tips-grid {
-    grid-template-columns: 1fr;
-  }
-  .framework-card {
-    padding: 16px 12px;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
   }
 
-  /* Kho câu chuyện */
+  /* Tab 4: Stories Bank */
   .story-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    margin-top: 12px !important;
   }
+
   .story-card {
-    padding: 14px 12px;
+    padding: 14px 12px !important;
+    gap: 8px !important;
   }
 
-  /* Bảng tiêu chí và tự chấm */
+  .story-input, .story-textarea {
+    font-size: 16px !important;
+    padding: 9px 10px !important;
+  }
+
+  .story-textarea {
+    min-height: 75px !important;
+  }
+
+  /* Tab 5: Scoring & Rubrics */
+  .rubric-grid {
+    gap: 10px !important;
+    margin-bottom: 14px !important;
+  }
+
   .rubric-row {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 12px;
-  }
-  .rubric-score-select {
-    width: 100%;
-    min-height: 44px;
-  }
-  .total-score-box {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    padding: 14px;
-  }
-  .total-score-box > div:last-child {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-  }
-  .total-score-box input {
-    width: 100%;
-    min-width: 0 !important;
-  }
-  .total-score-box button {
-    width: 100%;
-    min-height: 44px;
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    padding: 12px 10px !important;
   }
 
-  /* Bảng theo dõi tiến độ */
-  .table-responsive {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 8px;
-    border: 1px solid var(--line);
+  .rubric-select {
+    width: 100% !important;
+    min-height: 44px !important;
+    font-size: 16px !important;
+    padding: 8px 10px !important;
   }
-  .track-table th, .track-table td {
-    padding: 8px 10px;
-    font-size: .84rem;
+
+  .total-score-box {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    padding: 14px 12px !important;
+  }
+
+  .total-score-box > div:last-child {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .total-score-box input {
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 16px !important;
+    min-height: 44px !important;
+  }
+
+  .total-score-box button {
+    width: 100% !important;
+    min-height: 44px !important;
+    justify-content: center !important;
+  }
+
+  /* Tables */
+  .table-responsive {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--line) !important;
+    margin-top: 10px !important;
+  }
+
+  .track-table, .tracking-table {
+    min-width: 650px !important;
+    width: 100% !important;
+  }
+
+  .track-table th, .track-table td,
+  .tracking-table th, .tracking-table td {
+    padding: 8px 8px !important;
+    font-size: .8rem !important;
+  }
+
+  .track-table input {
+    font-size: 14px !important;
+    padding: 6px 6px !important;
+    min-height: 34px !important;
+  }
+
+  /* Mobile Footer with Backup/Reset Actions */
+  .mobile-foot {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+    margin-top: 16px !important;
+    padding-top: 16px !important;
+    border-top: 1px solid var(--line) !important;
+  }
+
+  .mobile-foot .btn {
+    flex: 1 !important;
+    min-height: 44px !important;
+    justify-content: center !important;
+    font-size: .86rem !important;
   }
 }
 </style>
 </head>
 <body>
 <div class="app" id="app">
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR / TOPBAR -->
   <aside class="side">
-    <div class="brand">
-      <a href="../index.html" class="link-btn">← Quay lại Knowledge Hub</a>
-      <b>Interview Speaking Coach</b>
-      <span>Lộ trình 4 tuần · PREP / STAR · Bấm giờ</span>
+    <div class="brand-bar">
+      <div class="brand">
+        <a href="../index.html" class="link-btn">← Knowledge Hub</a>
+        <b>Interview Speaking Coach</b>
+        <span>Lộ trình 4 tuần · PREP / STAR · Bấm giờ</span>
+      </div>
+      <button type="button" class="theme-btn-compact mobile-only" id="theme-btn-m" onclick="cycleTheme()" title="Đổi giao diện">🌓 Giao diện</button>
     </div>
 
     <!-- MAIN NAV BUTTONS -->
@@ -1997,6 +2251,12 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
     <div class="page-footer">
       Kỹ năng trả lời phỏng vấn chuyên nghiệp • Hệ thống theo dõi 4 tuần • Dữ liệu tự động lưu trong LocalStorage
     </div>
+
+    <!-- Mobile Actions Footer -->
+    <div class="mobile-foot mobile-only">
+      <button type="button" class="btn btn-secondary" onclick="exportData()">📥 Sao lưu dữ liệu</button>
+      <button type="button" class="btn btn-danger" onclick="resetAllData()">↺ Đặt lại tiến độ</button>
+    </div>
   
     </div>
   </main>
@@ -2014,9 +2274,15 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
       } else {
         document.documentElement.setAttribute('data-theme', currentTheme);
       }
+      const label = currentTheme === 'dark' ? 'Tối' : currentTheme === 'light' ? 'Sáng' : 'Hệ thống';
+      const icon = currentTheme === 'dark' ? '🌙' : currentTheme === 'light' ? '☀️' : '🌓';
       const btn = document.getElementById('theme-btn');
       if (btn) {
-        btn.textContent = 'Giao diện: ' + (currentTheme === 'dark' ? 'Tối' : currentTheme === 'light' ? 'Sáng' : 'Hệ thống');
+        btn.textContent = 'Giao diện: ' + label;
+      }
+      const btnM = document.getElementById('theme-btn-m');
+      if (btnM) {
+        btnM.textContent = icon + ' ' + label;
       }
     }
 
@@ -2109,6 +2375,7 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
 
       const main = document.getElementById('main');
       if (main) main.scrollTop = 0;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function filterWeek(weekClass) {
