@@ -193,17 +193,53 @@ border: 1px solid var(--line); background: var(--surface); font-size: .82rem;
 .empty { padding: 30px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 12px; }
 .warn { padding: 10px 14px; border-radius: 10px; background: var(--bad-soft); color: var(--ink); font-size: .86rem; margin: 10px 0; }
 @media (max-width: 820px) {
-.app { grid-template-columns: 1fr; }
+.app { grid-template-columns: 1fr; min-height: 100dvh; }
 .side { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
-.toc { max-height: 46vh; }
-.main { padding: 8px 16px 40px; }
-.lesson-head h1 { font-size: 1.4rem; }
+.toc { max-height: 30vh; -webkit-overflow-scrolling: touch; }
+.app[data-view="drill"] .toc { display: none !important; }
+.tabs button { min-height: 42px; font-weight: 600; font-size: .88rem; }
+.main { padding: 8px 14px calc(36px + env(safe-area-inset-bottom, 0px)); }
+.lesson-head h1 { font-size: 1.35rem; }
+
+/* Tránh tự động phóng to trên iOS */
+input, select, textarea { font-size: 16px !important; }
+
+/* Toolbar cuộn ngang mượt mà */
+.toolbar {
+  padding: 8px 0;
+  gap: 6px;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+.toolbar .chip {
+  padding: 6px 12px;
+  font-size: .8rem;
+  min-height: 36px;
+}
+
+/* Thẻ câu và nút bấm chạm tay thoải mái */
+.sent { padding: 12px 12px 10px; border-radius: 10px; }
+.sent .acts .btn { min-height: 38px; padding: 6px 12px; }
+.icon-btn { width: 32px; height: 32px; font-size: .8rem; }
+
+/* Chuyển bài học tiếp/trước */
+.pager { flex-direction: column; gap: 8px; }
+.pager .btn { max-width: 100%; width: 100%; min-height: 44px; justify-content: center; }
+
+/* Thẻ luyện tập phản xạ Flashcard */
+.drill-opts { flex-direction: column; align-items: stretch; gap: 10px; padding: 12px 0; }
+.drill-opts label { width: 100%; }
+.drill-opts select { width: 100%; min-height: 40px; }
+.card { padding: 20px 16px; border-radius: 14px; }
+.card .prompt { font-size: 1.15rem; }
+.card-foot .btn { min-height: 44px; flex: 1; justify-content: center; }
 }
 
 </style>
 </head>
 <body>
-<div class="app">
+<div class="app" data-view="learn">
 <aside class="side">
 <div class="brand">
 <a href="../index.html" class="link-btn" style="display:inline-flex;align-items:center;gap:5px;font-size:0.75rem;margin-bottom:6px;text-decoration:none;">← Quay lại Knowledge Hub</a>
@@ -608,6 +644,7 @@ else if (revealed && e.key === "2") mark(true);
 let view = "learn";
 function setView(v) {
 view = v;
+document.querySelector(".app").setAttribute("data-view", v);
 document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-current", b.dataset.view === v));
 $("#view-learn").hidden = v !== "learn";
 $("#view-drill").hidden = v !== "drill";

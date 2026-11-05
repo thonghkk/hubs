@@ -163,6 +163,50 @@
     .placeholder-card:hover::before {
       opacity: 0;
     }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 32px 16px calc(32px + env(safe-area-inset-bottom, 0px));
+        min-height: 100dvh;
+      }
+      .header {
+        margin-bottom: 32px;
+      }
+      .header h1 {
+        font-size: clamp(32px, 8vw, 44px);
+        margin-bottom: 10px;
+      }
+      .header p {
+        font-size: 15px;
+      }
+      .hubs-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .hub-card {
+        padding: 22px 18px;
+        border-radius: 14px;
+      }
+      .hub-icon {
+        width: 54px;
+        height: 54px;
+        font-size: 28px;
+        margin-bottom: 14px;
+        border-radius: 14px;
+      }
+      .hub-title {
+        font-size: 20px;
+        margin-bottom: 8px;
+      }
+      .hub-desc {
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+      .hub-footer {
+        padding-top: 14px;
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>

@@ -994,11 +994,30 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
   align-items: center;
 }
 
+.total-score-box {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+}
+.total-score-box .score-num {
+  font: 700 1.6rem var(--font-display);
+  color: var(--accent);
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 899px) {
   .app {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
+    height: 100%;
+    height: 100dvh;
   }
   .side {
     position: static;
@@ -1007,7 +1026,7 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
     border-bottom: 1px solid var(--line);
   }
   .brand {
-    padding: 12px 14px 6px;
+    padding: 10px 14px 6px;
   }
   .nav {
     flex-direction: row;
@@ -1015,22 +1034,160 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
     padding: 6px 12px 10px;
     gap: 4px;
     border-bottom: 0;
+    -webkit-overflow-scrolling: touch;
   }
   .nav button {
     width: auto;
     white-space: nowrap;
-    padding: 7px 11px;
-    font-size: .82rem;
+    padding: 8px 12px;
+    font-size: .84rem;
+    min-height: 42px;
   }
   .side-stats {
     display: none;
   }
   .side-foot {
-    display: none;
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-top: 1px solid var(--line);
+    gap: 8px;
   }
+  .side-btn {
+    width: auto;
+    padding: 6px 10px;
+    font-size: .8rem;
+    min-height: 38px;
+  }
+  .side-actions {
+    display: flex;
+    gap: 6px;
+  }
+  
+  /* Tránh phóng to tự động trên iOS */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  /* Nội dung chính */
+  .main {
+    height: auto;
+  }
+  .main-inner {
+    padding: 16px 12px calc(48px + env(safe-area-inset-bottom, 0px));
+    gap: 16px;
+  }
+  .app-header h1 {
+    font-size: clamp(1.4rem, 6vw, 1.85rem);
+  }
+  .header-badges {
+    gap: 6px;
+  }
+
+  /* Tuần và nhiệm vụ */
+  .week-card {
+    padding: 16px 12px;
+  }
+  .week-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .task-item {
+    padding: 10px 8px;
+    min-height: 46px;
+  }
+  .custom-checkbox {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Công cụ luyện tập */
+  .tool-box {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .timer-display {
+    font-size: clamp(2.4rem, 10vw, 3.2rem);
+  }
+  .timer-btns {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .timer-btns .btn {
+    min-height: 44px;
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
+  }
+  .filler-btn-big {
+    width: 100%;
+    min-height: 52px;
+    font-size: 1.05rem;
+  }
+  .btn-cycle {
+    min-height: 44px;
+  }
+
+  /* Khung và nguyên tắc */
+  .tips-grid {
+    grid-template-columns: 1fr;
+  }
+  .framework-card {
+    padding: 16px 12px;
+  }
+
+  /* Kho câu chuyện */
+  .story-grid {
+    grid-template-columns: 1fr;
+  }
+  .story-card {
+    padding: 14px 12px;
+  }
+
+  /* Bảng tiêu chí và tự chấm */
   .rubric-row {
     grid-template-columns: 1fr;
     gap: 8px;
+    padding: 12px;
+  }
+  .rubric-score-select {
+    width: 100%;
+    min-height: 44px;
+  }
+  .total-score-box {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px;
+  }
+  .total-score-box > div:last-child {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .total-score-box input {
+    width: 100%;
+    min-width: 0 !important;
+  }
+  .total-score-box button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  /* Bảng theo dõi tiến độ */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+  }
+  .track-table th, .track-table td {
+    padding: 8px 10px;
+    font-size: .84rem;
   }
 }
 </style>
@@ -1150,7 +1307,7 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
           <div class="week-header">
             <div>
               <div class="week-title">Tuần 0 (2 ngày): Đo Điểm Xuất Phát (Baseline)</div>
-              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Biết chính xác mình đang ở đâu trước khi luyện</div>
+              <div style="font-size: 13px; color: var(--muted); margin-top: 4px;">Biết chính xác mình đang ở đâu trước khi luyện</div>
             </div>
             <div class="week-target">Đích: Tạo file baseline.md + 3 lỗi lớn</div>
           </div>
@@ -1179,7 +1336,7 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
           <div class="week-header">
             <div>
               <div class="week-title">Tuần 1 (5 ngày): Xây Nền — Khung Trả Lời & Kho Câu Chuyện</div>
-              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Thuộc lòng các khung trả lời và có sẵn "nguyên liệu" để kể</div>
+              <div style="font-size: 13px; color: var(--muted); margin-top: 4px;">Thuộc lòng các khung trả lời và có sẵn "nguyên liệu" để kể</div>
             </div>
             <div class="week-target">Đích: Hoàn thiện 8 câu chuyện STAR</div>
           </div>
@@ -1240,7 +1397,7 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
           <div class="week-header">
             <div>
               <div class="week-title">Tuần 2 (5 ngày): Luyện Trả Lời Đúng Trọng Tâm</div>
-              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Hình thành phản xạ nói kết luận ngay câu đầu tiên</div>
+              <div style="font-size: 13px; color: var(--muted); margin-top: 4px;">Hình thành phản xạ nói kết luận ngay câu đầu tiên</div>
             </div>
             <div class="week-target">3 bài tập/ngày (~40 phút)</div>
           </div>
@@ -1298,7 +1455,7 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
           <div class="week-header">
             <div>
               <div class="week-title">Tuần 3 (5 ngày): Luyện Dưới Áp Lực & Kỹ Thuật Cứu Vãn</div>
-              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Giữ cấu trúc khi bị hỏi dồn, gặp câu khó hoặc không biết</div>
+              <div style="font-size: 13px; color: var(--muted); margin-top: 4px;">Giữ cấu trúc khi bị hỏi dồn, gặp câu khó hoặc không biết</div>
             </div>
             <div class="week-target">Luyện tâm lý thở 4-4-6 mỗi ngày</div>
           </div>
@@ -1353,7 +1510,7 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
           <div class="week-header">
             <div>
               <div class="week-title">Tuần 4 (5 ngày): Hoàn Thiện & Mô Phỏng Thật</div>
-              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Đạt các chỉ tiêu đã đặt ra và sẵn sàng cho buổi phỏng vấn</div>
+              <div style="font-size: 13px; color: var(--muted); margin-top: 4px;">Đạt các chỉ tiêu đã đặt ra và sẵn sàng cho buổi phỏng vấn</div>
             </div>
             <div class="week-target">Đích: Điểm TB ≥ 20/25</div>
           </div>
@@ -1502,7 +1659,7 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
         <div style="margin-top: 24px;">
           <div class="breathing-box">
             <div style="font-weight: 700; font-size: 16px; margin-bottom: 6px;">🧘 Luyện Thở 4-4-6 (Hạ nhịp tim & giảm áp lực)</div>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Hít vào 4 giây → Giữ 4 giây → Thở ra 6 giây. Lặp lại 5 lần trước khi phỏng vấn.</p>
+            <p style="font-size: 13px; color: var(--muted); margin-bottom: 20px;">Hít vào 4 giây → Giữ 4 giây → Thở ra 6 giây. Lặp lại 5 lần trước khi phỏng vấn.</p>
             
             <div class="breath-circle" id="breathCircle">
               <span class="breath-phase" id="breathPhase">Sẵn sàng</span>
@@ -1609,17 +1766,17 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
         <div class="week-card" style="margin-top: 24px;">
           <div class="week-title" style="margin-bottom: 14px;">🆘 Kỹ Thuật Cứu Vãn Khi Bị Lạc Hoặc Gặp Câu Khó</div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-            <div style="padding: 14px; background: rgba(0,0,0,0.25); border-radius: var(--radius-sm);">
-              <div style="font-weight: 700; color: var(--rose); margin-bottom: 4px;">1. Khi gặp câu không biết:</div>
-              <div style="font-size: 14px; color: var(--text-main);">"Phần này em chưa làm thực tế trong dự án. Tuy nhiên theo em hiểu thì... Nếu gặp vấn đề này, hướng tiếp cận của em sẽ là..."</div>
+            <div style="padding: 14px; background: var(--soft); border: 1px solid var(--line); border-radius: 8px;">
+              <div style="font-weight: 700; color: var(--bad); margin-bottom: 4px;">1. Khi gặp câu không biết:</div>
+              <div style="font-size: 14px; color: var(--ink);">"Phần này em chưa làm thực tế trong dự án. Tuy nhiên theo em hiểu thì... Nếu gặp vấn đề này, hướng tiếp cận của em sẽ là..."</div>
             </div>
-            <div style="padding: 14px; background: rgba(0,0,0,0.25); border-radius: var(--radius-sm);">
-              <div style="font-weight: 700; color: var(--amber); margin-bottom: 4px;">2. Khi nhận ra mình nói lan man:</div>
-              <div style="font-size: 14px; color: var(--text-main);">"Tóm lại, ý chính của em cho câu hỏi này gồm 2 điểm: thứ nhất là... và thứ hai là..."</div>
+            <div style="padding: 14px; background: var(--soft); border: 1px solid var(--line); border-radius: 8px;">
+              <div style="font-weight: 700; color: var(--warn); margin-bottom: 4px;">2. Khi nhận ra mình nói lan man:</div>
+              <div style="font-size: 14px; color: var(--ink);">"Tóm lại, ý chính của em cho câu hỏi này gồm 2 điểm: thứ nhất là... và thứ hai là..."</div>
             </div>
-            <div style="padding: 14px; background: rgba(0,0,0,0.25); border-radius: var(--radius-sm);">
-              <div style="font-weight: 700; color: var(--blue); margin-bottom: 4px;">3. Cần 3 giây suy nghĩ:</div>
-              <div style="font-size: 14px; color: var(--text-main);">"Đây là một câu hỏi rất hay. Anh/chị cho em xin vài giây để sắp xếp lại các ý chính nhé ạ."</div>
+            <div style="padding: 14px; background: var(--soft); border: 1px solid var(--line); border-radius: 8px;">
+              <div style="font-weight: 700; color: var(--accent); margin-bottom: 4px;">3. Cần 3 giây suy nghĩ:</div>
+              <div style="font-size: 14px; color: var(--ink);">"Đây là một câu hỏi rất hay. Anh/chị cho em xin vài giây để sắp xếp lại các ý chính nhé ạ."</div>
             </div>
           </div>
         </div>
@@ -1740,11 +1897,11 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
 
         <div class="total-score-box">
           <div>
-            <div style="font-size: 13px; color: var(--text-muted); text-transform: uppercase;">Điểm chấm câu này:</div>
+            <div style="font-size: 13px; color: var(--muted); text-transform: uppercase;">Điểm chấm câu này:</div>
             <div class="score-num" id="rubricTotalDisplay">25 / 25 điểm</div>
           </div>
-          <div style="display: flex; gap: 12px; align-items: center;">
-            <input type="text" id="logQuestionInput" placeholder="Tên câu hỏi vừa luyện..." style="padding: 10px 14px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm); color: #fff; min-width: 240px; font-size: 14px;">
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <input type="text" id="logQuestionInput" placeholder="Tên câu hỏi vừa luyện..." style="padding: 10px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; color: var(--ink); flex: 1; min-width: 0;">
             <button class="btn btn-primary" onclick="addCurrentScoreToLog()">+ Ghi vào Bảng Tiến Độ</button>
           </div>
         </div>
@@ -2066,7 +2223,7 @@ h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
       tbody.innerHTML = '';
 
       if (!appState.logs || appState.logs.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; color: var(--text-dim); padding: 24px;">Chưa có buổi luyện nào được ghi. Hãy dùng form tự chấm bên trên để lưu câu trả lời!</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; color: var(--muted); padding: 24px;">Chưa có buổi luyện nào được ghi. Hãy dùng form tự chấm bên trên để lưu câu trả lời!</td></tr>`;
         return;
       }
 
