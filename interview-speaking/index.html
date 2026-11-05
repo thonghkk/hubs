@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lộ Trình 4 Tuần Luyện Kỹ Năng Phỏng Vấn | Interview Speaking Coach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0b0f17;
+      --bg-surface: #121826;
+      --bg-card: #192234;
+      --bg-card-hover: #1f2b42;
+      --border: #233047;
+      --border-focus: #3b82f6;
+      
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --blue: #3b82f6;
+      --blue-glow: rgba(59, 130, 246, 0.25);
+      --purple: #8b5cf6;
+      --purple-glow: rgba(139, 92, 246, 0.25);
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --cyan: #06b6d4;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.4);
+      --shadow-lg: 0 20px 40px -10px rgba(0,0,0,0.6);
+      --font-main: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 60%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-main); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+    /* Layout */
+    .app-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    /* Top Nav / Breadcrumb */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .back-link:hover { color: var(--blue); transform: translateX(-3px); }
+    .top-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* Hero Header */
+    .hero {
+      text-align: center;
+      margin-bottom: 36px;
+      position: relative;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(30px, 4.5vw, 44px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #ffffff 30%, #93c5fd 70%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    /* Stat Dashboard Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .stat-info { flex: 1; }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 2px;
+    }
+    .progress-bar-wrap {
+      width: 100%;
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    /* Tabs Navigation */
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 28px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tabs-nav::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex: 1;
+      min-width: 140px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255,255,255,0.03);
+    }
+    .tab-btn.active {
+      color: #fff;
+      background: var(--blue);
+      box-shadow: 0 4px 14px var(--blue-glow);
+    }
+
+    /* Tab Contents */
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section Cards & Containers */
+    .glass-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .section-title-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-main);
+    }
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    /* Week Accordions & Schedule */
+    .week-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .week-btn {
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .week-btn:hover { border-color: var(--text-dim); color: var(--text-main); }
+    .week-btn.active {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .week-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 20px;
+      transition: border-color 0.2s;
+    }
+    .week-card:hover { border-color: rgba(59, 130, 246, 0.4); }
+    .week-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .week-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .week-target {
+      display: inline-block;
+      font-size: 12px;
+      color: var(--amber);
+      background: rgba(245, 158, 11, 0.1);
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+    
+    /* Checklist component */
+    .task-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 16px;
+      background: rgba(11, 15, 23, 0.4);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .task-item:hover {
+      background: rgba(59, 130, 246, 0.05);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+    .task-item.checked {
+      opacity: 0.75;
+      background: rgba(16, 185, 129, 0.04);
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+    .task-item.checked .task-text {
+      text-decoration: line-through;
+      color: var(--text-dim);
+    }
+    .custom-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--text-dim);
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      margin-top: 2px;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .custom-checkbox:checked {
+      background-color: var(--emerald);
+      border-color: var(--emerald);
+    }
+    .custom-checkbox:checked::before {
+      content: "✓";
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .task-content { flex: 1; }
+    .task-day {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .task-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+    .task-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* Core Frameworks Cards */
+    .framework-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .fw-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .fw-badge {
+      align-self: flex-start;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .badge-prep { background: rgba(59, 130, 246, 0.15); color: var(--blue); border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-star { background: rgba(139, 92, 246, 0.15); color: var(--purple); border: 1px solid rgba(139, 92, 246, 0.3); }
+    .badge-prob { background: rgba(16, 185, 129, 0.15); color: var(--emerald); border: 1px solid rgba(16, 185, 129, 0.3); }
+    
+    .fw-steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .fw-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 14px;
+    }
+    .fw-step-char {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .fw-example {
+      margin-top: auto;
+      padding: 14px;
+      background: rgba(0,0,0,0.25);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--blue);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Practice Room / Timer & Counter */
+    .tool-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 860px) {
+      .tool-box { grid-template-columns: 1fr; }
+    }
+    .timer-display {
+      font-family: var(--font-mono);
+      font-size: 64px;
+      font-weight: 700;
+      text-align: center;
+      margin: 16px 0;
+      color: #fff;
+      letter-spacing: -2px;
+      text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    }
+    .timer-modes {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .mode-btn {
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .mode-btn.active {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    .btn {
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary { background: var(--blue); color: white; }
+    .btn-primary:hover { background: #2563eb; transform: translateY(-1px); }
+    .btn-secondary { background: var(--border); color: var(--text-main); }
+    .btn-secondary:hover { background: var(--text-dim); }
+    .btn-danger { background: rgba(244, 63, 94, 0.2); color: var(--rose); border: 1px solid rgba(244, 63, 94, 0.3); }
+    .btn-danger:hover { background: rgba(244, 63, 94, 0.3); }
+    .btn-emerald { background: var(--emerald); color: white; }
+    .btn-emerald:hover { background: #059669; }
+
+    /* Filler Counter Widget */
+    .filler-box {
+      text-align: center;
+      padding: 20px;
+    }
+    .filler-count {
+      font-size: 54px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--amber);
+      margin: 10px 0;
+    }
+    .filler-btn-big {
+      width: 100%;
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: rgba(245, 158, 11, 0.15);
+      border: 2px dashed rgba(245, 158, 11, 0.4);
+      color: var(--amber);
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: all 0.15s;
+    }
+    .filler-btn-big:active {
+      transform: scale(0.97);
+      background: rgba(245, 158, 11, 0.25);
+    }
+
+    /* Breathing Circle (4-4-6) */
+    .breathing-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+    .breath-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.1));
+      border: 3px solid var(--blue);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      transition: transform 1s ease-in-out, border-color 0.4s ease;
+      box-shadow: 0 0 30px var(--blue-glow);
+    }
+    .breath-phase { font-size: 15px; font-weight: 700; color: #fff; }
+    .breath-count { font-size: 26px; font-weight: 800; font-family: var(--font-mono); color: var(--blue); }
+
+    /* Random Question Card */
+    .question-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.8));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .q-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--cyan);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .q-text {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    .q-hint {
+      font-size: 14px;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 12px;
+    }
+
+    /* Score Calculator (Phụ lục A) */
+    .rubric-grid {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .rubric-row {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 180px 1fr 140px;
+      align-items: center;
+      gap: 16px;
+    }
+    @media (max-width: 768px) {
+      .rubric-row { grid-template-columns: 1fr; }
+    }
+    .rubric-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+    }
+    .rubric-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .rubric-select {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .total-score-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      border-radius: var(--radius-md);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .score-num {
+      font-size: 32px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--blue);
+    }
+
+    /* Tracking Table (Phụ lục D) */
+    .table-responsive {
+      overflow-x: auto;
+      margin-bottom: 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+    .track-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+      background: var(--bg-card);
+    }
+    .track-table th {
+      background: var(--bg-surface);
+      padding: 12px 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .track-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-main);
+    }
+    .track-table tr:last-child td { border-bottom: none; }
+    .track-table input, .track-table select {
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 13px;
+      width: 100%;
+    }
+
+    /* STAR Stories Bank */
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    .story-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .story-num {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--purple);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .story-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .story-field {
+      margin-bottom: 10px;
+    }
+    .story-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .story-input, .story-textarea {
+      width: 100%;
+      background: rgba(11, 15, 23, 0.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      padding: 8px 12px;
+      font-family: inherit;
+      font-size: 13px;
+      resize: vertical;
+    }
+    .story-input:focus, .story-textarea:focus {
+      outline: none;
+      border-color: var(--purple);
+    }
+
+    /* Mindset Callouts */
+    .mindset-card {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(59, 130, 246, 0.08));
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .mindset-icon { font-size: 28px; }
+    .mindset-text { font-size: 15px; font-weight: 600; color: #f1f5f9; line-height: 1.5; }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    /* Utility */
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.06);
+      color: var(--text-muted);
+    }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <a href="../index.html" class="back-link">
+        <span>←</span> Quay lại Knowledge Hub
+      </a>
+      <div class="top-actions">
+        <button class="btn btn-secondary" onclick="exportData()" title="Xuất dữ liệu dự phòng">📥 Sao lưu</button>
+        <button class="btn btn-danger" onclick="resetAllData()" title="Đặt lại trạng thái">↺ Đặt lại</button>
+      </div>
+    </div>
+
+    <!-- Hero Header -->
+    <div class="hero">
+      <div class="badge-pill">🎙️ Hướng dẫn & Theo dõi thực hành</div>
+      <h1>Kế Hoạch 4 Tuần Cải Thiện Kỹ Năng Trả Lời Phỏng Vấn</h1>
+      <p>Luyện phản xạ nói kết luận trước, dùng đúng khung PREP/STAR, kiểm soát độ dài 60–120s, triệt tiêu từ đệm và giữ bình tĩnh dưới áp lực.</p>
+    </div>
+
+    <!-- Mindset banner -->
+    <div class="mindset-card">
+      <div class="mindset-icon">💡</div>
+      <div class="mindset-text">
+        "Phỏng vấn là cuộc trao đổi giữa hai người làm nghề — không phải buổi thi vấn đáp. Bạn cũng đang đánh giá xem họ có phù hợp với mình không."
+      </div>
+    </div>
+
+    <!-- Global Stats Dashboard -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="color: var(--blue);">📈</div>
+        <div class="stat-info">
+          <div class="stat-label">Tiến độ hoàn thành</div>
+          <div class="stat-value" id="overallProgressText">0%</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="overallProgressBar"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="color: var(--emerald);">⭐</div>
+        <div class="stat-info">
+          <div class="stat-label">Điểm trung bình (Phụ lục D)</div>
+          <div class="stat-value" id="avgScoreText">--/25</div>
+          <div style="font-size: 12px; color: var(--emerald); margin-top: 4px;">Mục tiêu Tuần 4: ≥ 20/25</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="color: var(--purple);">📖</div>
+        <div class="stat-info">
+          <div class="stat-label">Kho câu chuyện STAR</div>
+          <div class="stat-value" id="starCountText">0/8 đã soạn</div>
+          <div style="font-size: 12px; color: var(--purple); margin-top: 4px;">Nguyên liệu cốt lõi Tuần 1</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="color: var(--amber);">🎯</div>
+        <div class="stat-info">
+          <div class="stat-label">Số buổi luyện đã ghi</div>
+          <div class="stat-value" id="logCountText">0 lượt</div>
+          <div style="font-size: 12px; color: var(--amber); margin-top: 4px;">Tối thiểu 3 câu/ngày</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('roadmap')">📅 Lộ Trình 4 Tuần</button>
+      <button class="tab-btn" onclick="switchTab('practice')">⏱️ Phòng Luyện Tập & Timer</button>
+      <button class="tab-btn" onclick="switchTab('frameworks')">📐 3 Khung Trả Lời & Mẹo</button>
+      <button class="tab-btn" onclick="switchTab('stories')">📖 Kho 8 Câu Chuyện STAR</button>
+      <button class="tab-btn" onclick="switchTab('scoring')">⚖️ Tự Chấm & Tiến Độ</button>
+      <button class="tab-btn" onclick="switchTab('checklist')">✅ Checklist Phỏng Vấn</button>
+    </div>
+
+    <!-- TAB 1: ROADMAP & WEEKS -->
+    <div id="tab-roadmap" class="tab-pane active">
+      <div class="glass-card">
+        <div class="section-title-wrap">
+          <div class="section-title">📅 Chi Tiết Nhiệm Vụ Từng Tuần</div>
+          <div class="week-nav">
+            <button class="week-btn active" onclick="filterWeek('all')">Tất cả</button>
+            <button class="week-btn" onclick="filterWeek('w0')">Tuần 0</button>
+            <button class="week-btn" onclick="filterWeek('w1')">Tuần 1</button>
+            <button class="week-btn" onclick="filterWeek('w2')">Tuần 2</button>
+            <button class="week-btn" onclick="filterWeek('w3')">Tuần 3</button>
+            <button class="week-btn" onclick="filterWeek('w4')">Tuần 4</button>
+            <button class="week-btn" onclick="filterWeek('w5')">Duy Trì</button>
+          </div>
+        </div>
+        <p class="section-desc">Đánh dấu vào từng việc sau khi hoàn thành. Tiến độ sẽ được tự động lưu trên trình duyệt của bạn.</p>
+
+        <!-- TUẦN 0 -->
+        <div class="week-card" data-week="w0">
+          <div class="week-header">
+            <div>
+              <div class="week-title">Tuần 0 (2 ngày): Đo Điểm Xuất Phát (Baseline)</div>
+              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Biết chính xác mình đang ở đâu trước khi luyện</div>
+            </div>
+            <div class="week-target">Đích: Tạo file baseline.md + 3 lỗi lớn</div>
+          </div>
+          <ul class="task-list">
+            <li class="task-item" onclick="toggleTask('t0_1', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t0_1">
+              <div class="task-content">
+                <div class="task-day">Ngày 1</div>
+                <div class="task-text">Ghi âm 5 câu trả lời "thô" không chuẩn bị trước</div>
+                <div class="task-sub">Gồm: 1 câu giới thiệu bản thân, 2 câu kỹ thuật, 2 câu kinh nghiệm. Bật ghi âm điện thoại và trả lời ngay.</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t0_2', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t0_2">
+              <div class="task-content">
+                <div class="task-day">Ngày 2</div>
+                <div class="task-text">Tự chấm điểm theo Phụ lục A và ghi nhận 3 lỗi lớn nhất</div>
+                <div class="task-sub">Nghe lại ghi âm. Ghi chú cụ thể: kể bối cảnh dài, lạm dụng từ "thì/kiểu", hoặc câu đầu lạc đề.</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- TUẦN 1 -->
+        <div class="week-card" data-week="w1">
+          <div class="week-header">
+            <div>
+              <div class="week-title">Tuần 1 (5 ngày): Xây Nền — Khung Trả Lời & Kho Câu Chuyện</div>
+              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Thuộc lòng các khung trả lời và có sẵn "nguyên liệu" để kể</div>
+            </div>
+            <div class="week-target">Đích: Hoàn thiện 8 câu chuyện STAR</div>
+          </div>
+          <ul class="task-list">
+            <li class="task-item" onclick="toggleTask('t1_1', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t1_1">
+              <div class="task-content">
+                <div class="task-day">Ngày 1</div>
+                <div class="task-text">Học 3 khung: PREP, STAR và Giải quyết vấn đề</div>
+                <div class="task-sub">Viết mỗi khung ra giấy nhớ và dán ngay bàn làm việc để ngấm cấu trúc.</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t1_2', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t1_2">
+              <div class="task-content">
+                <div class="task-day">Ngày 2</div>
+                <div class="task-text">Bài tập phân loại câu hỏi (30 câu từ Ngân hàng)</div>
+                <div class="task-sub">Chỉ ghi: loại câu, khung sẽ dùng, từ khóa trọng tâm. Không trả lời. Mất ~15s mỗi câu.</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t1_3', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t1_3">
+              <div class="task-content">
+                <div class="task-day">Ngày 3</div>
+                <div class="task-text">Kho câu chuyện phần 1: Liệt kê dự án & chọn ra 8 tình huống tốt nhất</div>
+                <div class="task-sub">Rà soát CV và kinh nghiệm làm việc thực tế trong sự nghiệp.</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t1_4', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t1_4">
+              <div class="task-content">
+                <div class="task-day">Ngày 4</div>
+                <div class="task-text">Kho câu chuyện phần 2: Viết 4 câu chuyện đầu theo mẫu STAR</div>
+                <div class="task-sub">Chỉ viết gạch đầu dòng ngắn gọn, không viết thành bài văn (dùng tab Kho Câu Chuyện).</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t1_5', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t1_5">
+              <div class="task-content">
+                <div class="task-day">Ngày 5</div>
+                <div class="task-text">Kho câu chuyện phần 3: Viết 4 câu chuyện còn lại & gắn thẻ câu hỏi ứng dụng</div>
+                <div class="task-sub">Xác định mỗi câu chuyện dùng được cho tình huống nào (áp lực, bất đồng, cải tiến...).</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t1_6', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t1_6">
+              <div class="task-content">
+                <div class="task-day">Cuối tuần</div>
+                <div class="task-text">Kể to cả 8 câu chuyện có ghi âm (tối đa 2 phút/câu)</div>
+                <div class="task-sub">Nghe lại kiểm tra: phần Action (Hành động của tôi) có chiếm ~60% thời lượng không.</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- TUẦN 2 -->
+        <div class="week-card" data-week="w2">
+          <div class="week-header">
+            <div>
+              <div class="week-title">Tuần 2 (5 ngày): Luyện Trả Lời Đúng Trọng Tâm</div>
+              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Hình thành phản xạ nói kết luận ngay câu đầu tiên</div>
+            </div>
+            <div class="week-target">3 bài tập/ngày (~40 phút)</div>
+          </div>
+          <ul class="task-list">
+            <li class="task-item" onclick="toggleTask('t2_1', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t2_1">
+              <div class="task-content">
+                <div class="task-day">Ngày 1 — Câu hỏi Kiến thức (PREP)</div>
+                <div class="task-text">Thực hiện Bài 1 (10 câu "1 câu"), Bài 2 (30-60-120s), Bài 3 (chấm điểm)</div>
+                <div class="task-sub">Nhẩm trước khi nói: "Họ thực sự muốn biết điều gì?"</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t2_2', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t2_2">
+              <div class="task-content">
+                <div class="task-day">Ngày 2 — Câu hỏi Kinh nghiệm (STAR)</div>
+                <div class="task-text">Luyện co giãn 30s – 60s – 120s cho câu chuyện kinh nghiệm</div>
+                <div class="task-sub">Câu đầu tiên phải giữ nguyên ở cả 3 lần nói.</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t2_3', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t2_3">
+              <div class="task-content">
+                <div class="task-day">Ngày 3 — Giải quyết vấn đề / System Design nhỏ</div>
+                <div class="task-text">Luyện khung: Làm rõ → Hướng tổng thể → Chi tiết → Trade-off</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t2_4', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t2_4">
+              <div class="task-content">
+                <div class="task-day">Ngày 4 — Đào sâu CV chính mình</div>
+                <div class="task-text">Luyện trả lời các câu hỏi về dự án đã làm trong CV</div>
+                <div class="task-sub">Tự tin chỉ rõ vai trò "Em", không nói chung chung "Team em".</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t2_5', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t2_5">
+              <div class="task-content">
+                <div class="task-day">Ngày 5 — Trộn ngẫu nhiên tất cả các loại</div>
+                <div class="task-text">Bốc ngẫu nhiên câu hỏi trong ngân hàng và áp dụng phản xạ</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t2_6', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t2_6">
+              <div class="task-content">
+                <div class="task-day">Cuối tuần</div>
+                <div class="task-text">So sánh điểm trung bình với Tuần 0 và ghi ra 2 lỗi còn tồn tại</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- TUẦN 3 -->
+        <div class="week-card" data-week="w3">
+          <div class="week-header">
+            <div>
+              <div class="week-title">Tuần 3 (5 ngày): Luyện Dưới Áp Lực & Kỹ Thuật Cứu Vãn</div>
+              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Giữ cấu trúc khi bị hỏi dồn, gặp câu khó hoặc không biết</div>
+            </div>
+            <div class="week-target">Luyện tâm lý thở 4-4-6 mỗi ngày</div>
+          </div>
+          <ul class="task-list">
+            <li class="task-item" onclick="toggleTask('t3_1', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t3_1">
+              <div class="task-content">
+                <div class="task-day">Ngày 1 — Câu hỏi đào sâu 3 tầng</div>
+                <div class="task-text">Tự hỏi và trả lời: "Tại sao?", "Nếu… thì sao?", "Có cách nào khác không?"</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t3_2', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t3_2">
+              <div class="task-content">
+                <div class="task-day">Ngày 2 — Câu hỏi không biết</div>
+                <div class="task-text">Luyện mẫu: "Phần này em chưa làm thực tế. Theo em hiểu thì… Nếu gặp, em sẽ…"</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t3_3', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t3_3">
+              <div class="task-content">
+                <div class="task-day">Ngày 3 — Phỏng vấn thử lần 1 (30 phút)</div>
+                <div class="task-text">Thực hiện mock interview với bạn bè/AI/đồng nghiệp có ghi âm</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t3_4', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t3_4">
+              <div class="task-content">
+                <div class="task-day">Ngày 4 — Rút kinh nghiệm</div>
+                <div class="task-text">Nghe lại mock test lần 1, chọn 3 câu tệ nhất và viết lại câu trả lời chuẩn</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t3_5', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t3_5">
+              <div class="task-content">
+                <div class="task-day">Ngày 5 — Kỹ thuật cứu vãn khi bị lạc</div>
+                <div class="task-text">Luyện câu: "Tóm lại, ý chính của em là...", "Để em suy nghĩ 3 giây..."</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t3_6', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t3_6">
+              <div class="task-content">
+                <div class="task-day">Cuối tuần</div>
+                <div class="task-text">Phỏng vấn thử lần 2 với người lạ hoặc người có kinh nghiệm</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- TUẦN 4 -->
+        <div class="week-card" data-week="w4">
+          <div class="week-header">
+            <div>
+              <div class="week-title">Tuần 4 (5 ngày): Hoàn Thiện & Mô Phỏng Thật</div>
+              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Đạt các chỉ tiêu đã đặt ra và sẵn sàng cho buổi phỏng vấn</div>
+            </div>
+            <div class="week-target">Đích: Điểm TB ≥ 20/25</div>
+          </div>
+          <ul class="task-list">
+            <li class="task-item" onclick="toggleTask('t4_1', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t4_1">
+              <div class="task-content">
+                <div class="task-day">Ngày 1 — Phần tự giới thiệu (60–90s)</div>
+                <div class="task-text">Hoàn thiện theo 3 thời: Hiện tại → Quá khứ → Tương lai (Luyện 10 lần)</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t4_2', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t4_2">
+              <div class="task-content">
+                <div class="task-day">Ngày 2 — 3–5 câu hỏi ngược lại người phỏng vấn</div>
+                <div class="task-text">Chuẩn bị câu hỏi sâu về team, tech stack, quy trình và kỳ vọng</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t4_3', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t4_3">
+              <div class="task-content">
+                <div class="task-day">Ngày 3 — Phỏng vấn thử lần 3 (Mô phỏng 100%)</div>
+                <div class="task-text">Mặc trang phục lịch sự, ngồi đúng tư thế, bật webcam</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t4_4', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t4_4">
+              <div class="task-content">
+                <div class="task-day">Ngày 4 — Ôn nhẹ kho câu chuyện</div>
+                <div class="task-text">Chỉ đọc phần mở đầu và số liệu cốt lõi, không nhồi nhét lý thuyết</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t4_5', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t4_5">
+              <div class="task-content">
+                <div class="task-day">Ngày 5 — Phỏng vấn thử lần 4 (Tổng kết)</div>
+                <div class="task-text">Chấm điểm lần cuối, so sánh sự tiến bộ vượt bậc so với Tuần 0</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('t4_6', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_t4_6">
+              <div class="task-content">
+                <div class="task-day">Cuối tuần</div>
+                <div class="task-text">Rà soát Checklist trước phỏng vấn thật (Phụ lục E)</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- DUY TRÌ -->
+        <div class="week-card" data-week="w5">
+          <div class="week-header">
+            <div>
+              <div class="week-title">Sau 4 Tuần: Thói Quen Duy Trì & Cập Nhật</div>
+            </div>
+            <div class="week-target">Giữ phản xạ sắc bén lâu dài</div>
+          </div>
+          <ul class="task-list">
+            <li class="task-item" onclick="toggleTask('m_1', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_m_1">
+              <div class="task-content">
+                <div class="task-day">Hàng tuần</div>
+                <div class="task-text">Dành 1 buổi 30 phút luyện ngẫu nhiên với câu hỏi bất kỳ, có ghi âm</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('m_2', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_m_2">
+              <div class="task-content">
+                <div class="task-day">Sau mỗi phỏng vấn thật (trong 24h)</div>
+                <div class="task-text">Ghi lại câu hỏi đã gặp, viết lại câu chưa tốt, bổ sung vào kho câu chuyện</div>
+              </div>
+            </li>
+            <li class="task-item" onclick="toggleTask('m_3', event)">
+              <input type="checkbox" class="custom-checkbox" id="chk_m_3">
+              <div class="task-content">
+                <div class="task-day">Mỗi quý</div>
+                <div class="task-text">Cập nhật kho câu chuyện với những dự án mới nhất</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 2: PRACTICE ROOM & TIMER -->
+    <div id="tab-practice" class="tab-pane">
+      <div class="glass-card">
+        <div class="section-title">⏱️ Phòng Luyện Tập Tương Tác</div>
+        <p class="section-desc">Công cụ hỗ trợ bài tập hàng ngày Tuần 2 & 3: Bấm giờ 30s-60s-120s, đếm từ đệm và tập thở 4-4-6.</p>
+
+        <!-- Ngân hàng câu hỏi ngẫu nhiên -->
+        <div class="question-card">
+          <div class="flex-between">
+            <span class="q-badge" id="qCategory">Câu hỏi ngẫu nhiên</span>
+            <button class="btn btn-secondary" onclick="generateRandomQuestion()" style="padding: 6px 14px; font-size: 13px;">🎲 Đổi câu hỏi</button>
+          </div>
+          <div class="q-text" id="qContent">"Kể về một lần bạn xử lý bug khó trên production hoặc sự cố áp lực cao?"</div>
+          <div class="q-hint" id="qHint">💡 Khung khuyên dùng: <strong>STAR</strong>. Bắt đầu bằng 1 câu nêu thẳng bài toán và kết quả trước!</div>
+        </div>
+
+        <div class="tool-box">
+          <!-- Cột 1: Timer 30-60-120s -->
+          <div class="week-card" style="margin-bottom:0;">
+            <div class="flex-between">
+              <span style="font-weight: 700; font-size: 16px;">⏱️ Đồng hồ bấm giờ luyện nhịp nói</span>
+              <span class="tag">Tuần 2 - Bài 2</span>
+            </div>
+            
+            <div class="timer-display" id="timerDisplay">01:00</div>
+
+            <div class="timer-modes">
+              <button class="mode-btn" onclick="setTimerDuration(15)">15s (1 câu)</button>
+              <button class="mode-btn" onclick="setTimerDuration(30)">30s</button>
+              <button class="mode-btn active" onclick="setTimerDuration(60)">60s</button>
+              <button class="mode-btn" onclick="setTimerDuration(120)">120s (chuẩn)</button>
+              <button class="mode-btn" onclick="setTimerDuration(0)">Đếm lên</button>
+            </div>
+
+            <div class="btn-row">
+              <button class="btn btn-primary" id="timerStartBtn" onclick="toggleTimer()">▶ Bắt đầu</button>
+              <button class="btn btn-secondary" onclick="resetTimer()">↺ Đặt lại</button>
+            </div>
+          </div>
+
+          <!-- Cột 2: Bộ đếm từ đệm -->
+          <div class="week-card filler-box" style="margin-bottom:0;">
+            <div class="flex-between">
+              <span style="font-weight: 700; font-size: 16px;">🗣️ Bộ đếm từ đệm ("thì, kiểu, à, ờ")</span>
+              <span class="tag" style="color: var(--amber);">Chỉ tiêu: &lt; 3 từ/phút</span>
+            </div>
+            
+            <div class="filler-count" id="fillerCount">0</div>
+            
+            <button class="filler-btn-big" onclick="incrementFiller()">
+              + Bấm khi phát hiện 1 từ đệm
+            </button>
+            
+            <div class="btn-row">
+              <button class="btn btn-secondary" onclick="resetFiller()">↺ Đặt lại bộ đếm</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Widget Thở 4-4-6 (Tuần 3 & Phụ lục E) -->
+        <div style="margin-top: 24px;">
+          <div class="breathing-box">
+            <div style="font-weight: 700; font-size: 16px; margin-bottom: 6px;">🧘 Luyện Thở 4-4-6 (Hạ nhịp tim & giảm áp lực)</div>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Hít vào 4 giây → Giữ 4 giây → Thở ra 6 giây. Lặp lại 5 lần trước khi phỏng vấn.</p>
+            
+            <div class="breath-circle" id="breathCircle">
+              <span class="breath-phase" id="breathPhase">Sẵn sàng</span>
+              <span class="breath-count" id="breathCount">--</span>
+            </div>
+
+            <button class="btn btn-primary" id="breathBtn" onclick="toggleBreathing()">Bắt đầu bài tập thở</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 3: FRAMEWORKS & MINDSET -->
+    <div id="tab-frameworks" class="tab-pane">
+      <div class="glass-card">
+        <div class="section-title">📐 3 Khung Trả Lời Cốt Lõi</div>
+        <p class="section-desc">Cấu trúc hóa câu trả lời giúp bạn không bị lạc đề và người nghe nắm bắt thông tin nhanh nhất.</p>
+
+        <div class="framework-grid">
+          <!-- PREP -->
+          <div class="fw-card">
+            <span class="fw-badge badge-prep">PREP • Kiến thức & Quan điểm</span>
+            <h3 style="font-size: 18px; margin-bottom: 6px;">Dùng khi giải thích hoặc nêu ý kiến</h3>
+            <ul class="fw-steps">
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--blue);">P</span>
+                <div><strong>Point (Kết luận ngay):</strong> Đi thẳng vào câu hỏi, nêu quan điểm cốt lõi ở câu đầu tiên.</div>
+              </li>
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--blue);">R</span>
+                <div><strong>Reason (Lý do):</strong> Giải thích ngắn gọn 1-2 nguyên nhân chính vì sao.</div>
+              </li>
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--blue);">E</span>
+                <div><strong>Example (Ví dụ):</strong> Đưa dẫn chứng thực tế hoặc ví dụ code/dự án cụ thể.</div>
+              </li>
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--blue);">P</span>
+                <div><strong>Point (Khẳng định lại):</strong> Tóm gọn lại kết luận trong 1 câu.</div>
+              </li>
+            </ul>
+            <div class="fw-example">
+              <strong>Ví dụ mở đầu:</strong> "Theo em, nên chọn Room Database thay vì SQLite thuần vì nó compile-time check SQL và giảm thiểu boilerplate code..."
+            </div>
+          </div>
+
+          <!-- STAR -->
+          <div class="fw-card">
+            <span class="fw-badge badge-star">STAR • Câu hỏi Kinh nghiệm</span>
+            <h3 style="font-size: 18px; margin-bottom: 6px;">Kể về dự án, khó khăn, xung đột</h3>
+            <ul class="fw-steps">
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--purple);">S</span>
+                <div><strong>Situation (10%):</strong> Bối cảnh thật ngắn (1-2 câu), không lan man.</div>
+              </li>
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--purple);">T</span>
+                <div><strong>Task (10%):</strong> Nhiệm vụ và vai trò cụ thể CỦA TÔI trong đó.</div>
+              </li>
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--purple);">A</span>
+                <div><strong>Action (60%):</strong> Hành động cụ thể của tôi theo 3 bước: 1..., 2..., 3...</div>
+              </li>
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--purple);">R</span>
+                <div><strong>Result (20%):</strong> Kết quả đo lường được (số liệu %) + bài học rút ra.</div>
+              </li>
+            </ul>
+            <div class="fw-example">
+              <strong>Quy tắc vàng:</strong> Dùng đại từ "Tôi/Em", tránh nói chung chung "Team em đã làm...". Hành động phải chiếm phần lớn thời gian!
+            </div>
+          </div>
+
+          <!-- PROBLEM SOLVING -->
+          <div class="fw-card">
+            <span class="fw-badge badge-prob">Problem Solving • Tình huống & Thiết kế</span>
+            <h3 style="font-size: 18px; margin-bottom: 6px;">Xử lý sự cố & System Design nhỏ</h3>
+            <ul class="fw-steps">
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--emerald);">1</span>
+                <div><strong>Làm rõ yêu cầu:</strong> Xác định phạm vi, giả định, đặt câu hỏi ngược lại nếu đề mơ hồ.</div>
+              </li>
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--emerald);">2</span>
+                <div><strong>Hướng tổng thể:</strong> Đưa ra kiến trúc/luồng giải quyết lớn trước.</div>
+              </li>
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--emerald);">3</span>
+                <div><strong>Chi tiết từng phần:</strong> Đi sâu vào module/thuật toán trọng yếu.</div>
+              </li>
+              <li class="fw-step">
+                <span class="fw-step-char" style="color: var(--emerald);">4</span>
+                <div><strong>Trade-off (Đánh đổi):</strong> Nêu rõ ưu/nhược điểm so với giải pháp khác.</div>
+              </li>
+            </ul>
+            <div class="fw-example">
+              <strong>Mẫu câu mở đầu:</strong> "Trước khi đưa giải pháp, cho em hỏi thêm về lưu lượng dự kiến và SLA cho phép là bao nhiêu ạ?"
+            </div>
+          </div>
+        </div>
+
+        <!-- Kỹ thuật cứu vãn & Mindset -->
+        <div class="week-card" style="margin-top: 24px;">
+          <div class="week-title" style="margin-bottom: 14px;">🆘 Kỹ Thuật Cứu Vãn Khi Bị Lạc Hoặc Gặp Câu Khó</div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            <div style="padding: 14px; background: rgba(0,0,0,0.25); border-radius: var(--radius-sm);">
+              <div style="font-weight: 700; color: var(--rose); margin-bottom: 4px;">1. Khi gặp câu không biết:</div>
+              <div style="font-size: 14px; color: var(--text-main);">"Phần này em chưa làm thực tế trong dự án. Tuy nhiên theo em hiểu thì... Nếu gặp vấn đề này, hướng tiếp cận của em sẽ là..."</div>
+            </div>
+            <div style="padding: 14px; background: rgba(0,0,0,0.25); border-radius: var(--radius-sm);">
+              <div style="font-weight: 700; color: var(--amber); margin-bottom: 4px;">2. Khi nhận ra mình nói lan man:</div>
+              <div style="font-size: 14px; color: var(--text-main);">"Tóm lại, ý chính của em cho câu hỏi này gồm 2 điểm: thứ nhất là... và thứ hai là..."</div>
+            </div>
+            <div style="padding: 14px; background: rgba(0,0,0,0.25); border-radius: var(--radius-sm);">
+              <div style="font-weight: 700; color: var(--blue); margin-bottom: 4px;">3. Cần 3 giây suy nghĩ:</div>
+              <div style="font-size: 14px; color: var(--text-main);">"Đây là một câu hỏi rất hay. Anh/chị cho em xin vài giây để sắp xếp lại các ý chính nhé ạ."</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 4: STAR STORIES BANK -->
+    <div id="tab-stories" class="tab-pane">
+      <div class="glass-card">
+        <div class="flex-between" style="margin-bottom: 12px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div class="section-title">📖 Kho 8 Câu Chuyện STAR (Phụ Lục B)</div>
+            <p class="section-desc" style="margin-bottom: 0;">Soạn sẵn 8 nguyên liệu cốt lõi trong Tuần 1. Chỉ gạch đầu dòng ngắn gọn, có số liệu rõ ràng.</p>
+          </div>
+          <button class="btn btn-emerald" onclick="saveAllStories()">💾 Lưu tất cả câu chuyện</button>
+        </div>
+
+        <div class="story-grid" id="storyGridContainer">
+          <!-- 8 câu chuyện được render bằng JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: SCORING & LOGS -->
+    <div id="tab-scoring" class="tab-pane">
+      <!-- Phụ lục A: Bảng tự chấm điểm -->
+      <div class="glass-card">
+        <div class="section-title">⚖️ Bảng Tự Chấm Điểm Mỗi Câu Trả Lời (Phụ Lục A)</div>
+        <p class="section-desc">Chọn điểm cho từng tiêu chí để kiểm tra câu trả lời vừa ghi âm. Mục tiêu: ≥ 20/25 điểm.</p>
+
+        <div class="rubric-grid">
+          <div class="rubric-row">
+            <div>
+              <div class="rubric-name">1. Đúng trọng tâm</div>
+              <div class="rubric-desc">Câu đầu tiên có đi thẳng vào vấn đề không?</div>
+            </div>
+            <div class="rubric-desc">
+              1đ: Lạc đề | 3đ: Đúng ý nhưng cuối mới nói | 5đ: Câu đầu tiên trả lời thẳng
+            </div>
+            <div>
+              <select class="rubric-select" id="r_focus" onchange="calculateRubric()">
+                <option value="1">1 điểm (Lạc đề)</option>
+                <option value="3">3 điểm (Cuối mới vào ý)</option>
+                <option value="5" selected>5 điểm (Câu đầu vào thẳng)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="rubric-row">
+            <div>
+              <div class="rubric-name">2. Cấu trúc</div>
+              <div class="rubric-desc">Có theo khung và báo trước số ý không?</div>
+            </div>
+            <div class="rubric-desc">
+              1đ: Lộn xộn | 3đ: Có ý nhưng không rõ | 5đ: Đúng khung (PREP/STAR), có báo số ý
+            </div>
+            <div>
+              <select class="rubric-select" id="r_structure" onchange="calculateRubric()">
+                <option value="1">1 điểm (Lộn xộn)</option>
+                <option value="3">3 điểm (Ý chưa rõ)</option>
+                <option value="5" selected>5 điểm (Khung rõ + báo số ý)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="rubric-row">
+            <div>
+              <div class="rubric-name">3. Độ dài</div>
+              <div class="rubric-desc">Thời lượng câu trả lời</div>
+            </div>
+            <div class="rubric-desc">
+              1đ: &lt;20s hoặc &gt;3 phút | 3đ: 2–3 phút | 5đ: 60–120 giây chuẩn
+            </div>
+            <div>
+              <select class="rubric-select" id="r_duration" onchange="calculateRubric()">
+                <option value="1">1 điểm (&lt;20s hoặc &gt;3p)</option>
+                <option value="3">3 điểm (2-3 phút)</option>
+                <option value="5" selected>5 điểm (60-120 giây)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="rubric-row">
+            <div>
+              <div class="rubric-name">4. Cụ thể & Vai trò</div>
+              <div class="rubric-desc">Ví dụ thật, số liệu %, vai trò "Em"</div>
+            </div>
+            <div class="rubric-desc">
+              1đ: Chung chung | 3đ: Có ví dụ | 5đ: Ví dụ thật, có số liệu %, rõ vai trò cá nhân
+            </div>
+            <div>
+              <select class="rubric-select" id="r_specific" onchange="calculateRubric()">
+                <option value="1">1 điểm (Chung chung)</option>
+                <option value="3">3 điểm (Có ví dụ)</option>
+                <option value="5" selected>5 điểm (Số liệu + vai trò rõ)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="rubric-row">
+            <div>
+              <div class="rubric-name">5. Trôi chảy</div>
+              <div class="rubric-desc">Tần suất xuất hiện từ đệm</div>
+            </div>
+            <div class="rubric-desc">
+              1đ: &gt;6 từ đệm/phút | 3đ: 3–6 từ đệm | 5đ: &lt;3 từ đệm/phút, nhịp nói điềm đạm
+            </div>
+            <div>
+              <select class="rubric-select" id="r_fluent" onchange="calculateRubric()">
+                <option value="1">1 điểm (&gt;6 từ đệm/p)</option>
+                <option value="3">3 điểm (3-6 từ đệm/p)</option>
+                <option value="5" selected>5 điểm (&lt;3 từ đệm/p)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="total-score-box">
+          <div>
+            <div style="font-size: 13px; color: var(--text-muted); text-transform: uppercase;">Điểm chấm câu này:</div>
+            <div class="score-num" id="rubricTotalDisplay">25 / 25 điểm</div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <input type="text" id="logQuestionInput" placeholder="Tên câu hỏi vừa luyện..." style="padding: 10px 14px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm); color: #fff; min-width: 240px; font-size: 14px;">
+            <button class="btn btn-primary" onclick="addCurrentScoreToLog()">+ Ghi vào Bảng Tiến Độ</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phụ lục D: Bảng theo dõi tiến độ -->
+      <div class="glass-card">
+        <div class="flex-between" style="margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div class="section-title">📊 Bảng Theo Dõi Tiến Độ Hàng Ngày (Phụ Lục D)</div>
+            <p class="section-desc" style="margin-bottom: 0;">Lưu lại ít nhất 3 câu trả lời mỗi ngày trong Tuần 2 & Tuần 3.</p>
+          </div>
+          <button class="btn btn-secondary" onclick="addNewEmptyRow()">+ Thêm dòng thủ công</button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="track-table" id="trackingTable">
+            <thead>
+              <tr>
+                <th style="width: 105px;">Ngày</th>
+                <th>Câu hỏi luyện</th>
+                <th style="width: 70px;">Trọng tâm</th>
+                <th style="width: 70px;">Cấu trúc</th>
+                <th style="width: 70px;">Độ dài</th>
+                <th style="width: 70px;">Cụ thể</th>
+                <th style="width: 70px;">Trôi chảy</th>
+                <th style="width: 80px;">Tổng</th>
+                <th>Ghi chú lỗi cần sửa</th>
+                <th style="width: 50px;">Xóa</th>
+              </tr>
+            </thead>
+            <tbody id="trackingTableBody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 6: PRE-INTERVIEW CHECKLIST -->
+    <div id="tab-checklist" class="tab-pane">
+      <div class="glass-card">
+        <div class="section-title">🚀 Checklist Trước Buổi Phỏng Vấn Thật (Phụ Lục E)</div>
+        <p class="section-desc">Rà soát kỹ trước giờ vào phòng phỏng vấn 15-30 phút để đưa tâm lý vào trạng thái tốt nhất.</p>
+
+        <ul class="task-list">
+          <li class="task-item" onclick="toggleChecklistE(0, event)">
+            <input type="checkbox" class="custom-checkbox" id="chk_e_0">
+            <div class="task-content">
+              <div class="task-text">Đọc lại job description (JD) và gạch chân 3–5 kỹ năng họ đang tìm kiếm nhất</div>
+              <div class="task-sub">Chuẩn bị sẵn câu chuyện trong kho tương ứng với các kỹ năng đó.</div>
+            </div>
+          </li>
+          <li class="task-item" onclick="toggleChecklistE(1, event)">
+            <input type="checkbox" class="custom-checkbox" id="chk_e_1">
+            <div class="task-content">
+              <div class="task-text">Ôn lại kho câu chuyện STAR — chỉ đọc câu mở đầu và các con số đo lường</div>
+              <div class="task-sub">Không đọc bài văn dài dòng để tránh tình trạng cố học vẹt và nói thiếu tự nhiên.</div>
+            </div>
+          </li>
+          <li class="task-item" onclick="toggleChecklistE(2, event)">
+            <input type="checkbox" class="custom-checkbox" id="chk_e_2">
+            <div class="task-content">
+              <div class="task-text">Luyện nói to phần tự giới thiệu 2 lần (Hiện tại → Quá khứ → Tương lai)</div>
+              <div class="task-sub">Đảm bảo trơn tru trong 60–90 giây và nở một nụ cười thân thiện khi bắt đầu.</div>
+            </div>
+          </li>
+          <li class="task-item" onclick="toggleChecklistE(3, event)">
+            <input type="checkbox" class="custom-checkbox" id="chk_e_3">
+            <div class="task-content">
+              <div class="task-text">Chuẩn bị sẵn 3 câu hỏi chất lượng để hỏi ngược lại người phỏng vấn</div>
+              <div class="task-sub">Về quy trình release, thách thức kỹ thuật lớn nhất quý tới, cơ hội thăng tiến.</div>
+            </div>
+          </li>
+          <li class="task-item" onclick="toggleChecklistE(4, event)">
+            <input type="checkbox" class="custom-checkbox" id="chk_e_4">
+            <div class="task-content">
+              <div class="task-text">Thực hiện bài tập thở 4-4-6 trong 2 phút trước khi vào phòng</div>
+              <div class="task-sub">Hít 4s - Giữ 4s - Thở 6s để hạ nhịp tim và giữ giọng nói trầm, vang, điềm tĩnh.</div>
+            </div>
+          </li>
+          <li class="task-item" onclick="toggleChecklistE(5, event)">
+            <input type="checkbox" class="custom-checkbox" id="chk_e_5">
+            <div class="task-content">
+              <div class="task-text">Khắc cốt ghi tâm 3 nguyên tắc vàng: Kết luận trước • Nói chậm hơn 20% • Được phép dừng 2-3s để nghĩ</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Page Footer -->
+    <div class="page-footer">
+      Kỹ năng trả lời phỏng vấn chuyên nghiệp • Hệ thống theo dõi 4 tuần • Dữ liệu tự động lưu trong LocalStorage
+    </div>
+  </div>
+
+  <script>
+    // --- DATABASE & STATE ---
+    const STORAGE_KEY = 'interview_speaking_tracker_state_v1';
+
+    const DEFAULT_QUESTIONS = [
+      { cat: 'Kinh nghiệm', text: 'Giới thiệu về bản thân bạn trong 60-90 giây.', hint: 'Khung: Hiện tại → Quá khứ nổi bật → Tương lai (vì sao chọn vị trí này).' },
+      { cat: 'Kinh nghiệm', text: 'Kể về dự án bạn cảm thấy tự hào nhất trong sự nghiệp.', hint: 'Khung STAR: Nêu kết quả số liệu ngay từ câu đầu tiên.' },
+      { cat: 'Kinh nghiệm', text: 'Kể về một lần bạn mắc lỗi hoặc thất bại và bài học rút ra.', hint: 'Khung STAR: Nhận trách nhiệm nhanh, nhấn mạnh bài học và cách khắc phục.' },
+      { cat: 'Kinh nghiệm', text: 'Bạn xử lý thế nào khi bất đồng quan điểm kỹ thuật với Leader / đồng nghiệp?', hint: 'Khung STAR: Tập trung vào giải pháp dữ liệu/proof-of-concept, giữ tinh thần cầu thị.' },
+      { cat: 'Kinh nghiệm', text: 'Kể về lần bạn phải hoàn thành nhiệm vụ với deadline rất gấp hoặc áp lực cao.', hint: 'Khung STAR: Nêu cách prioritize task và giao tiếp minh bạch.' },
+      { cat: 'Kỹ thuật', text: 'Khi nào nên dùng giải pháp A thay vì giải pháp B? (Ví dụ SQL vs NoSQL, Clean Arch...)', hint: 'Khung PREP: Đưa ra tiêu chí lựa chọn cốt lõi ngay câu đầu.' },
+      { cat: 'Kỹ thuật', text: 'Bạn debug một lỗi khó chỉ xảy ra trên môi trường Production như thế nào?', hint: 'Khung: Làm rõ → Giả định → Tái hiện → Phân tích Log/Trace → Trade-off fix.' },
+      { cat: 'Kỹ thuật', text: 'Làm sao để đảm bảo chất lượng code và giảm thiểu technical debt trong team?', hint: 'Khung PREP: Tóm gọn vào 2-3 quy trình chủ chốt (Review, CI/CD, Test).' },
+      { cat: 'Tình huống', text: 'Nếu requirement thay đổi lớn ngay sát ngày release, bạn sẽ xử lý thế nào?', hint: 'Khung Problem Solving: Đánh giá tác động → Họp stakeholder → Đưa 2 phương án trade-off.' },
+      { cat: 'Đào sâu CV', text: 'Tại sao trong dự án trước bạn lại chọn kiến trúc này mà không phải kiến trúc khác?', hint: 'Nhấn mạnh bối cảnh bài toán và hạn chế về tài nguyên/thời gian lúc bấy giờ.' }
+    ];
+
+    const STAR_TEMPLATES = [
+      { id: 1, title: '1. Thành tựu lớn nhất', tag: 'achievement', opening: 'Thành tựu lớn nhất của em là tối ưu hiệu năng ứng dụng X, giúp giảm 40% memory leak và crash rate xuống dưới 0.1%.' },
+      { id: 2, title: '2. Thất bại hoặc sai lầm & bài học', tag: 'failure', opening: 'Sai lầm đáng nhớ nhất của em là release một bản vá vội mà thiếu regression test, bài học lớn nhất là luôn duy trì CI automated tests.' },
+      { id: 3, title: '3. Bất đồng với đồng nghiệp / cấp trên', tag: 'conflict', opening: 'Khi có bất đồng về kiến trúc với tech lead, em đã làm một POC nhỏ để đo đạc benchmark thực tế thay vì tranh cãi lý thuyết suông.' },
+      { id: 4, title: '4. Deadline gấp hoặc áp lực cao', tag: 'pressure', opening: 'Trong đợt release gấp dịp Black Friday, em đã chủ động phân loại P0/P1 và chia nhỏ sprint để đảm bảo đúng tiến độ cốt lõi.' },
+      { id: 5, title: '5. Xử lý bug hoặc sự cố khó', tag: 'hard-bug', opening: 'Sự cố khó nhất em từng giải quyết là lỗi deadlock hiếm gặp trên multi-thread, em đã phân tích thread dump và đổi cơ chế synchronized.' },
+      { id: 6, title: '6. Chủ động cải tiến quy trình/hiệu năng', tag: 'improvement', opening: 'Em đã chủ động đề xuất áp dụng Lint rules và convention chung, giúp giảm 30% thời gian code review của cả team.' },
+      { id: 7, title: '7. Học nhanh một công nghệ mới', tag: 'fast-learning', opening: 'Khi dự án yêu cầu công nghệ mới, em dành 3 ngày đọc tài liệu gốc, build 1 demo nhỏ và chia sẻ lại cho team trong vòng 1 tuần.' },
+      { id: 8, title: '8. Hỗ trợ hoặc dẫn dắt người khác', tag: 'mentorship', opening: 'Em đã trực tiếp onboard và mentor 1 bạn junior developer, giúp bạn ấy độc lập release tính năng đầu tiên chỉ sau 3 tuần.' }
+    ];
+
+    let appState = {
+      tasks: {},
+      checklistE: [false, false, false, false, false, false],
+      stories: {},
+      logs: []
+    };
+
+    // Load State
+    function loadState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          appState = JSON.parse(saved);
+        } catch (e) {
+          console.error("Lỗi đọc state:", e);
+        }
+      }
+      // Populate defaults for stories if empty
+      STAR_TEMPLATES.forEach(st => {
+        if (!appState.stories[st.id]) {
+          appState.stories[st.id] = {
+            name: st.title,
+            tags: st.tag,
+            situation: '',
+            task: '',
+            action: '',
+            result: '',
+            opening: st.opening
+          };
+        }
+      });
+      syncUI();
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      updateGlobalStats();
+    }
+
+    // --- TAB SWITCHING ---
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+      
+      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+      
+      const pane = document.getElementById('tab-' + tabId);
+      if (pane) pane.classList.add('active');
+    }
+
+    function filterWeek(weekClass) {
+      document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const cards = document.querySelectorAll('.week-card[data-week]');
+      cards.forEach(card => {
+        if (weekClass === 'all' || card.getAttribute('data-week') === weekClass) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // --- TASK CHECKLIST LOGIC ---
+    function toggleTask(taskId, evt) {
+      if (evt.target.tagName.toLowerCase() === 'input') return; // handled by input change
+      const chk = document.getElementById('chk_' + taskId);
+      if (chk) {
+        chk.checked = !chk.checked;
+        onTaskChange(taskId, chk.checked);
+      }
+    }
+
+    function onTaskChange(taskId, isChecked) {
+      appState.tasks[taskId] = isChecked;
+      const item = document.getElementById('chk_' + taskId).closest('.task-item');
+      if (isChecked) {
+        item.classList.add('checked');
+      } else {
+        item.classList.remove('checked');
+      }
+      saveState();
+    }
+
+    function toggleChecklistE(index, evt) {
+      if (evt.target.tagName.toLowerCase() === 'input') return;
+      const chk = document.getElementById('chk_e_' + index);
+      if (chk) {
+        chk.checked = !chk.checked;
+        appState.checklistE[index] = chk.checked;
+        const item = chk.closest('.task-item');
+        if (chk.checked) item.classList.add('checked');
+        else item.classList.remove('checked');
+        saveState();
+      }
+    }
+
+    // --- RENDER STORIES ---
+    function renderStories() {
+      const container = document.getElementById('storyGridContainer');
+      container.innerHTML = '';
+      
+      STAR_TEMPLATES.forEach(st => {
+        const data = appState.stories[st.id] || {};
+        const card = document.createElement('div');
+        card.className = 'story-card';
+        card.innerHTML = `
+          <div class="story-num">Câu chuyện #${st.id}</div>
+          <div class="story-title">${st.title}</div>
+          
+          <div class="story-field">
+            <label class="story-label">Câu mở đầu (Nói thẳng kết luận):</label>
+            <input type="text" class="story-input" id="st_open_${st.id}" value="${data.opening || ''}" placeholder="Câu trả lời thẳng trong 15s...">
+          </div>
+
+          <div class="story-field">
+            <label class="story-label">S – Bối cảnh (1-2 câu):</label>
+            <input type="text" class="story-input" id="st_sit_${st.id}" value="${data.situation || ''}" placeholder="Khi dự án X gặp vấn đề Y...">
+          </div>
+
+          <div class="story-field">
+            <label class="story-label">T – Nhiệm vụ CỦA TÔI (1 câu):</label>
+            <input type="text" class="story-input" id="st_task_${st.id}" value="${data.task || ''}" placeholder="Vai trò của em là lead việc tối ưu...">
+          </div>
+
+          <div class="story-field">
+            <label class="story-label">A – 3 Hành động cụ thể của tôi (60%):</label>
+            <textarea rows="3" class="story-textarea" id="st_act_${st.id}" placeholder="1. Em đo đạc...&#10;2. Em refactor...&#10;3. Em viết test...">${data.action || ''}</textarea>
+          </div>
+
+          <div class="story-field">
+            <label class="story-label">R – Kết quả (Có số liệu %) & Bài học:</label>
+            <input type="text" class="story-input" id="st_res_${st.id}" value="${data.result || ''}" placeholder="Crash giảm từ 2% còn 0.05%, bài học là...">
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function saveAllStories() {
+      STAR_TEMPLATES.forEach(st => {
+        appState.stories[st.id] = {
+          name: st.title,
+          tags: st.tag,
+          opening: document.getElementById('st_open_' + st.id).value,
+          situation: document.getElementById('st_sit_' + st.id).value,
+          task: document.getElementById('st_task_' + st.id).value,
+          action: document.getElementById('st_act_' + st.id).value,
+          result: document.getElementById('st_res_' + st.id).value
+        };
+      });
+      saveState();
+      alert('✅ Đã lưu toàn bộ 8 câu chuyện STAR vào trình duyệt!');
+    }
+
+    // --- TRACKING TABLE (Phụ Lục D) ---
+    function renderTrackingTable() {
+      const tbody = document.getElementById('trackingTableBody');
+      tbody.innerHTML = '';
+
+      if (!appState.logs || appState.logs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; color: var(--text-dim); padding: 24px;">Chưa có buổi luyện nào được ghi. Hãy dùng form tự chấm bên trên để lưu câu trả lời!</td></tr>`;
+        return;
+      }
+
+      appState.logs.forEach((log, idx) => {
+        const tr = document.createElement('tr');
+        const total = (Number(log.focus) || 0) + (Number(log.structure) || 0) + (Number(log.duration) || 0) + (Number(log.specific) || 0) + (Number(log.fluent) || 0);
+        const scoreColor = total >= 20 ? 'var(--emerald)' : (total >= 15 ? 'var(--amber)' : 'var(--rose)');
+
+        tr.innerHTML = `
+          <td><input type="text" value="${log.date || ''}" onchange="updateLogField(${idx}, 'date', this.value)"></td>
+          <td><input type="text" value="${log.question || ''}" onchange="updateLogField(${idx}, 'question', this.value)"></td>
+          <td><input type="number" min="1" max="5" value="${log.focus || 5}" onchange="updateLogField(${idx}, 'focus', this.value)"></td>
+          <td><input type="number" min="1" max="5" value="${log.structure || 5}" onchange="updateLogField(${idx}, 'structure', this.value)"></td>
+          <td><input type="number" min="1" max="5" value="${log.duration || 5}" onchange="updateLogField(${idx}, 'duration', this.value)"></td>
+          <td><input type="number" min="1" max="5" value="${log.specific || 5}" onchange="updateLogField(${idx}, 'specific', this.value)"></td>
+          <td><input type="number" min="1" max="5" value="${log.fluent || 5}" onchange="updateLogField(${idx}, 'fluent', this.value)"></td>
+          <td style="font-weight: 800; color: ${scoreColor}; font-family: var(--font-mono);">${total}/25</td>
+          <td><input type="text" value="${log.note || ''}" placeholder="Lỗi phát hiện..." onchange="updateLogField(${idx}, 'note', this.value)"></td>
+          <td style="text-align: center;">
+            <button onclick="deleteLogRow(${idx})" style="background: none; border: none; color: var(--rose); cursor: pointer; font-size: 16px;">✕</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateLogField(idx, field, value) {
+      if (appState.logs[idx]) {
+        appState.logs[idx][field] = value;
+        saveState();
+        renderTrackingTable();
+      }
+    }
+
+    function deleteLogRow(idx) {
+      if (confirm('Xóa dòng ghi nhận này?')) {
+        appState.logs.splice(idx, 1);
+        saveState();
+        renderTrackingTable();
+      }
+    }
+
+    function addNewEmptyRow() {
+      const today = new Date().toISOString().slice(5, 10); // MM-DD
+      appState.logs.unshift({
+        date: today,
+        question: 'Câu hỏi mới',
+        focus: 5,
+        structure: 5,
+        duration: 5,
+        specific: 5,
+        fluent: 5,
+        note: ''
+      });
+      saveState();
+      renderTrackingTable();
+    }
+
+    function calculateRubric() {
+      const f = Number(document.getElementById('r_focus').value) || 0;
+      const s = Number(document.getElementById('r_structure').value) || 0;
+      const d = Number(document.getElementById('r_duration').value) || 0;
+      const sp = Number(document.getElementById('r_specific').value) || 0;
+      const fl = Number(document.getElementById('r_fluent').value) || 0;
+      const total = f + s + d + sp + fl;
+      document.getElementById('rubricTotalDisplay').innerText = `${total} / 25 điểm`;
+      return { f, s, d, sp, fl, total };
+    }
+
+    function addCurrentScoreToLog() {
+      const score = calculateRubric();
+      const qInput = document.getElementById('logQuestionInput');
+      const qName = qInput.value.trim() || document.getElementById('qContent').innerText.replace(/"/g, '');
+      const today = new Date().toISOString().slice(5, 10);
+
+      appState.logs.unshift({
+        date: today,
+        question: qName,
+        focus: score.f,
+        structure: score.s,
+        duration: score.d,
+        specific: score.sp,
+        fluent: score.fl,
+        note: ''
+      });
+
+      qInput.value = '';
+      saveState();
+      renderTrackingTable();
+      alert(`✅ Đã thêm câu trả lời "${qName}" (${score.total}/25 điểm) vào Bảng Theo Dõi!`);
+    }
+
+    // --- GLOBAL STATS UPDATE ---
+    function updateGlobalStats() {
+      // 1. Overall Progress
+      const allCheckboxes = document.querySelectorAll('.task-item input[type="checkbox"]');
+      const totalTasks = allCheckboxes.length;
+      let checkedCount = 0;
+      allCheckboxes.forEach(chk => {
+        if (chk.checked) checkedCount++;
+      });
+      const pct = totalTasks > 0 ? Math.round((checkedCount / totalTasks) * 100) : 0;
+      document.getElementById('overallProgressText').innerText = pct + '%';
+      document.getElementById('overallProgressBar').style.width = pct + '%';
+
+      // 2. Average Score from logs
+      if (appState.logs && appState.logs.length > 0) {
+        let sum = 0;
+        appState.logs.forEach(l => {
+          sum += (Number(l.focus) || 0) + (Number(l.structure) || 0) + (Number(l.duration) || 0) + (Number(l.specific) || 0) + (Number(l.fluent) || 0);
+        });
+        const avg = (sum / appState.logs.length).toFixed(1);
+        document.getElementById('avgScoreText').innerText = avg + '/25';
+      } else {
+        document.getElementById('avgScoreText').innerText = '--/25';
+      }
+
+      // 3. STAR Count
+      let storiesReady = 0;
+      STAR_TEMPLATES.forEach(st => {
+        const s = appState.stories[st.id];
+        if (s && s.action && s.action.trim().length > 10) storiesReady++;
+      });
+      document.getElementById('starCountText').innerText = `${storiesReady}/8 đã soạn`;
+
+      // 4. Log Count
+      document.getElementById('logCountText').innerText = `${appState.logs ? appState.logs.length : 0} lượt`;
+    }
+
+    function syncUI() {
+      // Sync tasks
+      Object.keys(appState.tasks).forEach(taskId => {
+        const chk = document.getElementById('chk_' + taskId);
+        if (chk) {
+          chk.checked = !!appState.tasks[taskId];
+          const item = chk.closest('.task-item');
+          if (chk.checked) item.classList.add('checked');
+          else item.classList.remove('checked');
+        }
+      });
+
+      // Sync checklist E
+      if (appState.checklistE) {
+        appState.checklistE.forEach((isChecked, idx) => {
+          const chk = document.getElementById('chk_e_' + idx);
+          if (chk) {
+            chk.checked = !!isChecked;
+            const item = chk.closest('.task-item');
+            if (isChecked) item.classList.add('checked');
+            else item.classList.remove('checked');
+          }
+        });
+      }
+
+      renderStories();
+      renderTrackingTable();
+      calculateRubric();
+      updateGlobalStats();
+    }
+
+    // --- PRACTICE ROOM UTILITIES ---
+    // 1. Random Question
+    function generateRandomQuestion() {
+      const idx = Math.floor(Math.random() * DEFAULT_QUESTIONS.length);
+      const q = DEFAULT_QUESTIONS[idx];
+      document.getElementById('qCategory').innerText = q.cat;
+      document.getElementById('qContent').innerText = `"${q.text}"`;
+      document.getElementById('qHint').innerHTML = `💡 ${q.hint}`;
+    }
+
+    // 2. Timer
+    let timerDuration = 60;
+    let timerRemaining = 60;
+    let timerInterval = null;
+    let isCountUp = false;
+
+    function setTimerDuration(seconds) {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      clearInterval(timerInterval);
+      timerInterval = null;
+      document.getElementById('timerStartBtn').innerText = '▶ Bắt đầu';
+
+      if (seconds === 0) {
+        isCountUp = true;
+        timerRemaining = 0;
+      } else {
+        isCountUp = false;
+        timerDuration = seconds;
+        timerRemaining = seconds;
+      }
+      renderTimer();
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('timerStartBtn');
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.innerText = '▶ Tiếp tục';
+      } else {
+        btn.innerText = '⏸ Tạm dừng';
+        timerInterval = setInterval(() => {
+          if (isCountUp) {
+            timerRemaining++;
+          } else {
+            if (timerRemaining > 0) {
+              timerRemaining--;
+            } else {
+              clearInterval(timerInterval);
+              timerInterval = null;
+              btn.innerText = '▶ Bắt đầu';
+              alert('⏰ Hết thời gian câu trả lời!');
+            }
+          }
+          renderTimer();
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      document.getElementById('timerStartBtn').innerText = '▶ Bắt đầu';
+      timerRemaining = isCountUp ? 0 : timerDuration;
+      renderTimer();
+    }
+
+    function renderTimer() {
+      const mins = Math.floor(timerRemaining / 60);
+      const secs = timerRemaining % 60;
+      document.getElementById('timerDisplay').innerText = 
+        `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // 3. Filler Counter
+    let fillerCount = 0;
+    function incrementFiller() {
+      fillerCount++;
+      document.getElementById('fillerCount').innerText = fillerCount;
+    }
+    function resetFiller() {
+      fillerCount = 0;
+      document.getElementById('fillerCount').innerText = 0;
+    }
+
+    // 4. Breathing Exercise (4-4-6)
+    let breathingInterval = null;
+    let breathState = 'idle'; // inhale, hold, exhale
+    let breathSec = 0;
+    let cycleCount = 0;
+
+    function toggleBreathing() {
+      const btn = document.getElementById('breathBtn');
+      const circle = document.getElementById('breathCircle');
+      const phase = document.getElementById('breathPhase');
+      const count = document.getElementById('breathCount');
+
+      if (breathingInterval) {
+        clearInterval(breathingInterval);
+        breathingInterval = null;
+        breathState = 'idle';
+        btn.innerText = 'Bắt đầu bài tập thở';
+        phase.innerText = 'Sẵn sàng';
+        count.innerText = '--';
+        circle.style.transform = 'scale(1)';
+        return;
+      }
+
+      btn.innerText = 'Dừng bài tập thở';
+      cycleCount = 0;
+      startInhale();
+    }
+
+    function startInhale() {
+      const circle = document.getElementById('breathCircle');
+      const phase = document.getElementById('breathPhase');
+      const count = document.getElementById('breathCount');
+      
+      breathState = 'inhale';
+      phase.innerText = 'HÍT VÀO...';
+      circle.style.transform = 'scale(1.4)';
+      circle.style.borderColor = 'var(--blue)';
+      breathSec = 4;
+      count.innerText = breathSec;
+
+      clearInterval(breathingInterval);
+      breathingInterval = setInterval(() => {
+        breathSec--;
+        count.innerText = breathSec;
+        if (breathSec <= 0) {
+          startHold();
+        }
+      }, 1000);
+    }
+
+    function startHold() {
+      const circle = document.getElementById('breathCircle');
+      const phase = document.getElementById('breathPhase');
+      const count = document.getElementById('breathCount');
+      
+      breathState = 'hold';
+      phase.innerText = 'GIỮ HƠI';
+      circle.style.borderColor = 'var(--amber)';
+      breathSec = 4;
+      count.innerText = breathSec;
+
+      clearInterval(breathingInterval);
+      breathingInterval = setInterval(() => {
+        breathSec--;
+        count.innerText = breathSec;
+        if (breathSec <= 0) {
+          startExhale();
+        }
+      }, 1000);
+    }
+
+    function startExhale() {
+      const circle = document.getElementById('breathCircle');
+      const phase = document.getElementById('breathPhase');
+      const count = document.getElementById('breathCount');
+      
+      breathState = 'exhale';
+      phase.innerText = 'THỞ RA CHẬM...';
+      circle.style.transform = 'scale(0.9)';
+      circle.style.borderColor = 'var(--purple)';
+      breathSec = 6;
+      count.innerText = breathSec;
+
+      clearInterval(breathingInterval);
+      breathingInterval = setInterval(() => {
+        breathSec--;
+        count.innerText = breathSec;
+        if (breathSec <= 0) {
+          cycleCount++;
+          if (cycleCount >= 5) {
+            toggleBreathing();
+            alert('🎉 Hoàn thành 5 chu kỳ thở 4-4-6! Bạn đã sẵn sàng để phỏng vấn.');
+          } else {
+            startInhale();
+          }
+        }
+      }, 1000);
+    }
+
+    // --- BACKUP & RESET ---
+    function exportData() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `interview_speaking_backup_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function resetAllData() {
+      if (confirm('⚠️ Bạn có chắc chắn muốn xóa toàn bộ lịch sử luyện tập và checklist để bắt đầu lại từ đầu?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      // Bind checkbox change events for delegation
+      document.querySelectorAll('.task-item input[type="checkbox"]').forEach(chk => {
+        chk.addEventListener('change', (e) => {
+          const id = e.target.id;
+          if (id.startsWith('chk_t') || id.startsWith('chk_m')) {
+            const taskId = id.replace('chk_', '');
+            onTaskChange(taskId, e.target.checked);
+          } else if (id.startsWith('chk_e_')) {
+            const idx = Number(id.replace('chk_e_', ''));
+            appState.checklistE[idx] = e.target.checked;
+            const item = e.target.closest('.task-item');
+            if (e.target.checked) item.classList.add('checked');
+            else item.classList.remove('checked');
+            saveState();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

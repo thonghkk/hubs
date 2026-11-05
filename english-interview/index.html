@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Luyện nói phỏng vấn tiếng Anh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans:wght@400;500&display=swap">
+<style>
+
+/* Layout: [Điều hướng module/bài + cài đặt giọng đọc] | [Nội dung bài hoặc Luyện].
+Màn hẹp: 1 cột, danh sách bài gập lại. */
+:root {
+--side: #E8ECF2;
+--surface: #FFFFFF;
+--soft: #EDF0F5;
+--ink: #17202C;
+--muted: #5A6677;
+--line: #DCE2EA;
+--accent: #2B48C4;
+--accent-ink: #FFFFFF;
+--accent-soft: #E3E9FC;
+--ok: #23925E;
+--ok-soft: #DDF3E8;
+--bad: #C93A4B;
+--bad-soft: #FBE3E6;
+--mark: #FFF1C2;
+--q: #7A4CC2;
+--q-soft: #EFE7FB;
+--font-display: "Bricolage Grotesque", "Be Vietnam Pro", system-ui, sans-serif;
+--font-body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+--font-ipa: "Noto Sans", "Segoe UI", "Lucida Sans Unicode", "Arial Unicode MS", sans-serif;
+--font-mono: "JetBrains Mono", ui-monospace, Consolas, "Courier New", monospace;
+color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--side: #0B0F14; --surface: #151C24; --soft: #1C2531;
+--ink: #E4E9EF; --muted: #95A1B0; --line: #26303C;
+--accent: #8FA3FF; --accent-ink: #0E1319; --accent-soft: #1F2849;
+--ok: #46C389; --ok-soft: #173828; --bad: #F0687A; --bad-soft: #3D1C22;
+--mark: #4A3F14; --q: #B999F0; --q-soft: #2A2140;
+color-scheme: dark;
+}
+}
+:root[data-theme="dark"] {
+--side: #0B0F14; --surface: #151C24; --soft: #1C2531;
+--ink: #E4E9EF; --muted: #95A1B0; --line: #26303C;
+--accent: #8FA3FF; --accent-ink: #0E1319; --accent-soft: #1F2849;
+--ok: #46C389; --ok-soft: #173828; --bad: #F0687A; --bad-soft: #3D1C22;
+--mark: #4A3F14; --q: #B999F0; --q-soft: #2A2140;
+color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface); color: var(--ink); font: 15px/1.62 var(--font-body); -webkit-text-size-adjust: 100%; }
+[hidden] { display: none !important; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+a { color: var(--accent); }
+.lbl { font: 600 .68rem/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.app { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: 100vh; }
+/* ---------- Cột trái ---------- */
+.side {
+position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column;
+background: var(--side); border-right: 1px solid var(--line);
+padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+}
+.brand { padding: 18px 18px 12px; display: flex; flex-direction: column; line-height: 1.2; gap: 3px; }
+.brand b { font: 700 1.05rem/1.2 var(--font-display); letter-spacing: -.01em; }
+.brand span { font: 500 .66rem/1.4 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.tabs { display: flex; gap: 4px; padding: 0 12px 12px; border-bottom: 1px solid var(--line); }
+.tabs button { flex: 1; padding: 7px 10px; border: 0; background: none; border-radius: 8px; font-weight: 500; color: var(--muted); }
+.tabs button:hover { color: var(--ink); }
+.tabs button[aria-current="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, .06); }
+.toc { flex: 1; min-height: 0; overflow: auto; padding: 8px 10px 16px; }
+.toc summary { list-style: none; cursor: pointer; padding: 10px 8px 6px; display: grid; gap: 6px; }
+.toc summary::-webkit-details-marker { display: none; }
+.toc .mtitle { display: flex; justify-content: space-between; gap: 8px; font-weight: 600; font-size: .88rem; }
+.toc .mtitle span { font: .7rem var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar { height: 4px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--ok); }
+.toc ol { list-style: none; margin: 0; padding: 0 0 6px; }
+.lesson-btn {
+width: 100%; display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 6px; align-items: baseline;
+padding: 6px 8px; border: 0; background: none; border-radius: 8px; text-align: left; font-size: .86rem;
+}
+.lesson-btn:hover { background: color-mix(in srgb, var(--surface) 55%, transparent); }
+.lesson-btn[aria-current="true"] { background: var(--surface); box-shadow: 0 1px 2px rgba(0, 0, 0, .06); }
+.lesson-btn .lid { font: 600 .72rem var(--font-mono); color: var(--muted); }
+.lesson-btn[aria-current="true"] .lid { color: var(--accent); }
+.lesson-btn .lcount { font: .68rem var(--font-mono); color: var(--muted); }
+.lesson-btn .lcount.done { color: var(--ok); }
+.settings { padding: 12px 16px 14px; border-top: 1px solid var(--line); display: grid; gap: 8px; font-size: .84rem; }
+.settings label { display: grid; gap: 3px; }
+.settings select { width: 100%; padding: 5px 8px; border-radius: 7px; border: 1px solid var(--line); background: var(--surface); font-size: .82rem; }
+.settings .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.settings input[type="range"] { width: 100%; accent-color: var(--accent); }
+.link-btn { border: 0; background: none; padding: 2px 0; color: var(--muted); font-size: .82rem; text-align: left; }
+.link-btn:hover { color: var(--ink); }
+/* ---------- Nội dung ---------- */
+.main { min-width: 0; padding: calc(24px + env(safe-area-inset-top, 0px)) 40px calc(48px + env(safe-area-inset-bottom, 0px)); }
+.wrap { max-width: 860px; margin: 0 auto; }
+.toolbar {
+position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+padding: 10px 0; margin-bottom: 8px; background: var(--surface); border-bottom: 1px solid var(--line);
+}
+.toolbar .lbl { margin-right: 4px; }
+.chip {
+display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 99px;
+border: 1px solid var(--line); background: var(--surface); font-size: .82rem; color: var(--muted);
+}
+.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: transparent; color: var(--ink); }
+.lesson-head { padding: 18px 0 8px; display: grid; gap: 6px; }
+.lesson-head h1 { font: 700 1.7rem/1.2 var(--font-display); letter-spacing: -.015em; }
+.module-intro { color: var(--muted); font-size: .92rem; }
+.module-intro p { margin: .3em 0; }
+.content h2 { font: 700 1.1rem var(--font-display); margin: 1.4em 0 .4em; }
+.content p { margin: .7em 0; }
+.content ul, .content ol { padding-left: 1.3em; }
+.content li { margin: .25em 0; }
+.content li.task { list-style: none; margin-left: -1.3em; }
+.content li.task label { display: flex; gap: 8px; align-items: baseline; cursor: pointer; }
+.content li.task input { accent-color: var(--ok); }
+.content li.task:has(input:checked) { color: var(--muted); text-decoration: line-through; }
+.content code { font: .88em var(--font-mono); background: var(--soft); padding: 1px 5px; border-radius: 4px; }
+.tbl { overflow-x: auto; margin: .8em 0; border: 1px solid var(--line); border-radius: 10px; }
+.tbl table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+.tbl th, .tbl td { padding: 7px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl th { background: var(--soft); font-weight: 600; font-size: .8rem; }
+.tbl td:nth-child(2) { font-family: var(--font-ipa); white-space: nowrap; }
+.word-cell { display: flex; align-items: center; gap: 6px; white-space: nowrap; font-weight: 600; }
+.icon-btn {
+display: inline-grid; place-items: center; width: 26px; height: 26px; padding: 0; border-radius: 50%;
+border: 1px solid var(--line); background: var(--surface); font-size: .7rem; color: var(--accent); flex: none;
+}
+.icon-btn:hover { background: var(--accent-soft); }
+/* ---------- Thẻ câu ---------- */
+.sent {
+margin: 10px 0; padding: 14px 16px 12px; border: 1px solid var(--line); border-radius: 12px;
+border-left: 4px solid var(--accent); background: var(--surface); display: grid; gap: 4px;
+}
+.sent.q { border-left-color: var(--q); }
+.content .sent p { margin: 0; }
+.sent.speaking { box-shadow: 0 0 0 3px var(--accent-soft); }
+.sent.learned { background: color-mix(in srgb, var(--ok-soft) 45%, var(--surface)); }
+.role { font: 600 .66rem/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.sent.q .role { color: var(--q); }
+.en { margin: 0; font-size: 1.14rem; line-height: 1.5; }
+.en strong { font-weight: 700; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent); text-underline-offset: 4px; text-decoration-thickness: 2px; }
+.en em { font-style: normal; background: var(--mark); padding: 0 3px; border-radius: 4px; }
+.en .w { cursor: pointer; border-radius: 4px; }
+.en .w:hover { background: var(--accent-soft); }
+.ipa { margin: 0; font: 1rem/1.5 var(--font-ipa); color: var(--muted); }
+.vi { margin: 0; font-size: .92rem; }
+.note { margin: 2px 0 0; font-size: .85rem; color: var(--muted); }
+.acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.btn {
+display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 8px;
+border: 1px solid var(--line); background: var(--surface); font-size: .82rem;
+}
+.btn:hover { background: var(--soft); }
+.btn.primary { background: var(--accent); border-color: transparent; color: var(--accent-ink); }
+.btn.primary:hover { background: color-mix(in srgb, var(--accent) 85%, black); }
+.btn[aria-pressed="true"] { background: var(--ok-soft); border-color: transparent; color: var(--ok); font-weight: 600; }
+.btn.rec { background: var(--bad-soft); border-color: transparent; color: var(--bad); }
+.result { margin-top: 6px; padding: 10px 12px; border-radius: 10px; background: var(--soft); font-size: .88rem; display: grid; gap: 4px; }
+.result .score { font-weight: 700; }
+.result .ok { color: var(--ok); }
+.result .miss { color: var(--bad); text-decoration: underline wavy; text-underline-offset: 3px; }
+.result .heard { color: var(--muted); }
+/* Ẩn theo nút trên thanh công cụ */
+.hide-ipa .sent .ipa, .hide-vi .sent .vi { display: none; }
+.hide-en .sent:not(.reveal) .en { filter: blur(7px); cursor: pointer; user-select: none; }
+.hide-en .sent:not(.reveal) .en .w { pointer-events: none; }
+.pager { display: flex; justify-content: space-between; gap: 10px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--line); }
+.pager .btn { max-width: 48%; }
+/* ---------- Luyện ---------- */
+.drill-opts { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: end; padding: 16px 0; }
+.drill-opts label { display: grid; gap: 4px; font-size: .84rem; }
+.drill-opts select { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); }
+.drill-opts .check { display: flex; align-items: center; gap: 6px; padding-bottom: 6px; }
+.card { margin-top: 8px; padding: 26px 24px; border: 1px solid var(--line); border-radius: 16px; display: grid; gap: 12px; background: var(--surface); }
+.card .prompt { font: 600 1.3rem/1.4 var(--font-body); }
+.card .answer { display: grid; gap: 6px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.card .answer .en { font-size: 1.25rem; }
+.card-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; align-items: center; }
+.count { font: .8rem var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.kbd { font: .72rem var(--font-mono); color: var(--muted); }
+.empty { padding: 30px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 12px; }
+.warn { padding: 10px 14px; border-radius: 10px; background: var(--bad-soft); color: var(--ink); font-size: .86rem; margin: 10px 0; }
+@media (max-width: 820px) {
+.app { grid-template-columns: 1fr; }
+.side { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+.toc { max-height: 46vh; }
+.main { padding: 8px 16px 40px; }
+.lesson-head h1 { font-size: 1.4rem; }
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+<div class="brand">
+<a href="../index.html" class="link-btn" style="display:inline-flex;align-items:center;gap:5px;font-size:0.75rem;margin-bottom:6px;text-decoration:none;">← Quay lại Knowledge Hub</a>
+<b>Luyện nói phỏng vấn</b><span>English · B1–B2 · Android / KMM</span></div>
+<div class="tabs" role="tablist">
+<button data-view="learn" aria-current="true">Học</button>
+<button data-view="drill">Luyện</button>
+</div>
+<nav class="toc" id="toc"></nav>
+<div class="settings">
+<label><span class="lbl">Giọng đọc</span><select id="voice"></select></label>
+<label><span class="row"><span class="lbl">Tốc độ</span><span id="rate-val" class="kbd"></span></span>
+<input type="range" id="rate" min="0.6" max="1.2" step="0.05"></label>
+<button class="link-btn" id="theme-btn"></button>
+</div>
+</aside>
+<main class="main">
+<div class="wrap">
+<section id="view-learn">
+<div class="toolbar">
+<span class="lbl">Hiện</span>
+<button class="chip" data-toggle="ipa" aria-pressed="true">IPA</button>
+<button class="chip" data-toggle="vi" aria-pressed="true">Nghĩa</button>
+<button class="chip" data-toggle="en" aria-pressed="true">Tiếng Anh</button>
+<button class="chip" id="play-all">▶ Nghe cả bài</button>
+</div>
+<div id="sr-warn" class="warn" hidden>Trình duyệt này không hỗ trợ nhận giọng nói. Hãy mở trang bằng Chrome hoặc Edge để dùng 🎤 Nói thử.</div>
+<header class="lesson-head">
+<span class="lbl" id="lesson-module"></span>
+<h1 id="lesson-title"></h1>
+<div class="module-intro" id="module-intro"></div>
+</header>
+<article class="content" id="lesson-body"></article>
+<nav class="pager"><button class="btn" id="prev"></button><button class="btn" id="next"></button></nav>
+</section>
+<section id="view-drill" hidden>
+<header class="lesson-head">
+<span class="lbl">Luyện tập</span>
+<h1>Nhớ và nói lại câu</h1>
+</header>
+<div class="drill-opts">
+<label>Phạm vi<select id="d-scope"></select></label>
+<label>Kiểu luyện<select id="d-mode">
+<option value="speak">Nhìn nghĩa → nói tiếng Anh</option>
+<option value="listen">Nghe → hiểu nghĩa</option>
+</select></label>
+<label>Câu<select id="d-role">
+<option value="all">Tất cả</option>
+<option value="me">Câu tôi nói 🗣️</option>
+<option value="q">Câu interviewer hỏi ❓</option>
+</select></label>
+<label class="check"><input type="checkbox" id="d-unlearned"> Chỉ câu chưa thuộc</label>
+<button class="btn primary" id="d-start">Bắt đầu lại</button>
+</div>
+<div id="d-card"></div>
+</section>
+</div>
+</main>
+</div>
+
+<script id="eng-data" type="application/json">{"modules": [{"id": "0", "title": "Phát âm nền tảng", "intro": "<p>Học module này trước. Người nghe hiểu bạn chủ yếu nhờ <strong>âm cuối</strong>, <strong>trọng âm từ</strong> và <strong>nhịp câu</strong>, không phải nhờ từ vựng khó. Mỗi ngày đọc to 10 phút, nghe máy đọc trước rồi đọc theo (shadowing).</p>", "lessons": [{"id": "0.1", "title": "Âm cuối: -s và -ed", "html": "<p><strong>Vì sao quan trọng:</strong> tiếng Việt không bật âm cuối, nên người Việt hay nói <em>work</em> thay cho <em>worked</em>, <em>app</em> thay cho <em>apps</em>. Interviewer sẽ nghe sai thì quá khứ và số nhiều.</p>\n<p><strong>Quy tắc:</strong></p>\n<div class=\"tbl\"><table>\n<thead>\n<tr>\n<th>Đuôi</th>\n<th>Đọc là</th>\n<th>Khi nào</th>\n<th>Ví dụ</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>-s / -es</td>\n<td>/s/</td>\n<td>sau âm vô thanh /p t k f θ/</td>\n<td>apps, tasks, works</td>\n</tr>\n<tr>\n<td>-s / -es</td>\n<td>/z/</td>\n<td>sau nguyên âm và âm hữu thanh</td>\n<td>bugs, features, views</td>\n</tr>\n<tr>\n<td>-s / -es</td>\n<td>/ɪz/</td>\n<td>sau /s z ʃ tʃ dʒ/</td>\n<td>uses, classes, changes</td>\n</tr>\n<tr>\n<td>-ed</td>\n<td>/t/</td>\n<td>sau âm vô thanh /p k f s ʃ tʃ/</td>\n<td>worked, fixed, helped</td>\n</tr>\n<tr>\n<td>-ed</td>\n<td>/d/</td>\n<td>sau nguyên âm và âm hữu thanh</td>\n<td>designed, improved, moved</td>\n</tr>\n<tr>\n<td>-ed</td>\n<td>/ɪd/</td>\n<td>sau /t/ và /d/</td>\n<td>tested, updated, added</td>\n</tr>\n</tbody>\n</table></div>\n<p><strong>Từ vựng:</strong></p>\n<div class=\"tbl\"><table>\n<thead>\n<tr>\n<th>Từ</th>\n<th>IPA</th>\n<th>Nghĩa</th>\n<th>Ghi chú</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>works</td>\n<td>/wɝːks/</td>\n<td>làm việc</td>\n<td>đuôi /s/</td>\n</tr>\n<tr>\n<td>tasks</td>\n<td>/tæsks/</td>\n<td>nhiệm vụ</td>\n<td>/sks/ khó, đọc chậm từng âm</td>\n</tr>\n<tr>\n<td>bugs</td>\n<td>/bʌɡz/</td>\n<td>lỗi</td>\n<td>đuôi /z/ rung cổ họng</td>\n</tr>\n<tr>\n<td>features</td>\n<td>/ˈfiːtʃɚz/</td>\n<td>tính năng</td>\n<td>đuôi /z/</td>\n</tr>\n<tr>\n<td>uses</td>\n<td>/ˈjuːzɪz/</td>\n<td>sử dụng</td>\n<td>thêm một âm tiết /ɪz/</td>\n</tr>\n<tr>\n<td>worked</td>\n<td>/wɝːkt/</td>\n<td>đã làm</td>\n<td>đuôi /t/, không thêm âm tiết</td>\n</tr>\n<tr>\n<td>fixed</td>\n<td>/fɪkst/</td>\n<td>đã sửa</td>\n<td>/kst/</td>\n</tr>\n<tr>\n<td>designed</td>\n<td>/dɪˈzaɪnd/</td>\n<td>đã thiết kế</td>\n<td>đuôi /d/</td>\n</tr>\n<tr>\n<td>improved</td>\n<td>/ɪmˈpruːvd/</td>\n<td>đã cải thiện</td>\n<td>/vd/</td>\n</tr>\n<tr>\n<td>tested</td>\n<td>/ˈtestɪd/</td>\n<td>đã kiểm thử</td>\n<td>thêm âm tiết /ɪd/</td>\n</tr>\n<tr>\n<td>updated</td>\n<td>/ʌpˈdeɪtɪd/</td>\n<td>đã cập nhật</td>\n<td>thêm âm tiết /ɪd/</td>\n</tr>\n</tbody>\n</table></div>\n<p><strong>Câu mẫu:</strong></p>\n<div class=\"sent\" data-sid=\"0.1-1\"></div>\n<div class=\"sent\" data-sid=\"0.1-2\"></div>\n<div class=\"sent\" data-sid=\"0.1-3\"></div>\n<div class=\"sent\" data-sid=\"0.1-4\"></div>\n<p><strong>Luyện tập:</strong></p>\n<ol>\n<li>Nghe từng câu ở tốc độ chậm, đọc theo 3 lần, chú ý âm cuối.</li>\n<li>Bấm 🎤 và đọc câu. Nếu máy nghe ra <em>work</em> thay vì <em>worked</em>, đọc lại và bật rõ /t/.</li>\n<li>Tự nói 3 câu về việc bạn đã làm tuần trước, dùng động từ -ed.</li>\n</ol>\n<p><strong>Tự kiểm tra:</strong></p>\n<ul>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.1-1\"> Đọc đúng /t/, /d/, /ɪd/ của 6 động từ -ed trong bảng</label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.1-2\"> Đọc rõ âm cuối /s/ hoặc /z/ của <em>apps</em>, <em>bugs</em>, <em>tasks</em></label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.1-3\"> Đọc 4 câu mẫu, máy nhận đúng trên 80%</label></li>\n</ul>", "sids": ["0.1-1", "0.1-2", "0.1-3", "0.1-4"]}, {"id": "0.2", "title": "Âm khó với người Việt", "html": "<p><strong>Các cặp âm cần chú ý:</strong></p>\n<ul>\n<li><strong>/θ/</strong> (<em>think</em>): đặt đầu lưỡi giữa hai hàm răng, thổi hơi. Không đọc thành \"t\" hay \"s\".</li>\n<li><strong>/ð/</strong> (<em>the, that</em>): giống /θ/ nhưng rung cổ họng.</li>\n<li><strong>/ʃ/</strong> (<em>share</em>) khác <strong>/s/</strong> (<em>see</em>): /ʃ/ tròn môi, như \"suỵt\".</li>\n<li><strong>/r/</strong> khác <strong>/l/</strong>: /r/ cong lưỡi, không chạm vòm miệng. /l/ đầu lưỡi chạm sau răng trên.</li>\n<li><strong>/v/</strong>: răng trên chạm môi dưới. Không đọc thành \"d\" hay \"b\".</li>\n<li><strong>/dʒ/</strong> (<em>Java, project</em>): giống \"ch\" nhưng rung.</li>\n<li><strong>/z/</strong> cuối từ (<em>size, use</em>): rung, không đọc thành /s/.</li>\n</ul>\n<p><strong>Từ vựng:</strong></p>\n<div class=\"tbl\"><table>\n<thead>\n<tr>\n<th>Từ</th>\n<th>IPA</th>\n<th>Nghĩa</th>\n<th>Ghi chú</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>think</td>\n<td>/θɪŋk/</td>\n<td>nghĩ</td>\n<td>/θ/ lưỡi giữa răng</td>\n</tr>\n<tr>\n<td>thread</td>\n<td>/θred/</td>\n<td>luồng</td>\n<td>/θr/ liền nhau</td>\n</tr>\n<tr>\n<td>the</td>\n<td>/ðə/</td>\n<td>(mạo từ)</td>\n<td>/ð/ rung</td>\n</tr>\n<tr>\n<td>share</td>\n<td>/ʃer/</td>\n<td>chia sẻ</td>\n<td>/ʃ/ tròn môi</td>\n</tr>\n<tr>\n<td>session</td>\n<td>/ˈseʃən/</td>\n<td>phiên</td>\n<td>/s/ rồi /ʃ/</td>\n</tr>\n<tr>\n<td>release</td>\n<td>/rɪˈliːs/</td>\n<td>phát hành</td>\n<td>/r/ rồi /l/</td>\n</tr>\n<tr>\n<td>library</td>\n<td>/ˈlaɪbreri/</td>\n<td>thư viện</td>\n<td>/l/ đầu, /r/ giữa</td>\n</tr>\n<tr>\n<td>version</td>\n<td>/ˈvɝːʒən/</td>\n<td>phiên bản</td>\n<td>/v/ môi răng</td>\n</tr>\n<tr>\n<td>Java</td>\n<td>/ˈdʒɑːvə/</td>\n<td>Java</td>\n<td>/dʒ/ và /v/</td>\n</tr>\n<tr>\n<td>project</td>\n<td>/ˈprɑːdʒekt/</td>\n<td>dự án</td>\n<td>danh từ, nhấn âm 1</td>\n</tr>\n<tr>\n<td>Kotlin</td>\n<td>/ˈkɑːtlɪn/</td>\n<td>Kotlin</td>\n<td>nhấn âm 1, /tl/ liền</td>\n</tr>\n<tr>\n<td>logic</td>\n<td>/ˈlɑːdʒɪk/</td>\n<td>logic</td>\n<td>/dʒ/, không đọc \"lo-gích\"</td>\n</tr>\n</tbody>\n</table></div>\n<p><strong>Câu mẫu:</strong></p>\n<div class=\"sent\" data-sid=\"0.2-1\"></div>\n<div class=\"sent\" data-sid=\"0.2-2\"></div>\n<div class=\"sent\" data-sid=\"0.2-3\"></div>\n<div class=\"sent\" data-sid=\"0.2-4\"></div>\n<p><strong>Luyện tập:</strong></p>\n<ol>\n<li>Đọc cặp <em>three</em> / <em>tree</em>, <em>share</em> / <em>see</em>, <em>very</em> / <em>berry</em> trước gương, nhìn khẩu hình.</li>\n<li>Shadowing 4 câu mẫu, mỗi câu 3 lần.</li>\n</ol>\n<p><strong>Tự kiểm tra:</strong></p>\n<ul>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.2-1\"> Phân biệt được /θ/ và /t/ khi đọc <em>three</em>, <em>thread</em></label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.2-2\"> Đọc <em>Kotlin</em>, <em>Java</em>, <em>project</em>, <em>logic</em> đúng trọng âm</label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.2-3\"> Máy nhận đúng câu <em>We share logic between Android and iOS</em></label></li>\n</ul>", "sids": ["0.2-1", "0.2-2", "0.2-3", "0.2-4"]}, {"id": "0.3", "title": "Trọng âm từ kỹ thuật", "html": "<p><strong>Vì sao quan trọng:</strong> người bản xứ nhận ra từ nhờ trọng âm. Đọc sai trọng âm (ví dụ ĐÊ-ve-lop) thì dù âm đúng họ vẫn khó hiểu. Trong IPA, dấu <strong>ˈ</strong> đặt trước âm tiết được nhấn.</p>\n<p><strong>Từ vựng:</strong></p>\n<div class=\"tbl\"><table>\n<thead>\n<tr>\n<th>Từ</th>\n<th>IPA</th>\n<th>Nghĩa</th>\n<th>Ghi chú</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>develop</td>\n<td>/dɪˈveləp/</td>\n<td>phát triển</td>\n<td>nhấn âm 2: de-VEL-op</td>\n</tr>\n<tr>\n<td>developer</td>\n<td>/dɪˈveləpɚ/</td>\n<td>lập trình viên</td>\n<td>nhấn âm 2</td>\n</tr>\n<tr>\n<td>engineer</td>\n<td>/ˌendʒɪˈnɪr/</td>\n<td>kỹ sư</td>\n<td>nhấn âm cuối: en-gi-NEER</td>\n</tr>\n<tr>\n<td>experience</td>\n<td>/ɪkˈspɪriəns/</td>\n<td>kinh nghiệm</td>\n<td>nhấn âm 2</td>\n</tr>\n<tr>\n<td>architecture</td>\n<td>/ˈɑːrkətektʃɚ/</td>\n<td>kiến trúc</td>\n<td>nhấn âm 1</td>\n</tr>\n<tr>\n<td>component</td>\n<td>/kəmˈpoʊnənt/</td>\n<td>thành phần</td>\n<td>nhấn âm 2</td>\n</tr>\n<tr>\n<td>application</td>\n<td>/ˌæpləˈkeɪʃən/</td>\n<td>ứng dụng</td>\n<td>nhấn âm 3</td>\n</tr>\n<tr>\n<td>technology</td>\n<td>/tekˈnɑːlədʒi/</td>\n<td>công nghệ</td>\n<td>nhấn âm 2</td>\n</tr>\n<tr>\n<td>performance</td>\n<td>/pɚˈfɔːrməns/</td>\n<td>hiệu năng</td>\n<td>nhấn âm 2</td>\n</tr>\n<tr>\n<td>responsible</td>\n<td>/rɪˈspɑːnsəbəl/</td>\n<td>chịu trách nhiệm</td>\n<td>nhấn âm 2</td>\n</tr>\n<tr>\n<td>maintain</td>\n<td>/meɪnˈteɪn/</td>\n<td>bảo trì</td>\n<td>nhấn âm 2</td>\n</tr>\n<tr>\n<td>maintenance</td>\n<td>/ˈmeɪntənəns/</td>\n<td>việc bảo trì</td>\n<td>nhấn âm 1, khác <em>maintain</em></td>\n</tr>\n<tr>\n<td>asynchronous</td>\n<td>/eɪˈsɪŋkrənəs/</td>\n<td>bất đồng bộ</td>\n<td>nhấn âm 2</td>\n</tr>\n<tr>\n<td>coroutine</td>\n<td>/ˌkoʊruːˈtiːn/</td>\n<td>coroutine</td>\n<td>nhấn âm cuối</td>\n</tr>\n<tr>\n<td>multiplatform</td>\n<td>/ˌmʌltiˈplætfɔːrm/</td>\n<td>đa nền tảng</td>\n<td>nhấn <em>plat</em></td>\n</tr>\n<tr>\n<td>interface</td>\n<td>/ˈɪntɚfeɪs/</td>\n<td>giao diện</td>\n<td>nhấn âm 1</td>\n</tr>\n<tr>\n<td>Android</td>\n<td>/ˈændrɔɪd/</td>\n<td>Android</td>\n<td>nhấn âm 1</td>\n</tr>\n<tr>\n<td>API</td>\n<td>/ˌeɪ piː ˈaɪ/</td>\n<td>API</td>\n<td>đánh vần, nhấn chữ cuối</td>\n</tr>\n<tr>\n<td>SDK</td>\n<td>/ˌes diː ˈkeɪ/</td>\n<td>SDK</td>\n<td>đánh vần, nhấn chữ cuối</td>\n</tr>\n<tr>\n<td>KMM</td>\n<td>/ˌkeɪ em ˈem/</td>\n<td>KMM</td>\n<td>đánh vần, nhấn chữ cuối</td>\n</tr>\n</tbody>\n</table></div>\n<p><strong>Câu mẫu:</strong></p>\n<div class=\"sent\" data-sid=\"0.3-1\"></div>\n<div class=\"sent\" data-sid=\"0.3-2\"></div>\n<div class=\"sent\" data-sid=\"0.3-3\"></div>\n<div class=\"sent\" data-sid=\"0.3-4\"></div>\n<p><strong>Luyện tập:</strong></p>\n<ol>\n<li>Đọc từng từ trong bảng, vỗ tay đúng âm tiết được nhấn.</li>\n<li>Đọc cặp <em>maintain</em> / <em>maintenance</em>, <em>develop</em> / <em>development</em>: trọng âm có đổi không?</li>\n</ol>\n<p><strong>Tự kiểm tra:</strong></p>\n<ul>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.3-1\"> Đọc đúng trọng âm <em>developer</em>, <em>engineer</em>, <em>architecture</em></label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.3-2\"> Đọc API, SDK, KMM với chữ cuối được nhấn</label></li>\n</ul>", "sids": ["0.3-1", "0.3-2", "0.3-3", "0.3-4"]}, {"id": "0.4", "title": "Nối âm và ngữ điệu", "html": "<p><strong>Nối âm:</strong> khi từ trước kết thúc bằng phụ âm và từ sau bắt đầu bằng nguyên âm, đọc liền thành một khối. Ký hiệu <strong>‿</strong> đánh dấu chỗ nối.</p>\n<p><strong>Ngữ điệu:</strong></p>\n<ul>\n<li>Câu hỏi <strong>Yes/No</strong> (<em>Can I…? Do you…?</em>): lên giọng ở cuối ↗</li>\n<li>Câu hỏi <strong>Wh-</strong> (<em>What, Why, How…</em>) và câu kể: xuống giọng ở cuối ↘</li>\n<li><strong>Nhấn</strong> từ mang nội dung (danh từ, động từ chính, số). Đọc <strong>nhẹ và nhanh</strong> các từ chức năng (<em>a, the, of, to, and</em>).</li>\n</ul>\n<p><strong>Câu mẫu:</strong></p>\n<div class=\"sent\" data-sid=\"0.4-1\"></div>\n<div class=\"sent\" data-sid=\"0.4-2\"></div>\n<div class=\"sent\" data-sid=\"0.4-3\"></div>\n<div class=\"sent\" data-sid=\"0.4-4\"></div>\n<p><strong>Luyện tập:</strong></p>\n<ol>\n<li>Đọc câu hỏi Yes/No, lên giọng rõ ở cuối. Đọc câu Wh-, xuống giọng.</li>\n<li>Đọc câu 1 hai lần: lần đầu tách từng từ, lần sau nối âm. So sánh với giọng máy.</li>\n</ol>\n<p><strong>Tự kiểm tra:</strong></p>\n<ul>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.4-1\"> Nối được <em>worked on it</em> thành một khối</label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.4-2\"> Lên giọng đúng ở câu hỏi Yes/No</label></li>\n</ul>", "sids": ["0.4-1", "0.4-2", "0.4-3", "0.4-4"]}, {"id": "0.5", "title": "Câu cứu nguy", "html": "<p><strong>Khi nào dùng:</strong> khi không nghe rõ, cần thời gian suy nghĩ, hoặc không biết câu trả lời. Dùng những câu này tốt hơn nhiều so với im lặng. Interviewer đánh giá cao việc bạn hỏi lại thay vì trả lời sai câu hỏi.</p>\n<p><strong>Câu mẫu:</strong></p>\n<div class=\"sent\" data-sid=\"0.5-1\"></div>\n<div class=\"sent\" data-sid=\"0.5-2\"></div>\n<div class=\"sent\" data-sid=\"0.5-3\"></div>\n<div class=\"sent\" data-sid=\"0.5-4\"></div>\n<div class=\"sent\" data-sid=\"0.5-5\"></div>\n<div class=\"sent\" data-sid=\"0.5-6\"></div>\n<div class=\"sent\" data-sid=\"0.5-7\"></div>\n<p><strong>Luyện tập:</strong></p>\n<ol>\n<li>Học thuộc 7 câu này trước buổi phỏng vấn. Đây là những câu dùng được cho mọi câu hỏi.</li>\n<li>Ở chế độ Luyện, che tiếng Anh, nhìn nghĩa tiếng Việt và nói lại câu.</li>\n</ol>\n<p><strong>Tự kiểm tra:</strong></p>\n<ul>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.5-1\"> Nói được 7 câu mà không nhìn</label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"0.5-2\"> Phản xạ dùng <em>Sorry, could you say that again?</em> thay vì im lặng</label></li>\n</ul>", "sids": ["0.5-1", "0.5-2", "0.5-3", "0.5-4", "0.5-5", "0.5-6", "0.5-7"]}]}, {"id": "1", "title": "Giới thiệu bản thân", "intro": "<p>Đây là câu hỏi gần như chắc chắn có, và là ấn tượng đầu tiên. Các câu hỏi kỹ thuật sau thường lấy từ chính những gì bạn kể ở đây, nên <strong>chỉ nhắc công nghệ mà bạn nói sâu được</strong>.\nPhần chữ <em>nghiêng</em> trong câu mẫu là thông tin cần thay bằng thông tin thật của bạn.</p>", "lessons": [{"id": "1.1", "title": "Chào hỏi và câu hỏi mở đầu", "html": "<p><strong>Khung:</strong> cảm ơn → trả lời ngắn → sẵn sàng bắt đầu. Đừng trả lời <em>small talk</em> quá dài.</p>\n<p><strong>Câu mẫu:</strong></p>\n<div class=\"sent\" data-sid=\"1.1-1\"></div>\n<div class=\"sent\" data-sid=\"1.1-2\"></div>\n<div class=\"sent\" data-sid=\"1.1-3\"></div>\n<div class=\"sent\" data-sid=\"1.1-4\"></div>\n<div class=\"sent\" data-sid=\"1.1-5\"></div>\n<div class=\"sent\" data-sid=\"1.1-6\"></div>\n<p><strong>Luyện tập:</strong></p>\n<ol>\n<li>Nghe 3 câu hỏi mở đầu ở tốc độ thường để quen tai.</li>\n<li>Tập phản xạ: nghe câu <em>How are you today?</em> và trả lời ngay trong 2 giây.</li>\n</ol>\n<p><strong>Tự kiểm tra:</strong></p>\n<ul>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"1.1-1\"> Nhận ra 3 cách hỏi \"giới thiệu bản thân\"</label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"1.1-2\"> Đọc <em>thanks</em> rõ /θ/ và đuôi /s/</label></li>\n</ul>", "sids": ["1.1-1", "1.1-2", "1.1-3", "1.1-4", "1.1-5", "1.1-6"]}, {"id": "1.2", "title": "Bản giới thiệu 30 giây", "html": "<p><strong>Khung:</strong> Tên → Vị trí và số năm kinh nghiệm → Công nghệ chính → Điều bạn thích làm → Vì sao ứng tuyển.</p>\n<p>Dùng khi interviewer muốn đi nhanh, hoặc khi họ hỏi <em>Briefly introduce yourself</em>.</p>\n<p><strong>Câu mẫu:</strong></p>\n<div class=\"sent\" data-sid=\"1.2-1\"></div>\n<div class=\"sent\" data-sid=\"1.2-2\"></div>\n<div class=\"sent\" data-sid=\"1.2-3\"></div>\n<div class=\"sent\" data-sid=\"1.2-4\"></div>\n<div class=\"sent\" data-sid=\"1.2-5\"></div>\n<p><strong>⚠️ Lỗi hay gặp:</strong></p>\n<ul>\n<li><em>I have five years experience</em> → thiếu <strong>of</strong>: <em>five years </em><em>of</em><em> experience</em>.</li>\n<li><em>I'm working in Android</em> → nên dùng <em>I work </em><em>with</em><em> Kotlin</em> hoặc <em>experience </em><em>in</em><em> Android</em>.</li>\n<li>Đọc <em>engineer</em> thành EN-gi-neer. Đúng là en-gi-<strong>NEER</strong>.</li>\n</ul>\n<p><strong>Luyện tập:</strong></p>\n<ol>\n<li>Thay phần chữ nghiêng bằng thông tin của bạn, viết vào <a href=\"my-answers.md\" target=\"_blank\">my-answers.md</a>.</li>\n<li>Bấm giờ: nói cả 5 câu trong khoảng 30 giây, không vội.</li>\n<li>Ghi âm bằng điện thoại, nghe lại và so với giọng máy.</li>\n</ol>\n<p><strong>Tự kiểm tra:</strong></p>\n<ul>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"1.2-1\"> Nói trôi chảy trong 25–35 giây</label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"1.2-2\"> Đọc đúng <em>software engineer</em>, <em>experience</em>, <em>Multiplatform</em></label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"1.2-3\"> Không nhìn chữ</label></li>\n</ul>", "sids": ["1.2-1", "1.2-2", "1.2-3", "1.2-4", "1.2-5"]}, {"id": "1.3", "title": "Bản giới thiệu 60 giây", "html": "<p><strong>Khung:</strong> bản 30 giây + Công việc hiện tại → Nhiệm vụ chính → Một thành tích có số liệu → Thế mạnh → Mục tiêu.</p>\n<p>Dùng làm câu trả lời mặc định. Thành tích có <strong>con số</strong> giúp interviewer nhớ bạn.</p>\n<p><strong>Câu mẫu:</strong></p>\n<div class=\"sent\" data-sid=\"1.3-1\"></div>\n<div class=\"sent\" data-sid=\"1.3-2\"></div>\n<div class=\"sent\" data-sid=\"1.3-3\"></div>\n<div class=\"sent\" data-sid=\"1.3-4\"></div>\n<div class=\"sent\" data-sid=\"1.3-5\"></div>\n<div class=\"sent\" data-sid=\"1.3-6\"></div>\n<div class=\"sent\" data-sid=\"1.3-7\"></div>\n<p><strong>⚠️ Lỗi hay gặp:</strong></p>\n<ul>\n<li>Kể lại toàn bộ CV từ thời sinh viên. Chỉ cần công việc gần nhất và liên quan nhất.</li>\n<li>Nhắc công nghệ mà bạn chưa dùng thật. Interviewer sẽ hỏi sâu vào đó.</li>\n<li>Đọc <em>duplicate</em> thành du-PLI-cate. Đúng là <strong>DU</strong>-pli-cate.</li>\n</ul>\n<p><strong>Luyện tập:</strong></p>\n<ol>\n<li>Nói nối bản 30 giây với 7 câu trên. Mục tiêu 50–70 giây.</li>\n<li>Che tiếng Anh, chỉ nhìn tiếng Việt và nói lại từng câu.</li>\n<li>Nhờ đồng nghiệp hỏi <em>Tell me about yourself</em> bất ngờ trong ngày.</li>\n</ol>\n<p><strong>Tự kiểm tra:</strong></p>\n<ul>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"1.3-1\"> Nói trôi chảy trong 50–70 giây</label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"1.3-2\"> Có ít nhất một thành tích với con số hoặc kết quả cụ thể</label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"1.3-3\"> Đọc đúng <em>strengths</em>, <em>vehicle</em>, <em>duplicate</em></label></li>\n</ul>", "sids": ["1.3-1", "1.3-2", "1.3-3", "1.3-4", "1.3-5", "1.3-6", "1.3-7"]}, {"id": "1.4", "title": "Câu hỏi nối tiếp ngắn", "html": "<p><strong>Khung:</strong> trả lời thẳng vào câu hỏi trong 1–2 câu, thêm một chi tiết. Không cần dài.</p>\n<p><strong>Câu mẫu:</strong></p>\n<div class=\"sent\" data-sid=\"1.4-1\"></div>\n<div class=\"sent\" data-sid=\"1.4-2\"></div>\n<div class=\"sent\" data-sid=\"1.4-3\"></div>\n<div class=\"sent\" data-sid=\"1.4-4\"></div>\n<div class=\"sent\" data-sid=\"1.4-5\"></div>\n<div class=\"sent\" data-sid=\"1.4-6\"></div>\n<div class=\"sent\" data-sid=\"1.4-7\"></div>\n<div class=\"sent\" data-sid=\"1.4-8\"></div>\n<p><strong>Luyện tập:</strong></p>\n<ol>\n<li>Ở chế độ Luyện, chỉ chọn câu ❓: nghe câu hỏi và tự trả lời bằng thông tin thật của bạn.</li>\n<li>Tự viết thêm 2 câu hỏi nối tiếp mà bạn nghĩ sẽ gặp, kèm câu trả lời.</li>\n</ol>\n<p><strong>Tự kiểm tra:</strong></p>\n<ul>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"1.4-1\"> Trả lời 4 câu hỏi ngay, không ngập ngừng quá 3 giây</label></li>\n<li class=\"task\"><label><input type=\"checkbox\" class=\"chk\" data-key=\"1.4-2\"> Phân biệt <em>How many years…</em> và <em>How long…</em></label></li>\n</ul>", "sids": ["1.4-1", "1.4-2", "1.4-3", "1.4-4", "1.4-5", "1.4-6", "1.4-7", "1.4-8"]}]}], "sentences": {"0.1-1": {"id": "0.1-1", "role": "me", "en": "I <strong>worked</strong> on <strong>three</strong> Android <strong>apps</strong>.", "say": "I worked on three Android apps.", "ipa": "/aɪ wɝːkt ɑːn θriː ˈændrɔɪd æps/", "vi": "Tôi đã làm ba ứng dụng Android.", "note": ""}, "0.1-2": {"id": "0.1-2", "role": "me", "en": "I <strong>designed</strong> and <strong>tested</strong> new <strong>features</strong>.", "say": "I designed and tested new features.", "ipa": "/aɪ dɪˈzaɪnd ənd ˈtestɪd nuː ˈfiːtʃɚz/", "vi": "Tôi đã thiết kế và kiểm thử các tính năng mới.", "note": ""}, "0.1-3": {"id": "0.1-3", "role": "me", "en": "I <strong>fixed</strong> many <strong>bugs</strong> and <strong>improved</strong> the <strong>performance</strong>.", "say": "I fixed many bugs and improved the performance.", "ipa": "/aɪ fɪkst ˈmeni bʌɡz ənd ɪmˈpruːvd ðə pɚˈfɔːrməns/", "vi": "Tôi đã sửa nhiều lỗi và cải thiện hiệu năng.", "note": "<em>fixed</em> chỉ có một âm tiết: /fɪkst/, không đọc \"fix-ed\"."}, "0.1-4": {"id": "0.1-4", "role": "me", "en": "Our <strong>team</strong> <strong>uses</strong> <strong>Kotlin</strong> and <strong>Jetpack Compose</strong>.", "say": "Our team uses Kotlin and Jetpack Compose.", "ipa": "/ˈaʊɚ tiːm ˈjuːzɪz ˈkɑːtlɪn ənd ˈdʒetpæk kəmˈpoʊz/", "vi": "Nhóm chúng tôi dùng Kotlin và Jetpack Compose.", "note": ""}, "0.2-1": {"id": "0.2-1", "role": "me", "en": "I <strong>think</strong> <strong>three threads</strong> are <strong>enough</strong>.", "say": "I think three threads are enough.", "ipa": "/aɪ θɪŋk θriː θredz ɚ ɪˈnʌf/", "vi": "Tôi nghĩ ba luồng là đủ.", "note": ""}, "0.2-2": {"id": "0.2-2", "role": "me", "en": "We <strong>release</strong> a <strong>new version</strong> <strong>every month</strong>.", "say": "We release a new version every month.", "ipa": "/wiː rɪˈliːs ə nuː ˈvɝːʒən ˈevri mʌnθ/", "vi": "Chúng tôi phát hành phiên bản mới mỗi tháng.", "note": ""}, "0.2-3": {"id": "0.2-3", "role": "me", "en": "The <strong>library</strong> is <strong>very</strong> <strong>reliable</strong>.", "say": "The library is very reliable.", "ipa": "/ðə ˈlaɪbreri ɪz ˈveri rɪˈlaɪəbəl/", "vi": "Thư viện này rất đáng tin cậy.", "note": ""}, "0.2-4": {"id": "0.2-4", "role": "me", "en": "We <strong>share</strong> <strong>logic</strong> between <strong>Android</strong> and <strong>iOS</strong>.", "say": "We share logic between Android and iOS.", "ipa": "/wiː ʃer ˈlɑːdʒɪk bɪˈtwiːn ˈændrɔɪd ənd ˌaɪ oʊ ˈes/", "vi": "Chúng tôi chia sẻ logic giữa Android và iOS.", "note": ""}, "0.3-1": {"id": "0.3-1", "role": "me", "en": "I'm an <strong>Android developer</strong> with <strong>five years</strong> of <strong>experience</strong>.", "say": "I'm an Android developer with five years of experience.", "ipa": "/aɪm ən ˈændrɔɪd dɪˈveləpɚ wɪð faɪv jɪrz əv ɪkˈspɪriəns/", "vi": "Tôi là lập trình viên Android với năm năm kinh nghiệm.", "note": ""}, "0.3-2": {"id": "0.3-2", "role": "me", "en": "I <strong>built</strong> the <strong>architecture</strong> for a <strong>new application</strong>.", "say": "I built the architecture for a new application.", "ipa": "/aɪ bɪlt ði ˈɑːrkətektʃɚ fɚr ə nuː ˌæpləˈkeɪʃən/", "vi": "Tôi đã xây dựng kiến trúc cho một ứng dụng mới.", "note": "<em>the</em> đứng trước nguyên âm đọc là /ði/."}, "0.3-3": {"id": "0.3-3", "role": "me", "en": "I use <strong>coroutines</strong> for <strong>asynchronous tasks</strong>.", "say": "I use coroutines for asynchronous tasks.", "ipa": "/aɪ juːz ˌkoʊruːˈtiːnz fɚr eɪˈsɪŋkrənəs tæsks/", "vi": "Tôi dùng coroutine cho các tác vụ bất đồng bộ.", "note": ""}, "0.3-4": {"id": "0.3-4", "role": "me", "en": "We use <strong>KMM</strong> to <strong>share code</strong> with <strong>iOS</strong>.", "say": "We use KMM to share code with iOS.", "ipa": "/wiː juːz ˌkeɪ em ˈem tə ʃer koʊd wɪð ˌaɪ oʊ ˈes/", "vi": "Chúng tôi dùng KMM để chia sẻ code với iOS.", "note": ""}, "0.4-1": {"id": "0.4-1", "role": "me", "en": "I <strong>worked</strong>‿on‿it <strong>last year</strong>. ↘", "say": "I worked on it last year.", "ipa": "/aɪ wɝːkt‿ɑːn‿ɪt læst jɪr/", "vi": "Tôi đã làm việc đó năm ngoái.", "note": ""}, "0.4-2": {"id": "0.4-2", "role": "me", "en": "I'm‿<strong>interested</strong>‿in this <strong>position</strong>. ↘", "say": "I'm interested in this position.", "ipa": "/aɪm‿ˈɪntrəstɪd‿ɪn ðɪs pəˈzɪʃən/", "vi": "Tôi quan tâm đến vị trí này.", "note": "<em>interested</em> có 3 âm tiết: /ˈɪn-trəs-tɪd/."}, "0.4-3": {"id": "0.4-3", "role": "me", "en": "Can‿I‿<strong>ask</strong>‿a <strong>question</strong>? ↗", "say": "Can I ask a question?", "ipa": "/kən‿aɪ‿æsk‿ə ˈkwestʃən/", "vi": "Tôi có thể hỏi một câu không?", "note": ""}, "0.4-4": {"id": "0.4-4", "role": "q", "en": "<strong>What</strong> do you <strong>do</strong> in your <strong>free time</strong>? ↘", "say": "What do you do in your free time?", "ipa": "/wʌt də jə duː ɪn jɚ friː taɪm/", "vi": "Bạn làm gì vào thời gian rảnh?", "note": "Khi nói nhanh, <em>do you</em> thành /də jə/. Nghe quen để không bị bất ngờ."}, "0.5-1": {"id": "0.5-1", "role": "me", "en": "<strong>Sorry</strong>, could you <strong>say</strong> that <strong>again</strong>, please?", "say": "Sorry, could you say that again, please?", "ipa": "/ˈsɑːri kʊd juː seɪ ðæt əˈɡen pliːz/", "vi": "Xin lỗi, bạn có thể nói lại được không?", "note": ""}, "0.5-2": {"id": "0.5-2", "role": "me", "en": "Could you <strong>speak</strong> a <strong>little</strong> more <strong>slowly</strong>?", "say": "Could you speak a little more slowly?", "ipa": "/kʊd juː spiːk ə ˈlɪtəl mɔːr ˈsloʊli/", "vi": "Bạn có thể nói chậm hơn một chút không?", "note": ""}, "0.5-3": {"id": "0.5-3", "role": "me", "en": "Do you <strong>mean</strong> the <strong>Android app</strong> or the <strong>backend</strong>?", "say": "Do you mean the Android app or the backend?", "ipa": "/duː juː miːn ði ˈændrɔɪd æp ɔːr ðə ˈbækend/", "vi": "Ý bạn là ứng dụng Android hay phần backend?", "note": "Dùng <em>Do you mean…?</em> để xác nhận lại câu hỏi trước khi trả lời."}, "0.5-4": {"id": "0.5-4", "role": "me", "en": "That's a <strong>good question</strong>. Let me <strong>think</strong> for a <strong>moment</strong>.", "say": "That's a good question. Let me think for a moment.", "ipa": "/ðæts ə ɡʊd ˈkwestʃən | let miː θɪŋk fɚr ə ˈmoʊmənt/", "vi": "Câu hỏi hay. Để tôi suy nghĩ một chút.", "note": ""}, "0.5-5": {"id": "0.5-5", "role": "me", "en": "I'm <strong>not sure</strong>, but I <strong>think</strong> it's a <strong>memory leak</strong>.", "say": "I'm not sure, but I think it's a memory leak.", "ipa": "/aɪm nɑːt ʃʊr bət aɪ θɪŋk ɪts ə ˈmeməri liːk/", "vi": "Tôi không chắc, nhưng tôi nghĩ đó là rò rỉ bộ nhớ.", "note": ""}, "0.5-6": {"id": "0.5-6", "role": "me", "en": "I <strong>haven't used</strong> it <strong>yet</strong>, but I'm <strong>learning</strong> it <strong>now</strong>.", "say": "I haven't used it yet, but I'm learning it now.", "ipa": "/aɪ ˈhævənt juːzd ɪt jet bət aɪm ˈlɝːnɪŋ ɪt naʊ/", "vi": "Tôi chưa dùng nó, nhưng tôi đang học.", "note": "Trung thực về điều mình chưa biết, rồi nói bạn đang học. Tốt hơn đoán bừa."}, "0.5-7": {"id": "0.5-7", "role": "me", "en": "Let me <strong>give</strong> you an <strong>example</strong>.", "say": "Let me give you an example.", "ipa": "/let miː ɡɪv juː ən ɪɡˈzæmpəl/", "vi": "Để tôi đưa ra một ví dụ.", "note": ""}, "1.1-1": {"id": "1.1-1", "role": "q", "en": "<strong>How</strong> are you <strong>today</strong>?", "say": "How are you today?", "ipa": "/haʊ ɑːr juː təˈdeɪ/", "vi": "Hôm nay bạn thế nào?", "note": ""}, "1.1-2": {"id": "1.1-2", "role": "me", "en": "I'm <strong>fine</strong>, <strong>thank</strong> you. <strong>Thanks</strong> for <strong>having</strong> me.", "say": "I'm fine, thank you. Thanks for having me.", "ipa": "/aɪm faɪn θæŋk juː | θæŋks fɚ ˈhævɪŋ miː/", "vi": "Tôi khỏe, cảm ơn. Cảm ơn vì đã mời tôi.", "note": ""}, "1.1-3": {"id": "1.1-3", "role": "me", "en": "<strong>Nice</strong> to <strong>meet</strong> you. I'm <strong>happy</strong> to be <strong>here</strong>.", "say": "Nice to meet you. I'm happy to be here.", "ipa": "/naɪs tə miːt juː | aɪm ˈhæpi tə bi hɪr/", "vi": "Rất vui được gặp bạn. Tôi rất vui được có mặt ở đây.", "note": ""}, "1.1-4": {"id": "1.1-4", "role": "q", "en": "Can you <strong>tell</strong> me about <strong>yourself</strong>?", "say": "Can you tell me about yourself?", "ipa": "/kən juː tel miː əˈbaʊt jɚˈself/", "vi": "Bạn có thể kể về bản thân không?", "note": ""}, "1.1-5": {"id": "1.1-5", "role": "q", "en": "Could you <strong>introduce</strong> <strong>yourself</strong>?", "say": "Could you introduce yourself?", "ipa": "/kʊd juː ˌɪntrəˈduːs jɚˈself/", "vi": "Bạn có thể giới thiệu bản thân không?", "note": ""}, "1.1-6": {"id": "1.1-6", "role": "q", "en": "<strong>Walk</strong> me <strong>through</strong> your <strong>background</strong>.", "say": "Walk me through your background.", "ipa": "/wɔːk miː θruː jɚ ˈbækɡraʊnd/", "vi": "Hãy kể lần lượt quá trình học tập và làm việc của bạn.", "note": "Ba câu hỏi trên cùng một ý: hãy giới thiệu bản thân. Dùng bản 30 giây hoặc 60 giây bên dưới."}, "1.2-1": {"id": "1.2-1", "role": "me", "en": "<strong>Hello</strong>, my <strong>name</strong> is <em>Nam</em>.", "say": "Hello, my name is Nam.", "ipa": "/həˈloʊ maɪ neɪm ɪz nɑːm/", "vi": "Xin chào, tôi tên là Nam.", "note": ""}, "1.2-2": {"id": "1.2-2", "role": "me", "en": "I'm a <strong>software engineer</strong> with <em>five</em> <strong>years</strong> of <strong>experience</strong> in <strong>Android</strong>.", "say": "I'm a software engineer with five years of experience in Android.", "ipa": "/aɪm ə ˈsɑːftwer ˌendʒɪˈnɪr wɪð faɪv jɪrz əv ɪkˈspɪriəns ɪn ˈændrɔɪd/", "vi": "Tôi là kỹ sư phần mềm với năm năm kinh nghiệm Android.", "note": ""}, "1.2-3": {"id": "1.2-3", "role": "me", "en": "I <strong>mainly</strong> work with <strong>Kotlin</strong>, <strong>Jetpack Compose</strong>, and <strong>Kotlin Multiplatform</strong>.", "say": "I mainly work with Kotlin, Jetpack Compose, and Kotlin Multiplatform.", "ipa": "/aɪ ˈmeɪnli wɝːk wɪð ˈkɑːtlɪn ˈdʒetpæk kəmˈpoʊz ənd ˈkɑːtlɪn ˌmʌltiˈplætfɔːrm/", "vi": "Tôi chủ yếu làm việc với Kotlin, Jetpack Compose và Kotlin Multiplatform.", "note": ""}, "1.2-4": {"id": "1.2-4", "role": "me", "en": "I <strong>enjoy</strong> <strong>building</strong> <strong>clean</strong> and <strong>stable</strong> <strong>apps</strong>.", "say": "I enjoy building clean and stable apps.", "ipa": "/aɪ ɪnˈdʒɔɪ ˈbɪldɪŋ kliːn ənd ˈsteɪbəl æps/", "vi": "Tôi thích xây dựng những ứng dụng gọn gàng và ổn định.", "note": ""}, "1.2-5": {"id": "1.2-5", "role": "me", "en": "I'm <strong>excited</strong> about this <strong>position</strong> because it <strong>focuses</strong> on <strong>KMM</strong>.", "say": "I'm excited about this position because it focuses on KMM.", "ipa": "/aɪm ɪkˈsaɪtɪd əˈbaʊt ðɪs pəˈzɪʃən bɪˈkɑːz ɪt ˈfoʊkəsɪz ɑːn ˌkeɪ em ˈem/", "vi": "Tôi hứng thú với vị trí này vì nó tập trung vào KMM.", "note": ""}, "1.3-1": {"id": "1.3-1", "role": "me", "en": "<strong>Currently</strong>, I work at <em>ABC Company</em> as an <strong>Android developer</strong>.", "say": "Currently, I work at ABC Company as an Android developer.", "ipa": "/ˈkɝːəntli aɪ wɝːk æt eɪ biː siː ˈkʌmpəni æz ən ˈændrɔɪd dɪˈveləpɚ/", "vi": "Hiện tại tôi làm lập trình viên Android ở công ty ABC.", "note": ""}, "1.3-2": {"id": "1.3-2", "role": "me", "en": "I work on a <em>car</em> <strong>app</strong> that <strong>connects</strong> to the <strong>vehicle</strong>.", "say": "I work on a car app that connects to the vehicle.", "ipa": "/aɪ wɝːk ɑːn ə kɑːr æp ðæt kəˈnekts tə ðə ˈviːəkəl/", "vi": "Tôi làm một ứng dụng ô tô kết nối với xe.", "note": "<em>vehicle</em> đọc là /ˈviːəkəl/, âm <em>h</em> câm."}, "1.3-3": {"id": "1.3-3", "role": "me", "en": "My <strong>main tasks</strong> are <strong>designing features</strong>, <strong>writing tests</strong>, and <strong>fixing bugs</strong>.", "say": "My main tasks are designing features, writing tests, and fixing bugs.", "ipa": "/maɪ meɪn tæsks ɑːr dɪˈzaɪnɪŋ ˈfiːtʃɚz ˈraɪtɪŋ tests ənd ˈfɪksɪŋ bʌɡz/", "vi": "Nhiệm vụ chính của tôi là thiết kế tính năng, viết test và sửa lỗi.", "note": ""}, "1.3-4": {"id": "1.3-4", "role": "me", "en": "<strong>Last year</strong>, I <strong>moved</strong> our <strong>shared logic</strong> to <strong>KMM</strong>.", "say": "Last year, I moved our shared logic to KMM.", "ipa": "/læst jɪr aɪ muːvd ˈaʊɚ ʃerd ˈlɑːdʒɪk tə ˌkeɪ em ˈem/", "vi": "Năm ngoái, tôi đã chuyển phần logic dùng chung sang KMM.", "note": ""}, "1.3-5": {"id": "1.3-5", "role": "me", "en": "It <strong>reduced</strong> <strong>duplicate code</strong> by about <em>forty</em> <strong>percent</strong>.", "say": "It reduced duplicate code by about forty percent.", "ipa": "/ɪt rɪˈduːst ˈduːpləkət koʊd baɪ əˈbaʊt ˈfɔːrti pɚˈsent/", "vi": "Việc đó giảm khoảng bốn mươi phần trăm code trùng lặp.", "note": "Nếu không có số liệu thật, nói kết quả cụ thể: <em>It made iOS development faster.</em>"}, "1.3-6": {"id": "1.3-6", "role": "me", "en": "My <strong>strengths</strong> are <strong>problem solving</strong> and <strong>clear communication</strong>.", "say": "My strengths are problem solving and clear communication.", "ipa": "/maɪ streŋθs ɑːr ˈprɑːbləm ˈsɑːlvɪŋ ənd klɪr kəˌmjuːnəˈkeɪʃən/", "vi": "Thế mạnh của tôi là giải quyết vấn đề và giao tiếp rõ ràng.", "note": "<em>strengths</em> /streŋθs/ rất khó. Đọc chậm: streng → th → s."}, "1.3-7": {"id": "1.3-7", "role": "me", "en": "<strong>Now</strong> I <strong>want</strong> to <strong>grow</strong> as a <strong>mobile engineer</strong> in a <strong>bigger team</strong>.", "say": "Now I want to grow as a mobile engineer in a bigger team.", "ipa": "/naʊ aɪ wɑːnt tə ɡroʊ æz ə ˈmoʊbəl ˌendʒɪˈnɪr ɪn ə ˈbɪɡɚ tiːm/", "vi": "Bây giờ tôi muốn phát triển thành kỹ sư mobile trong một nhóm lớn hơn.", "note": ""}, "1.4-1": {"id": "1.4-1", "role": "q", "en": "How <strong>many years</strong> of <strong>Android experience</strong> do you <strong>have</strong>?", "say": "How many years of Android experience do you have?", "ipa": "/haʊ ˈmeni jɪrz əv ˈændrɔɪd ɪkˈspɪriəns də juː hæv/", "vi": "Bạn có bao nhiêu năm kinh nghiệm Android?", "note": ""}, "1.4-2": {"id": "1.4-2", "role": "me", "en": "I have <em>five</em> <strong>years</strong> of <strong>Android experience</strong>.", "say": "I have five years of Android experience.", "ipa": "/aɪ hæv faɪv jɪrz əv ˈændrɔɪd ɪkˈspɪriəns/", "vi": "Tôi có năm năm kinh nghiệm Android.", "note": ""}, "1.4-3": {"id": "1.4-3", "role": "q", "en": "<strong>What</strong> is your <strong>role</strong> in the <strong>team</strong>?", "say": "What is your role in the team?", "ipa": "/wʌt ɪz jɚ roʊl ɪn ðə tiːm/", "vi": "Vai trò của bạn trong nhóm là gì?", "note": ""}, "1.4-4": {"id": "1.4-4", "role": "me", "en": "I'm a <strong>senior developer</strong>. I also <strong>review code</strong> for <strong>junior members</strong>.", "say": "I'm a senior developer. I also review code for junior members.", "ipa": "/aɪm ə ˈsiːnjɚ dɪˈveləpɚ | aɪ ˈɔːlsoʊ rɪˈvjuː koʊd fɚ ˈdʒuːnjɚ ˈmembɚz/", "vi": "Tôi là lập trình viên senior. Tôi cũng review code cho các thành viên junior.", "note": ""}, "1.4-5": {"id": "1.4-5", "role": "q", "en": "How <strong>big</strong> is your <strong>team</strong>?", "say": "How big is your team?", "ipa": "/haʊ bɪɡ ɪz jɚ tiːm/", "vi": "Nhóm của bạn lớn cỡ nào?", "note": ""}, "1.4-6": {"id": "1.4-6", "role": "me", "en": "There are <em>eight</em> <strong>people</strong>: <em>five</em> <strong>developers</strong> and <em>three</em> <strong>testers</strong>.", "say": "There are eight people: five developers and three testers.", "ipa": "/ðer ɑːr eɪt ˈpiːpəl faɪv dɪˈveləpɚz ənd θriː ˈtestɚz/", "vi": "Có tám người: năm lập trình viên và ba tester.", "note": ""}, "1.4-7": {"id": "1.4-7", "role": "q", "en": "How <strong>long</strong> have you <strong>used</strong> <strong>KMM</strong>?", "say": "How long have you used KMM?", "ipa": "/haʊ lɔːŋ həv juː juːzd ˌkeɪ em ˈem/", "vi": "Bạn đã dùng KMM bao lâu rồi?", "note": ""}, "1.4-8": {"id": "1.4-8", "role": "me", "en": "For about <em>one</em> <strong>year</strong>, in a <strong>real project</strong>.", "say": "For about one year, in a real project.", "ipa": "/fɚr əˈbaʊt wʌn jɪr ɪn ə ˈriːəl ˈprɑːdʒekt/", "vi": "Khoảng một năm, trong một dự án thực tế.", "note": "Thêm <em>in a real project</em> để cho thấy đây là kinh nghiệm thực, không chỉ tự học."}}}</script>
+<script>
+
+(() => {
+const DATA = JSON.parse(document.getElementById("eng-data").textContent);
+const S = DATA.sentences;
+const lessons = DATA.modules.flatMap(m => m.lessons.map(l => ({ ...l, module: m })));
+const byId = Object.fromEntries(lessons.map(l => [l.id, l]));
+const $ = s => document.querySelector(s);
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+// ---------- Lưu trạng thái ----------
+const KEY = "eng-interview-v1";
+let st = { learned: {}, checks: {}, lesson: lessons[0]?.id, rate: 0.9, voice: "", show: { ipa: true, vi: true, en: true }, theme: "" };
+try { Object.assign(st, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+if (!byId[st.lesson]) st.lesson = lessons[0].id;
+// ---------- Theme ----------
+const themeBtn = $("#theme-btn");
+const applyTheme = () => {
+if (st.theme) document.documentElement.dataset.theme = st.theme; else delete document.documentElement.dataset.theme;
+themeBtn.textContent = { "": "◐ Giao diện: theo hệ thống", light: "☀ Giao diện: sáng", dark: "☾ Giao diện: tối" }[st.theme];
+};
+themeBtn.onclick = () => { st.theme = { "": "light", light: "dark", dark: "" }[st.theme]; applyTheme(); save(); };
+applyTheme();
+// ---------- Đọc (TTS) ----------
+const synth = window.speechSynthesis;
+const voiceSel = $("#voice");
+let voices = [];
+const PREFER = /natural|aria|jenny|guy|google us english|samantha/i;
+function loadVoices() {
+if (!synth) { voiceSel.innerHTML = "<option>Trình duyệt không hỗ trợ</option>"; return; }
+voices = synth.getVoices().filter(v => /^en[-_]/i.test(v.lang))
+.sort((a, b) => (b.lang === "en-US") - (a.lang === "en-US") || PREFER.test(b.name) - PREFER.test(a.name));
+voiceSel.innerHTML = voices.map(v => `<option value="${v.name}">${v.name.replace(/^Microsoft /, "")} (${v.lang})</option>`).join("");
+if (!voices.some(v => v.name === st.voice)) st.voice = voices[0]?.name || "";
+voiceSel.value = st.voice;
+}
+if (synth) { loadVoices(); synth.onvoiceschanged = loadVoices; }
+voiceSel.onchange = () => { st.voice = voiceSel.value; save(); };
+const rate = $("#rate");
+const showRate = () => { $("#rate-val").textContent = `${Number(st.rate).toFixed(2)}×`; };
+rate.value = st.rate; showRate();
+rate.oninput = () => { st.rate = Number(rate.value); showRate(); save(); };
+function speak(text, slow, onend) {
+if (!synth) return;
+synth.cancel();
+const u = new SpeechSynthesisUtterance(text);
+u.lang = "en-US";
+const v = voices.find(v => v.name === st.voice);
+if (v) u.voice = v;
+u.rate = st.rate * (slow ? 0.7 : 1);
+if (onend) u.onend = u.onerror = onend;
+synth.speak(u);
+}
+// ---------- Chấm phát âm ----------
+const ONES = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split(" ");
+const TENS = "_ _ twenty thirty forty fifty sixty seventy eighty ninety".split(" ");
+const numWord = n => n < 20 ? ONES[n] : TENS[Math.floor(n / 10)] + (n % 10 ? " " + ONES[n % 10] : "");
+function words(text) {
+const t = text.toLowerCase().replace(/[’‘]/g, "'").replace(/%/g, " percent")
+.replace(/\b\d{1,2}\b/g, d => numWord(Number(d))).replace(/[^a-z0-9'\s]/g, " ");
+const raw = t.split(/\s+/).filter(Boolean);
+// Gộp chữ cái rời do máy nghe đánh vần: "k m m" → "kmm".
+const out = [];
+let prevLetter = false;
+for (const w of raw) {
+const letter = w.length === 1 && w !== "a" && w !== "i";
+if (letter && prevLetter) out[out.length - 1] += w; else out.push(w);
+prevLetter = letter;
+}
+return out;
+}
+function align(exp, got) {
+const n = exp.length, m = got.length;
+const dp = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--)
+dp[i][j] = exp[i] === got[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+const hit = new Array(n).fill(false);
+for (let i = 0, j = 0; i < n && j < m;) {
+if (exp[i] === got[j]) { hit[i] = true; i++; j++; } else if (dp[i + 1][j] >= dp[i][j + 1]) i++; else j++;
+}
+return hit;
+}
+function judge(s, transcripts) {
+const exp = words(s.say);
+let best = null;
+for (const t of transcripts) {
+const hit = align(exp, words(t));
+const score = hit.filter(Boolean).length / exp.length;
+if (!best || score > best.score) best = { hit, score, text: t };
+}
+// Tô màu theo từ gốc; một từ gốc có thể thành nhiều từ chuẩn hoá (ví dụ "40%" → "forty percent").
+const shown = s.say.split(/\s+/);
+const expShown = [];
+let k = 0;
+for (const w of shown) {
+const parts = words(w);
+const ok = parts.length === 0 || parts.every((_, i) => best.hit[k + i]);
+k += parts.length;
+expShown.push(`<span class="${ok ? "ok" : "miss"}">${w}</span>`);
+}
+return { ...best, html: expShown.join(" ") };
+}
+function listen(s, box, btn) {
+if (!SR) { box.hidden = false; box.innerHTML = "Trình duyệt không hỗ trợ nhận giọng nói. Hãy dùng Chrome hoặc Edge."; return; }
+if (synth) synth.cancel();
+const r = new SR();
+r.lang = "en-US"; r.interimResults = false; r.maxAlternatives = 5;
+const label = btn.innerHTML;
+btn.classList.add("rec"); btn.innerHTML = "● Đang nghe…";
+box.hidden = false; box.innerHTML = "<span class='heard'>Hãy đọc câu…</span>";
+let got = false;
+r.onresult = e => {
+got = true;
+const res = judge(s, [...e.results[0]].map(a => a.transcript));
+const pct = Math.round(res.score * 100);
+const msg = pct >= 90 ? "Rất tốt!" : pct >= 70 ? "Khá tốt, chú ý từ màu đỏ." : "Thử lại: nghe chậm rồi đọc theo.";
+box.innerHTML = `<div><span class="score ${pct >= 70 ? "ok" : "miss"}">${pct}%</span> · ${msg}</div>
+<div>${res.html}</div><div class="heard">Máy nghe được: “${res.text.replace(/</g, "&lt;")}”</div>`;
+};
+r.onerror = e => {
+got = true;
+box.innerHTML = e.error === "not-allowed" ? "Chưa cho phép dùng micro. Bấm biểu tượng micro trên thanh địa chỉ để cho phép."
+: e.error === "no-speech" ? "Không nghe thấy gì. Thử nói to và gần micro hơn."
+: e.error === "network" ? "Nhận giọng nói cần kết nối Internet." : `Lỗi nhận giọng nói: ${e.error}`;
+};
+r.onend = () => { btn.classList.remove("rec"); btn.innerHTML = label; if (!got) box.innerHTML = "Không nghe thấy gì. Thử lại."; };
+r.start();
+}
+// ---------- Thẻ câu ----------
+function wrapWords(el) {
+const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+const nodes = [];
+while (walk.nextNode()) nodes.push(walk.currentNode);
+for (const node of nodes) {
+const frag = document.createDocumentFragment();
+for (const part of node.textContent.split(/(\s+|‿)/)) {
+if (/[A-Za-z]/.test(part)) {
+const sp = document.createElement("span");
+sp.className = "w"; sp.textContent = part; frag.append(sp);
+} else frag.append(part);
+}
+node.replaceWith(frag);
+}
+el.addEventListener("click", e => {
+const w = e.target.closest(".w");
+if (w) { e.stopPropagation(); speak(w.textContent.replace(/[^A-Za-z']/g, ""), true); }
+});
+}
+function fillSentence(el, s, opts = {}) {
+el.classList.add("sent");
+el.classList.toggle("q", s.role === "q");
+el.classList.toggle("learned", !!st.learned[s.id]);
+el.innerHTML = `<span class="role">${s.role === "q" ? "❓ Interviewer" : "🗣️ Bạn"}</span>
+<p class="en">${s.en}</p><p class="ipa"></p><p class="vi"></p>${s.note ? `<p class="note">💡 ${s.note}</p>` : ""}
+<div class="acts">
+<button class="btn" data-a="play">▶ Nghe</button><button class="btn" data-a="slow">🐢 Chậm</button>
+<button class="btn" data-a="mic">🎤 Nói thử</button>
+${opts.noLearn ? "" : `<button class="btn" data-a="learn" aria-pressed="${!!st.learned[s.id]}">✓ Đã thuộc</button>`}
+</div><div class="result" hidden></div>`;
+el.querySelector(".ipa").textContent = s.ipa;
+el.querySelector(".vi").textContent = s.vi;
+wrapWords(el.querySelector(".en"));
+const box = el.querySelector(".result");
+el.querySelector(".en").addEventListener("click", () => el.classList.add("reveal"));
+el.querySelector(".acts").addEventListener("click", e => {
+const b = e.target.closest("button"); if (!b) return;
+const a = b.dataset.a;
+if (a === "play" || a === "slow") {
+el.classList.add("speaking");
+speak(s.say, a === "slow", () => el.classList.remove("speaking"));
+} else if (a === "mic") listen(s, box, b);
+else if (a === "learn") {
+if (st.learned[s.id]) delete st.learned[s.id]; else st.learned[s.id] = 1;
+b.setAttribute("aria-pressed", !!st.learned[s.id]);
+el.classList.toggle("learned", !!st.learned[s.id]);
+save(); renderToc();
+}
+});
+}
+// ---------- Mục lục ----------
+const count = ids => ids.filter(id => st.learned[id]).length;
+function renderToc() {
+const toc = $("#toc");
+const open = new Set([...toc.querySelectorAll("details[open]")].map(d => d.dataset.m));
+if (!toc.children.length) open.add(byId[st.lesson].module.id);
+toc.innerHTML = DATA.modules.map(m => {
+const ids = m.lessons.flatMap(l => l.sids);
+const c = count(ids);
+return `<details data-m="${m.id}" ${open.has(m.id) ? "open" : ""}>
+<summary><span class="mtitle">${m.id}. ${m.title}<span>${c}/${ids.length}</span></span>
+<span class="bar"><i style="width:${ids.length ? (100 * c / ids.length) : 0}%"></i></span></summary>
+<ol>${m.lessons.map(l => {
+const lc = count(l.sids);
+return `<li><button class="lesson-btn" data-l="${l.id}" aria-current="${l.id === st.lesson && view === "learn"}">
+<span class="lid">${l.id}</span><span>${l.title}</span>
+<span class="lcount ${lc === l.sids.length && lc ? "done" : ""}">${lc}/${l.sids.length}</span></button></li>`;
+}).join("")}</ol></details>`;
+}).join("");
+}
+$("#toc").addEventListener("click", e => {
+const b = e.target.closest(".lesson-btn");
+if (b) { setView("learn"); openLesson(b.dataset.l); }
+});
+// ---------- Bài học ----------
+const learnView = $("#view-learn");
+function applyShow() {
+for (const k of ["ipa", "vi", "en"]) {
+learnView.classList.toggle("hide-" + k, !st.show[k]);
+learnView.querySelector(`[data-toggle="${k}"]`).setAttribute("aria-pressed", st.show[k]);
+}
+}
+learnView.querySelector(".toolbar").addEventListener("click", e => {
+const b = e.target.closest("[data-toggle]"); if (!b) return;
+st.show[b.dataset.toggle] = !st.show[b.dataset.toggle];
+learnView.querySelectorAll(".sent.reveal").forEach(x => x.classList.remove("reveal"));
+applyShow(); save();
+});
+let playing = false;
+$("#play-all").onclick = () => {
+if (playing) { playing = false; synth && synth.cancel(); $("#play-all").textContent = "▶ Nghe cả bài"; return; }
+const cards = [...$("#lesson-body").querySelectorAll(".sent")];
+let i = 0;
+playing = true; $("#play-all").textContent = "■ Dừng";
+const next = () => {
+cards.forEach(c => c.classList.remove("speaking"));
+if (!playing || i >= cards.length) { playing = false; $("#play-all").textContent = "▶ Nghe cả bài"; return; }
+const c = cards[i++];
+c.classList.add("speaking"); c.scrollIntoView({ block: "center", behavior: "smooth" });
+speak(S[c.dataset.sid].say, false, () => setTimeout(next, 900));
+};
+next();
+};
+function openLesson(id) {
+playing = false; synth && synth.cancel(); $("#play-all").textContent = "▶ Nghe cả bài";
+st.lesson = id; save();
+const l = byId[id], idx = lessons.indexOf(l);
+$("#lesson-module").textContent = `Module ${l.module.id} · ${l.module.title}`;
+$("#lesson-title").textContent = `${l.id} ${l.title}`;
+$("#module-intro").innerHTML = l.module.lessons[0] === l ? l.module.intro : "";
+const body = $("#lesson-body");
+body.innerHTML = l.html;
+body.querySelectorAll(".sent").forEach(el => fillSentence(el, S[el.dataset.sid]));
+body.querySelectorAll("table").forEach(t => {
+if (t.querySelector("th")?.textContent.trim() !== "Từ") return;
+t.querySelectorAll("tbody tr").forEach(tr => {
+const td = tr.cells[0], word = td.textContent.trim();
+td.innerHTML = `<span class="word-cell"><button class="icon-btn" aria-label="Nghe ${word}">▶</button><span></span></span>`;
+td.querySelector("span span").textContent = word;
+td.querySelector("button").onclick = () => speak(word, true);
+});
+});
+body.querySelectorAll(".chk").forEach(c => {
+c.checked = !!st.checks[c.dataset.key];
+c.onchange = () => { if (c.checked) st.checks[c.dataset.key] = 1; else delete st.checks[c.dataset.key]; save(); };
+});
+const prev = lessons[idx - 1], next = lessons[idx + 1];
+$("#prev").hidden = !prev; $("#next").hidden = !next;
+if (prev) { $("#prev").textContent = `← ${prev.id} ${prev.title}`; $("#prev").onclick = () => openLesson(prev.id); }
+if (next) { $("#next").textContent = `${next.id} ${next.title} →`; $("#next").onclick = () => openLesson(next.id); }
+renderToc();
+window.scrollTo(0, 0);
+}
+// ---------- Luyện ----------
+const dScope = $("#d-scope");
+dScope.innerHTML = `<option value="lesson">Bài đang học</option>` +
+DATA.modules.map(m => `<option value="m${m.id}">Module ${m.id}: ${m.title}</option>`).join("") +
+`<option value="all">Tất cả</option>`;
+let deck = [], pos = 0, revealed = false;
+function buildDeck() {
+let ids;
+const v = dScope.value;
+if (v === "lesson") ids = byId[st.lesson].sids;
+else if (v === "all") ids = lessons.flatMap(l => l.sids);
+else ids = DATA.modules.find(m => "m" + m.id === v).lessons.flatMap(l => l.sids);
+const role = $("#d-role").value;
+ids = ids.filter(id => (role === "all" || S[id].role === role) && (!$("#d-unlearned").checked || !st.learned[id]));
+deck = ids.slice();
+for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+pos = 0; renderCard();
+}
+function renderCard() {
+const box = $("#d-card");
+revealed = false;
+if (!deck.length) { box.innerHTML = `<div class="empty">Không có câu nào phù hợp. Thử đổi phạm vi hoặc bỏ chọn “Chỉ câu chưa thuộc”.</div>`; return; }
+if (pos >= deck.length) {
+const c = count(deck);
+box.innerHTML = `<div class="empty">Xong ${deck.length} câu. Đã thuộc ${c}/${deck.length}.<br><br><button class="btn primary" id="d-again">Luyện lại</button></div>`;
+$("#d-again").onclick = buildDeck; return;
+}
+const s = S[deck[pos]], mode = $("#d-mode").value;
+box.innerHTML = `<div class="card">
+<div class="card-foot"><span class="role" style="color:var(${s.role === "q" ? "--q" : "--accent"})">${s.role === "q" ? "❓ Interviewer" : "🗣️ Bạn"} · bài ${s.id.split("-")[0]}</span><span class="count">${pos + 1} / ${deck.length}</span></div>
+<div class="prompt"></div>
+<div class="acts" id="d-pre"></div>
+<div class="answer" hidden></div>
+<div class="card-foot" id="d-foot">
+<button class="btn primary" id="d-reveal">Hiện đáp án</button><span class="kbd">Space: hiện · 1: chưa thuộc · 2: thuộc rồi</span>
+</div></div>`;
+const prompt = box.querySelector(".prompt"), pre = box.querySelector("#d-pre");
+if (mode === "speak") {
+prompt.textContent = s.vi;
+pre.innerHTML = `<button class="btn" data-a="mic">🎤 Nói thử</button><div class="result" hidden style="flex-basis:100%"></div>`;
+pre.querySelector("button").onclick = e => listen(s, pre.querySelector(".result"), e.currentTarget);
+} else {
+prompt.innerHTML = `<span style="color:var(--muted);font-weight:400">Nghe và đoán nghĩa, rồi hiện đáp án.</span>`;
+pre.innerHTML = `<button class="btn primary" data-a="play">▶ Nghe</button><button class="btn" data-a="slow">🐢 Chậm</button>`;
+pre.onclick = e => { const b = e.target.closest("button"); if (b) speak(s.say, b.dataset.a === "slow"); };
+speak(s.say, false);
+}
+$("#d-reveal").onclick = reveal;
+}
+function reveal() {
+if (revealed || pos >= deck.length) return;
+revealed = true;
+const s = S[deck[pos]];
+const ans = $("#d-card .answer");
+ans.hidden = false;
+const el = document.createElement("div");
+fillSentence(el, s, { noLearn: true });
+el.style.margin = "0";
+ans.append(el);
+if ($("#d-mode").value === "speak") speak(s.say, false);
+$("#d-foot").innerHTML = `<button class="btn" id="d-no">✗ Chưa thuộc</button><button class="btn primary" id="d-yes">✓ Thuộc rồi</button>`;
+$("#d-no").onclick = () => mark(false);
+$("#d-yes").onclick = () => mark(true);
+}
+function mark(ok) {
+const id = deck[pos];
+if (ok) st.learned[id] = 1; else delete st.learned[id];
+save(); renderToc(); pos++; renderCard();
+}
+$("#d-start").onclick = buildDeck;
+["#d-scope", "#d-mode", "#d-role", "#d-unlearned"].forEach(s => $(s).addEventListener("change", buildDeck));
+document.addEventListener("keydown", e => {
+if (view !== "drill" || e.target.closest("select, input, textarea")) return;
+if (e.code === "Space") { e.preventDefault(); if (!revealed) reveal(); }
+else if (revealed && e.key === "1") mark(false);
+else if (revealed && e.key === "2") mark(true);
+});
+// ---------- Chuyển trang ----------
+let view = "learn";
+function setView(v) {
+view = v;
+document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-current", b.dataset.view === v));
+$("#view-learn").hidden = v !== "learn";
+$("#view-drill").hidden = v !== "drill";
+synth && synth.cancel();
+if (v === "drill") buildDeck();
+renderToc();
+}
+document.querySelector(".tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) setView(b.dataset.view); });
+$("#sr-warn").hidden = !!SR;
+applyShow();
+openLesson(st.lesson);
+})();
+
+</script>
+</body>
+</html>
